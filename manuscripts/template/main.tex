@@ -1,0 +1,134 @@
+% =====================================================================
+% REVTeX 4-2 manuscript template
+%
+% Build:    latexmk -pdf main.tex
+% Watch:    latexmk -pvc -pdf main.tex
+% Clean:    latexmk -c
+%
+% Bibliography uses biblatex+biber and pulls from the shared master
+% library at ../../references/library.bib.
+% =====================================================================
+
+\documentclass[
+  aps,           % American Physical Society style
+  prd,           % Physical Review D (use prl for Phys. Rev. Lett.)
+  reprint,       % two-column reprint style; use 'preprint' for single-col drafts
+  superscriptaddress,
+  nofootinbib,
+  amsmath,
+  amssymb,
+  floatfix,
+]{revtex4-2}
+
+% --- Packages -------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{physics}      % \dd, \pdv, \dv, \bra, \ket, \expval, ...
+\usepackage{tensor}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,
+            linkcolor=blue!60!black,
+            citecolor=green!60!black,
+            urlcolor=blue!60!black]{hyperref}
+
+% biblatex with biber, APS-physics style
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none,
+  giveninits=true,
+  uniquename=init,
+]{biblatex}
+\addbibresource{../../references/library.bib}
+
+% --- Custom macros --------------------------------------------------
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Sch}{\text{Sch}}                 % Schwarzschild
+\newcommand{\GN}{G_{\!N}}                     % Newton's constant
+\newcommand{\lp}{\ell_{\mathrm{P}}}           % Planck length
+\newcommand{\Mp}{M_{\mathrm{P}}}              % Planck mass
+
+% =====================================================================
+\begin{document}
+
+\title{Title of the paper}
+
+\author{Sameer Pant}
+\email{spant@clearoneadvantage.com}
+\affiliation{Affiliation here}
+
+\date{\today}
+
+\begin{abstract}
+One-paragraph abstract. State the problem, the method, the result, and why it
+matters --- in that order.
+\end{abstract}
+
+\maketitle
+
+% --- Introduction ---------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+Background and motivation. End the introduction with a roadmap of the paper.
+
+For example, Hawking's original derivation~\cite{Hawking1975} established that
+a black hole of mass $M$ emits radiation with a thermal spectrum at temperature
+\begin{equation}
+  T_H = \frac{\hbar c^3}{8\pi \GN M k_B}.
+  \label{eq:hawking-temp}
+\end{equation}
+The information paradox that follows~\cite{Page1993b, AMPS2013} has been
+sharpened in recent years by the island
+construction~\cite{Penington2019, AEMM2019, PenningtonShenkerStanfordYang2019}.
+
+% --- Setup ----------------------------------------------------------
+\section{Setup}
+\label{sec:setup}
+
+State the model, conventions, and notation.
+
+% --- Main calculation ------------------------------------------------
+\section{Main calculation}
+\label{sec:main}
+
+\subsection{A subsection}
+
+Body.
+
+% --- Results ---------------------------------------------------------
+\section{Results}
+\label{sec:results}
+
+\begin{figure}[t]
+  \centering
+  % \includegraphics[width=\columnwidth]{figures/example.pdf}
+  \caption{A figure caption that explains what the figure shows and what to
+  conclude from it.}
+  \label{fig:example}
+\end{figure}
+
+% --- Discussion ------------------------------------------------------
+\section{Discussion}
+\label{sec:discussion}
+
+Limitations, open questions, future directions.
+
+% --- Acknowledgments -------------------------------------------------
+\begin{acknowledgments}
+We thank \dots\ for useful discussions.
+\end{acknowledgments}
+
+% --- Bibliography ----------------------------------------------------
+\printbibliography
+
+% --- Appendices ------------------------------------------------------
+\appendix
+
+\section{Conventions}
+\label{app:conventions}
+
+Metric signature $(-,+,+,+)$. Natural units $\hbar = c = k_B = 1$ unless stated.
+
+\end{document}
