@@ -1,0 +1,832 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jacobson 1995 — Q&amp;A guide</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true, tags: 'ams'
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #fbfaf6;
+      --bg-sidebar: #f3f0e6;
+      --fg: #1c1c1a;
+      --muted: #6a6660;
+      --accent: #8a3a18;
+      --accent-soft: #c97a4f;
+      --teal: #1f6e7e;
+      --border: #d8d3c4;
+      --code-bg: #efeadc;
+      --max-w: 780px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
+      background: var(--bg); color: var(--fg);
+      font-family: "Charter", "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+      font-size: 17px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+    aside {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 32px 24px;
+      position: sticky; top: 0; align-self: start;
+      height: 100vh; overflow-y: auto;
+      font-size: 14px;
+    }
+    aside h2 {
+      font-size: 11.5px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 22px 0 10px; font-weight: 700;
+    }
+    aside h2:first-of-type { margin-top: 0; }
+    aside .brand {
+      font-family: "Charter", serif;
+      font-size: 17px; font-weight: 700;
+      color: var(--fg); margin-bottom: 16px; line-height: 1.2;
+    }
+    aside .brand small {
+      display: block; font-weight: 400; font-size: 12px;
+      color: var(--muted); margin-top: 4px;
+    }
+    aside ol { list-style: none; padding: 0; margin: 0; }
+    aside ol li { margin-bottom: 5px; }
+    aside ol a {
+      color: var(--fg); text-decoration: none;
+      display: flex; align-items: baseline; gap: 8px;
+      font-size: 13px; line-height: 1.35;
+    }
+    aside ol a:hover { color: var(--accent); }
+    aside ol a .num {
+      color: var(--muted); font-variant-numeric: tabular-nums;
+      font-size: 11px; min-width: 30px; font-weight: 600;
+    }
+    aside .back-link {
+      display: block; padding: 8px 0; font-size: 12px;
+      color: var(--muted); text-decoration: none;
+      border-bottom: 1px solid var(--border); margin-bottom: 16px;
+    }
+    aside .back-link:hover { color: var(--accent); }
+
+    main {
+      padding: 56px 56px 120px;
+      max-width: calc(var(--max-w) + 112px);
+    }
+    main > * { max-width: var(--max-w); }
+    h1 {
+      font-size: 30px; line-height: 1.15;
+      margin: 0 0 8px; letter-spacing: -0.01em;
+    }
+    h1 + .subtitle {
+      color: var(--muted); font-size: 15px; margin-bottom: 40px;
+    }
+    h2.phase {
+      font-size: 22px; margin: 64px 0 8px; letter-spacing: -0.005em;
+      padding-bottom: 8px; border-bottom: 1px solid var(--border);
+    }
+    h2.phase .phase-num {
+      color: var(--muted); font-weight: 400; font-size: 12.5px;
+      letter-spacing: 0.06em; display: block;
+      text-transform: uppercase; margin-bottom: 4px;
+    }
+    p { margin: 0 0 14px; }
+    a {
+      color: var(--accent); text-decoration: underline;
+      text-decoration-color: var(--accent-soft); text-underline-offset: 2px;
+    }
+    code {
+      background: var(--code-bg); padding: 1px 5px; border-radius: 3px;
+      font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+      font-size: 0.88em;
+    }
+
+    /* The Q&A card — the central visual unit */
+    .qa {
+      margin: 32px 0 0;
+      padding: 0;
+      border-left: 4px solid var(--accent);
+      padding-left: 22px;
+    }
+    .qa h3.question {
+      font-size: 18px;
+      margin: 0 0 8px;
+      color: var(--fg);
+      line-height: 1.3;
+    }
+    .qa h3.question .qid {
+      color: var(--accent);
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      font-weight: 700;
+      display: inline-block;
+      margin-right: 8px;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: #f7e9dc;
+      vertical-align: 2px;
+    }
+    .qa .hint {
+      font-style: italic;
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0 0 14px;
+    }
+    .qa .answer {
+      font-size: 16px;
+      line-height: 1.65;
+    }
+    .qa .answer p:first-child { margin-top: 0; }
+    .qa .answer p:last-child { margin-bottom: 0; }
+    .qa .answer h4 {
+      font-size: 15px;
+      color: var(--teal);
+      margin: 14px 0 4px;
+    }
+    .qa .problem {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: #efe6cf;
+      border-left: 3px solid #5b4327;
+      font-size: 15px;
+    }
+    .qa .problem p:first-child { margin-top: 0; }
+    .qa .problem p:last-child { margin-bottom: 0; }
+    .qa .problem .plabel {
+      display: inline-block;
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: #5b4327;
+      margin-right: 8px;
+    }
+    .qa details {
+      margin-top: 8px;
+      font-size: 14.5px;
+    }
+    .qa details summary {
+      cursor: pointer;
+      color: var(--accent);
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 2px 0;
+      user-select: none;
+    }
+    .qa details[open] summary { margin-bottom: 6px; }
+
+    /* Figure container */
+    figure.diagram {
+      margin: 16px auto 8px; max-width: 540px; text-align: center;
+    }
+    figure.diagram svg {
+      display: block; margin: 0 auto; max-width: 100%; height: auto;
+      background: #faf6e9; border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    figure.diagram figcaption {
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 13px; color: var(--muted);
+      padding: 8px 12px 0; line-height: 1.5; text-align: center;
+    }
+
+    pre {
+      background: var(--code-bg); padding: 12px 16px; border-radius: 4px;
+      border-left: 3px solid var(--accent-soft);
+      overflow-x: auto; font-size: 13.5px; line-height: 1.55;
+      margin: 12px 0;
+    }
+    pre code { background: none; padding: 0; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 32px 24px 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div class="brand">
+      Jacobson 1995 — guide
+      <small>Step-by-step Q&amp;A</small>
+    </div>
+    <a href="index.html" class="back-link">← back to main learning hub</a>
+
+    <h2>Source</h2>
+    <ol>
+      <li><a href="../papers/hawking_radiation/Jacobson1995.pdf"><span class="num">PDF</span><span>Jacobson 1995 (gr-qc/9504004)</span></a></li>
+    </ol>
+
+    <h2>0 · Orientation</h2>
+    <ol>
+      <li><a href="#q0-1"><span class="num">Q0.1</span><span>What does the paper claim?</span></a></li>
+      <li><a href="#q0-2"><span class="num">Q0.2</span><span>Why is that surprising?</span></a></li>
+    </ol>
+
+    <h2>1 · Thermo you need</h2>
+    <ol>
+      <li><a href="#q1-1"><span class="num">Q1.1</span><span>What is entropy?</span></a></li>
+      <li><a href="#q1-2"><span class="num">Q1.2</span><span>What is temperature?</span></a></li>
+      <li><a href="#q1-3"><span class="num">Q1.3</span><span>First law: δQ = T·dS</span></a></li>
+      <li><a href="#q1-4"><span class="num">Q1.4</span><span>δQ vs dS — the notation</span></a></li>
+      <li><a href="#q1-5"><span class="num">Q1.5</span><span>What is "reversible"?</span></a></li>
+      <li><a href="#q1-6"><span class="num">Q1.6</span><span>What is an equation of state?</span></a></li>
+    </ol>
+
+    <h2>2 · Physics you need</h2>
+    <ol>
+      <li><a href="#q2-1"><span class="num">Q2.1</span><span>What is a horizon?</span></a></li>
+      <li><a href="#q2-2"><span class="num">Q2.2</span><span>Local Rindler horizon?</span></a></li>
+      <li><a href="#q2-3"><span class="num">Q2.3</span><span>Why does a horizon have T?</span></a></li>
+      <li><a href="#q2-4"><span class="num">Q2.4</span><span>Why S = A/4?</span></a></li>
+      <li><a href="#q2-5"><span class="num">Q2.5</span><span>Null vectors &amp; surfaces</span></a></li>
+      <li><a href="#q2-6"><span class="num">Q2.6</span><span>Killing &amp; boost vectors</span></a></li>
+      <li><a href="#q2-7"><span class="num">Q2.7</span><span>The Raychaudhuri equation</span></a></li>
+    </ol>
+
+    <h2>3 · The argument</h2>
+    <ol>
+      <li><a href="#q3-1"><span class="num">Q3.1</span><span>Matter side: heat flux</span></a></li>
+      <li><a href="#q3-2"><span class="num">Q3.2</span><span>Geometry side: area change</span></a></li>
+      <li><a href="#q3-3"><span class="num">Q3.3</span><span>Impose δQ = T·dS</span></a></li>
+      <li><a href="#q3-4"><span class="num">Q3.4</span><span>Null kᵘ → full tensor eq</span></a></li>
+      <li><a href="#q3-5"><span class="num">Q3.5</span><span>Where does Λ come from?</span></a></li>
+      <li><a href="#q3-6"><span class="num">Q3.6</span><span>Final result</span></a></li>
+    </ol>
+
+    <h2>4 · Punchline</h2>
+    <ol>
+      <li><a href="#q4-1"><span class="num">Q4.1</span><span>Einstein eq as equation of state</span></a></li>
+      <li><a href="#q4-2"><span class="num">Q4.2</span><span>Implication for quantum gravity</span></a></li>
+    </ol>
+  </aside>
+
+  <main>
+
+    <h1>Jacobson 1995 — step-by-step Q&amp;A guide</h1>
+    <div class="subtitle">
+      <em>Thermodynamics of Spacetime: The Einstein Equation of State.</em>
+      Phys. Rev. Lett. 75, 1260 (1995). gr-qc/9504004.<br>
+      Each section: one question, a brief hint to think on, an answer, sometimes a problem. Read in order.
+    </div>
+
+    <!-- ============================ PHASE 0 ============================ -->
+
+    <h2 class="phase"><span class="phase-num">Phase 0</span>Orientation</h2>
+
+    <div class="qa" id="q0-1">
+      <h3 class="question"><span class="qid">Q0.1</span> What does this paper actually claim?</h3>
+      <p class="hint">Hint: look at the title. "Thermodynamics of Spacetime: The Einstein Equation of <em>State</em>."</p>
+      <div class="answer">
+        <p>
+          Einstein's equation of general relativity can be <em>derived</em> by demanding that
+          the first law of thermodynamics ($\delta Q = T \, dS$) hold for local horizons,
+          assuming the entropy of any horizon is $S = A/(4 G \hbar)$.
+        </p>
+        <p>
+          The phrase "equation of state" is the key: Jacobson is suggesting GR is a
+          <em>thermodynamic</em> identity, not a fundamental dynamical law — like the ideal
+          gas law $PV = NkT$ relative to molecular mechanics.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q0-2">
+      <h3 class="question"><span class="qid">Q0.2</span> Why is that surprising?</h3>
+      <p class="hint">Hint: what would change if $PV = NkT$ were treated as a "fundamental law" rather than as a thermodynamic consequence?</p>
+      <div class="answer">
+        <p>
+          $PV = NkT$ is not fundamental. It is what you get when you do statistical mechanics
+          on $N \to \infty$ classical particles in a box. Pressure and temperature are
+          <em>coarse-grained</em> macroscopic averages — they only make sense in the
+          thermodynamic limit. You don't try to quantize $P$ or $T$ as fundamental
+          operators.
+        </p>
+        <p>
+          If Einstein's equation is the same kind of thing, then $g_{\mu\nu}$ — the spacetime
+          metric — is a coarse-grained variable, and quantizing it directly (canonical
+          quantum gravity, loop quantum gravity, etc.) is suspect. The right quantum gravity
+          would be a quantum theory of the underlying microstates, with GR emerging as the
+          $N \to \infty$ limit.
+        </p>
+        <p>
+          That is the implication packed into the closing sentence of Jacobson 2003 §1.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================ PHASE 1 ============================ -->
+
+    <h2 class="phase"><span class="phase-num">Phase 1</span>Thermodynamics you need (six concepts)</h2>
+
+    <div class="qa" id="q1-1">
+      <h3 class="question"><span class="qid">Q1.1</span> What is entropy?</h3>
+      <p class="hint">Hint: two equivalent definitions, one statistical (Boltzmann), one thermodynamic (Clausius).</p>
+      <div class="answer">
+        <h4>Boltzmann (statistical):</h4>
+        $$ S = k_B \ln \Omega $$
+        <p>where $\Omega$ = number of microstates compatible with the macroscopic state.</p>
+        <h4>Clausius (thermodynamic):</h4>
+        $$ dS = \frac{\delta Q_{\rm rev}}{T} $$
+        <p>for reversible heat flow at temperature $T$. Stat-mech derives Clausius from Boltzmann.</p>
+      </div>
+      <div class="problem">
+        <span class="plabel">Problem 1.1</span>
+        A gas of $N$ molecules confined to the left half of a box (volume $V$) is freed
+        (partition removed; total volume $2V$). What is $\Delta S$?
+        <details>
+          <summary>Solution</summary>
+          Each molecule now has access to twice as many microstates. So
+          $\Omega_{\rm after}/\Omega_{\rm before} = 2^N$, and
+          $$\Delta S = k_B \ln(2^N) = N k_B \ln 2\,.$$
+        </details>
+      </div>
+    </div>
+
+    <div class="qa" id="q1-2">
+      <h3 class="question"><span class="qid">Q1.2</span> What is temperature, formally?</h3>
+      <p class="hint">Hint: not "how hot." Express it as a partial derivative.</p>
+      <div class="answer">
+        $$ \frac{1}{T} = \left(\frac{\partial S}{\partial U}\right)_{V, N} \;\Longleftrightarrow\; T = \left(\frac{\partial U}{\partial S}\right)_{V, N} $$
+        <p>
+          Temperature is the energy cost per unit increase in entropy. "Hot" things have
+          high $T$ because adding energy to them produces relatively little new entropy.
+        </p>
+        <p>
+          For an ideal gas, $\langle KE \rangle = \tfrac{3}{2} k_B T$ — but that's a
+          <em>consequence</em>, not the definition. The definition above generalizes to
+          systems where "kinetic energy of molecules" isn't even well-defined (e.g.,
+          horizons).
+        </p>
+      </div>
+      <div class="problem">
+        <span class="plabel">Problem 1.2</span>
+        Two systems A and B are in thermal contact, isolated from the outside. Prove that
+        at equilibrium $T_A = T_B$.
+        <details>
+          <summary>Solution</summary>
+          Total energy $U = U_A + U_B$ is conserved; total entropy
+          $S = S_A(U_A) + S_B(U_B)$ is maximized.
+          $$\frac{dS}{dU_A} = \frac{\partial S_A}{\partial U_A} - \frac{\partial S_B}{\partial U_B} = 0$$
+          $$\Longrightarrow \frac{1}{T_A} = \frac{1}{T_B} \Longrightarrow T_A = T_B\,.$$
+        </details>
+      </div>
+    </div>
+
+    <div class="qa" id="q1-3">
+      <h3 class="question"><span class="qid">Q1.3</span> The first law in the form Jacobson uses</h3>
+      <p class="hint">Hint: for a heat transfer with no work done, $dU = \delta Q + \delta W$ reduces to what?</p>
+      <div class="answer">
+        <p>For reversible heat flow with no work:</p>
+        $$ \boxed{\;\; \delta Q = T \cdot dS \;\;}$$
+        <p>This is <em>the</em> equation Jacobson actually applies. Memorize it.</p>
+      </div>
+    </div>
+
+    <div class="qa" id="q1-4">
+      <h3 class="question"><span class="qid">Q1.4</span> $\delta Q$ vs $dS$ — what's the notation hinting at?</h3>
+      <p class="hint">Hint: $d$ and $\delta$ are different letters on purpose.</p>
+      <div class="answer">
+        <p>
+          $dS$ is an <strong>exact differential</strong>: $S$ is a state function.
+          $\int dS$ from state $A$ to state $B$ equals $S_B - S_A$, regardless of path.
+        </p>
+        <p>
+          $\delta Q$ is an <strong>inexact differential</strong>: $Q$ is a path function.
+          $\int \delta Q$ depends on the route through state space, not just on endpoints.
+        </p>
+        <p>
+          The notation reminds you which is which. A path = something you traverse as time
+          passes; $\delta Q$ inherits a time-direction from the path. $dS$ does not — it's
+          a timeless property of the state.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q1-5">
+      <h3 class="question"><span class="qid">Q1.5</span> What does "reversible" mean, and why does it matter?</h3>
+      <p class="hint">Hint: compare slow isothermal expansion against Joule free expansion.</p>
+      <div class="answer">
+        <p>
+          A process is <strong>reversible</strong> if at every infinitesimal step, the
+          system is in equilibrium with its surroundings — so the process can be reversed
+          by an infinitesimal change in conditions. Quasi-static, frictionless, no
+          dissipation.
+        </p>
+        <p>For reversible heat flow:</p>
+        $$ \delta Q_{\rm rev} = T \cdot dS $$
+        <p>For irreversible processes — Clausius inequality:</p>
+        $$ \delta Q \;<\; T \cdot dS $$
+        <p>
+          The difference $T \cdot dS - \delta Q$ is entropy <em>created</em> by the
+          irreversibility itself. This is where the arrow of time enters thermodynamics.
+        </p>
+      </div>
+      <div class="problem">
+        <span class="plabel">Problem 1.5</span>
+        Compute $\Delta S$ for the same final state reached by (a) reversible isothermal
+        expansion from $V \to 2V$ at temperature $T$, and (b) free expansion into vacuum
+        (Joule expansion).
+        <details>
+          <summary>Solution</summary>
+          For path (a): $\delta Q_{\rm rev} = P\,dV = (NkT/V)\,dV$, so
+          $$Q_a = NkT \ln 2, \quad \Delta S_a = Q_a/T = Nk \ln 2\,.$$
+          For path (b): $W = 0$ (vacuum), $Q = 0$ (adiabatic), so $\Delta U = 0$, $T$
+          unchanged. But $\Delta S$ is a state function — same endpoints means same
+          $\Delta S$:
+          $$\Delta S_b = Nk \ln 2\,.$$
+          Yet $\int \delta Q/T = 0$ along path (b), strictly less than $\Delta S$. The
+          entropy $Nk \ln 2$ was "created" by the irreversibility of free expansion.
+        </details>
+      </div>
+    </div>
+
+    <div class="qa" id="q1-6">
+      <h3 class="question"><span class="qid">Q1.6</span> What is an "equation of state"?</h3>
+      <p class="hint">Hint: $PV = NkT$. What kind of equation is that — dynamical, structural, or something else?</p>
+      <div class="answer">
+        <p>
+          A relation between state variables. Example: $PV = NkT$. Given any three of
+          $(P, V, N, T)$, the fourth is fixed.
+        </p>
+        <p>
+          Crucial features:
+        </p>
+        <ul>
+          <li><strong>Not</strong> an equation of motion. It doesn't say how the system evolves.
+            It says what relationships hold at any moment.</li>
+          <li><strong>Derived</strong> from statistical mechanics by taking the thermodynamic
+            limit $N \to \infty$ over an underlying microscopic theory.</li>
+          <li>The macroscopic variables ($P$, $T$) are <em>not</em> fundamental — they're
+            statistical averages over microstates.</li>
+        </ul>
+        <p>
+          Jacobson's claim: Einstein's equation is the same kind of object. Equation of
+          state, not equation of motion. Derived, not fundamental.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================ PHASE 2 ============================ -->
+
+    <h2 class="phase"><span class="phase-num">Phase 2</span>Physics you need (seven concepts)</h2>
+
+    <div class="qa" id="q2-1">
+      <h3 class="question"><span class="qid">Q2.1</span> What is a horizon?</h3>
+      <p class="hint">Hint: a one-way membrane in spacetime. Three flavors are relevant here.</p>
+      <div class="answer">
+        <p>A boundary beyond which signals cannot causally reach the other side. Three flavors:</p>
+        <ul>
+          <li><strong>Event horizon</strong> (global, black-hole-flavored): defined by the entire future of spacetime.</li>
+          <li><strong>Rindler horizon</strong> (flat space, accelerated observer): a 45° null line in a spacetime diagram. The horizon belongs to the observer, not the spacetime.</li>
+          <li><strong>Local Rindler horizon</strong> (Jacobson's construction): at any point $p$ in any spacetime, the equivalence principle lets you construct a small piece of null surface through $p$ that acts as a Rindler-like horizon.</li>
+        </ul>
+        <p>Jacobson uses the third kind.</p>
+      </div>
+    </div>
+
+    <div class="qa" id="q2-2">
+      <h3 class="question"><span class="qid">Q2.2</span> What is a local Rindler horizon, more precisely?</h3>
+      <p class="hint">Hint: how can a horizon be defined at a single point, when usually horizons are global?</p>
+      <div class="answer">
+        <p>
+          Pick a point $p$. Pick a null direction $k^\mu$ at $p$. The null surface tangent
+          to $k^\mu$ through $p$ <em>is</em> the local Rindler horizon at $p$.
+        </p>
+        <p>
+          $p$ itself lies on the horizon. The "small patch" is the section of this null
+          surface in a tiny neighborhood of $p$. The construction is available at every
+          point of every spacetime — only the equivalence principle is required.
+        </p>
+        <p>
+          No physical accelerating observer is needed. The horizon is a geometric object;
+          the "observer" is just conceptual scaffolding to motivate why it has a
+          temperature (next question).
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q2-3">
+      <h3 class="question"><span class="qid">Q2.3</span> Why does a horizon have a temperature?</h3>
+      <p class="hint">Hint: Unruh effect (1976).</p>
+      <div class="answer">
+        <p>
+          A uniformly accelerating observer with proper acceleration $a$ perceives the
+          Minkowski vacuum as a thermal bath at temperature:
+        </p>
+        $$ T_{\rm Unruh} = \frac{\hbar a}{2\pi k_B c}\,. $$
+        <p>
+          This is a result of <em>flat-space</em> QFT (no GR). For a horizon with surface
+          gravity $\kappa$:
+        </p>
+        $$ T = \frac{\hbar \kappa}{2\pi k_B}\,. $$
+        <p>
+          Jacobson takes this as input — he doesn't re-derive it.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q2-4">
+      <h3 class="question"><span class="qid">Q2.4</span> Why is entropy proportional to area?</h3>
+      <p class="hint">Hint: Bekenstein (1972), Hawking (1975).</p>
+      <div class="answer">
+        <p>For a black hole horizon of area $A$:</p>
+        $$ S = \frac{k_B c^3 A}{4 G \hbar} \;=\; \frac{k_B A}{4 \ell_P^2},\qquad \ell_P^2 = G\hbar/c^3\,. $$
+        <p>
+          One bit of entropy per Planck-sized area patch. Extraordinary because for
+          ordinary matter, entropy scales with volume, not area.
+        </p>
+        <p>
+          Jacobson's key move is to <em>assume</em> $S = \eta A$ with $\eta = 1/(4G\hbar)$
+          for any local horizon, not just black holes. This is the one place GR-flavored
+          information enters the argument — and it enters as an assumption.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q2-5">
+      <h3 class="question"><span class="qid">Q2.5</span> Null vectors, null surfaces, null generators</h3>
+      <p class="hint">Hint: a vector $v$ is null if $g(v,v) = 0$.</p>
+      <div class="answer">
+        <p>
+          <strong>Null vector:</strong> $v^\mu$ with $g_{\mu\nu} v^\mu v^\nu = 0$. Moves at
+          the speed of light. In Minkowski with signature $(-,+,+,+)$, e.g.\
+          $v = (1, 1, 0, 0)$ is null since $-1 + 1 = 0$.
+        </p>
+        <p>
+          <strong>Null surface:</strong> a surface whose normal vector is null.
+          Equivalently, a surface generated by light rays (null geodesics).
+          <em>Weird fact:</em> the normal lies <em>within</em> the tangent space — the
+          light-ray generator is both tangent and perpendicular to the surface.
+        </p>
+        <p>
+          <strong>Null generator:</strong> a null geodesic lying entirely within a null
+          surface. Its tangent vector is null and along the surface.
+        </p>
+        <p>
+          Jacobson's $k^\mu$ is the null generator of the local Rindler horizon at $p$.
+          Affine parameter $\lambda$ runs along it.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q2-6">
+      <h3 class="question"><span class="qid">Q2.6</span> Killing vectors and the boost Killing vector</h3>
+      <p class="hint">Hint: Killing vectors generate symmetries of the metric.</p>
+      <div class="answer">
+        <p>
+          A Killing vector $\xi^\mu$ satisfies:
+        </p>
+        $$ \nabla_\mu \xi_\nu + \nabla_\nu \xi_\mu = 0\,. $$
+        <p>
+          Translation: moving along $\xi^\mu$ leaves the metric invariant. Each Killing
+          vector produces a conserved quantity along geodesics: $E = -p_\mu \xi^\mu$.
+        </p>
+        <p>
+          For the local Rindler horizon at $p$, the relevant Killing vector (locally) is
+          the <strong>boost Killing vector</strong>:
+        </p>
+        $$ \chi^\mu = \kappa \lambda\, k^\mu\,. $$
+        <p>
+          The conserved energy with respect to $\chi^\mu$ is the "boost energy" — the
+          natural notion of energy for an accelerated observer.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q2-7">
+      <h3 class="question"><span class="qid">Q2.7</span> The Raychaudhuri equation</h3>
+      <p class="hint">Hint: how does the cross-sectional area of a bundle of light rays evolve?</p>
+      <div class="answer">
+        <p>
+          For a null congruence (a family of null geodesics), define the
+          <strong>expansion</strong>:
+        </p>
+        $$ \theta = \frac{1}{A}\, \frac{dA}{d\lambda} $$
+        <p>
+          ($\theta > 0$ = bundle spreading; $\theta < 0$ = bundle focusing.) Raychaudhuri:
+        </p>
+        $$ \frac{d\theta}{d\lambda} = -\tfrac{1}{2}\theta^2 - \sigma^2 - R_{\mu\nu} k^\mu k^\nu $$
+        <p>
+          where $\sigma$ is the shear. <em>Matter, via $R_{\mu\nu} k^\mu k^\nu$, focuses
+          light rays</em> — this is the geometric content of attractive gravity for null
+          trajectories.
+        </p>
+        <p>
+          At a horizon's bifurcation point (where $\theta = \sigma = 0$):
+        </p>
+        $$ \frac{d\theta}{d\lambda} \approx -R_{\mu\nu} k^\mu k^\nu,\quad
+           \theta(\lambda) \approx -R_{\mu\nu} k^\mu k^\nu \cdot \lambda $$
+        <p>And the integrated area change is:</p>
+        $$ \delta A \;\approx\; \int \theta\, d\lambda\, dA \;=\; -\int R_{\mu\nu} k^\mu k^\nu \cdot \lambda\, d\lambda\, dA $$
+      </div>
+      <figure class="diagram">
+        <svg viewBox="-180 -100 360 200" xmlns="http://www.w3.org/2000/svg" font-family="Charter, serif">
+          <g stroke="#1f6e7e" stroke-width="1.5" fill="none">
+            <path d="M -150,-70 Q 0,-65 130,-15"/>
+            <path d="M -150,-50 Q 0,-47 130,-9"/>
+            <path d="M -150,-30 Q 0,-30 130,-3"/>
+            <path d="M -150,-10 Q 0,-10 130,3"/>
+            <path d="M -150,10 Q 0,10 130,-3"/>
+            <path d="M -150,30 Q 0,30 130,3"/>
+            <path d="M -150,50 Q 0,50 130,9"/>
+            <path d="M -150,70 Q 0,65 130,15"/>
+          </g>
+          <line x1="-150" y1="-70" x2="-150" y2="70" stroke="#8a3a18" stroke-width="3"/>
+          <text x="-175" y="-78" font-size="12" fill="#8a3a18" font-family="-apple-system, sans-serif" font-weight="600">cross-section</text>
+          <text x="-175" y="-66" font-size="11" fill="#8a3a18" font-family="-apple-system, sans-serif">area A₀ at λ = 0</text>
+          <line x1="130" y1="-15" x2="130" y2="15" stroke="#8a3a18" stroke-width="3"/>
+          <text x="100" y="-30" font-size="12" fill="#8a3a18" font-family="-apple-system, sans-serif" font-weight="600">area A(λ) &lt; A₀</text>
+          <text x="100" y="-18" font-size="11" fill="#8a3a18" font-family="-apple-system, sans-serif">(rays focused)</text>
+          <line x1="-100" y1="85" x2="100" y2="85" stroke="#3a3a3a" stroke-width="1.2"/>
+          <polygon points="100,85 92,82 92,88" fill="#3a3a3a"/>
+          <text x="-15" y="98" font-size="12" fill="#3a3a3a" font-family="-apple-system, sans-serif" font-style="italic">λ (affine parameter)</text>
+        </svg>
+        <figcaption>
+          Bundle of null geodesics propagating along $\lambda$. The cross-sectional area
+          shrinks as the rays focus, at a rate set by $R_{\mu\nu} k^\mu k^\nu$.
+        </figcaption>
+      </figure>
+    </div>
+
+    <!-- ============================ PHASE 3 ============================ -->
+
+    <h2 class="phase"><span class="phase-num">Phase 3</span>The argument (six steps)</h2>
+
+    <div class="qa" id="q3-1">
+      <h3 class="question"><span class="qid">Q3.1</span> How does heat flow across the local horizon?</h3>
+      <p class="hint">Hint: heat = energy flux of matter, measured with respect to the boost Killing vector.</p>
+      <div class="answer">
+        $$ \delta Q \;=\; \int T_{\mu\nu}\, \chi^\mu\, d\Sigma^\nu $$
+        <p>
+          On the horizon, $d\Sigma^\nu = k^\nu d\lambda\, dA$ and $\chi^\mu = \kappa\lambda
+          k^\mu$, so:
+        </p>
+        $$ \delta Q \;=\; \kappa \int T_{\mu\nu}\, k^\mu k^\nu\, \lambda\, d\lambda\, dA $$
+        <p>The factor $\kappa\lambda$ is the boost weight that converts the raw matter flux
+        into Killing energy.</p>
+      </div>
+    </div>
+
+    <div class="qa" id="q3-2">
+      <h3 class="question"><span class="qid">Q3.2</span> How does the horizon area change?</h3>
+      <p class="hint">Hint: Raychaudhuri from Q2.7.</p>
+      <div class="answer">
+        $$ \delta A \;=\; -\int R_{\mu\nu}\, k^\mu k^\nu\, \lambda\, d\lambda\, dA $$
+        <p>Therefore the entropy change is:</p>
+        $$ \delta S \;=\; \eta\, \delta A \;=\; -\frac{1}{4 G \hbar} \int R_{\mu\nu}\, k^\mu k^\nu\, \lambda\, d\lambda\, dA $$
+      </div>
+    </div>
+
+    <div class="qa" id="q3-3">
+      <h3 class="question"><span class="qid">Q3.3</span> Impose the first law $\delta Q = T \cdot dS$</h3>
+      <p class="hint">Hint: substitute, cancel $\kappa$, simplify constants.</p>
+      <div class="answer">
+        <p>Set $\delta Q$ from Q3.1 equal to $T \cdot \delta S$ where $T = \hbar\kappa/(2\pi)$:</p>
+        $$ \kappa \int T_{\mu\nu} k^\mu k^\nu \lambda\, d\lambda\, dA \;=\; \frac{\hbar \kappa}{2\pi}\cdot\frac{1}{4G\hbar} \int R_{\mu\nu} k^\mu k^\nu \lambda\, d\lambda\, dA $$
+        <p>Constants: $(\hbar\kappa/2\pi)(1/4G\hbar) = \kappa/(8\pi G)$. Divide both sides by $\kappa$:</p>
+        $$ \int T_{\mu\nu} k^\mu k^\nu \lambda\, d\lambda\, dA \;=\; \frac{1}{8\pi G} \int R_{\mu\nu} k^\mu k^\nu \lambda\, d\lambda\, dA $$
+        <p>The integrals match for <em>every</em> choice of null $k^\mu$. So the integrands agree pointwise:</p>
+        $$ \boxed{\;\; T_{\mu\nu} k^\mu k^\nu \;=\; \frac{1}{8\pi G}\, R_{\mu\nu} k^\mu k^\nu \quad \forall\ \text{null } k^\mu \;\;} $$
+      </div>
+    </div>
+
+    <div class="qa" id="q3-4">
+      <h3 class="question"><span class="qid">Q3.4</span> From null $k^\mu$ to a full tensor equation</h3>
+      <p class="hint">Hint: $g_{\mu\nu} k^\mu k^\nu = 0$ for null $k^\mu$. What does that let you add?</p>
+      <div class="answer">
+        <p>
+          Two symmetric tensors $A_{\mu\nu}$ and $B_{\mu\nu}$ that agree when contracted on
+          <em>all</em> null $k^\mu$ may still differ by a multiple of $g_{\mu\nu}$ — because
+          $g_{\mu\nu} k^\mu k^\nu = 0$ is invisible to the null-$k$ constraint. So:
+        </p>
+        $$ T_{\mu\nu} \;=\; \frac{1}{8\pi G}\,\bigl( R_{\mu\nu} + f\, g_{\mu\nu} \bigr) $$
+        <p>for some scalar $f$ to be determined.</p>
+      </div>
+    </div>
+
+    <div class="qa" id="q3-5">
+      <h3 class="question"><span class="qid">Q3.5</span> Where does the cosmological constant Λ come from?</h3>
+      <p class="hint">Hint: local energy conservation $\nabla^\mu T_{\mu\nu} = 0$ and the contracted Bianchi identity.</p>
+      <div class="answer">
+        <p>Apply $\nabla^\mu T_{\mu\nu} = 0$ to both sides of the expression for $T_{\mu\nu}$:</p>
+        $$ 0 \;=\; \nabla^\mu T_{\mu\nu} \;=\; \frac{1}{8\pi G}\bigl(\nabla^\mu R_{\mu\nu} + \nabla_\nu f\bigr) $$
+        <p>Contracted Bianchi: $\nabla^\mu R_{\mu\nu} = \tfrac{1}{2} \nabla_\nu R$. So:</p>
+        $$ \nabla_\nu\!\left(\tfrac{1}{2} R + f\right) \;=\; 0 $$
+        <p>Hence $\tfrac{1}{2} R + f$ is a constant. Call it $\Lambda$:</p>
+        $$ f \;=\; -\tfrac{1}{2} R + \Lambda $$
+        <p>
+          The cosmological constant $\Lambda$ appears <strong>as an integration
+          constant</strong>. Jacobson did not put it in by hand — it falls out for free.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q3-6">
+      <h3 class="question"><span class="qid">Q3.6</span> Final result</h3>
+      <p class="hint">Hint: substitute $f$ back.</p>
+      <div class="answer">
+        <p>From Q3.4 with $f = -R/2 + \Lambda$:</p>
+        $$ T_{\mu\nu} \;=\; \frac{1}{8\pi G}\bigl(R_{\mu\nu} - \tfrac{1}{2} R\, g_{\mu\nu} + \Lambda\, g_{\mu\nu}\bigr) $$
+        <p>Rearrange:</p>
+        $$ \boxed{\;\; R_{\mu\nu} - \tfrac{1}{2} R\, g_{\mu\nu} + \Lambda\, g_{\mu\nu} \;=\; 8\pi G\, T_{\mu\nu} \;\;} $$
+        <p style="text-align:center;font-weight:600;margin:18px 0;">
+          Einstein's equation — derived from thermodynamics + Unruh + entropy=area.
+        </p>
+      </div>
+    </div>
+
+    <!-- ============================ PHASE 4 ============================ -->
+
+    <h2 class="phase"><span class="phase-num">Phase 4</span>The punchline</h2>
+
+    <div class="qa" id="q4-1">
+      <h3 class="question"><span class="qid">Q4.1</span> What does it mean that Einstein eq is "thermodynamic"?</h3>
+      <p class="hint">Hint: compare side by side with the ideal gas law.</p>
+      <div class="answer">
+        <pre>
+IDEAL GAS:
+  microscopic:     N classical molecules with positions, velocities
+  stat mech:       define P, T as averages over microstates
+  thermo limit:    N → ∞
+  result:          P V = N k_B T   (ideal gas law)
+
+SPACETIME (Jacobson's conjecture):
+  microscopic:     ??? — unknown microstates of "spacetime stuff"
+  stat mech:       define  g_{μν}  as an average over microstates
+  thermo limit:    N → ∞
+  result:          R_{μν} − ½ R g_{μν} + Λg_{μν} = 8πG T_{μν}
+                   (Einstein equation)
+</pre>
+        <p>
+          The arrows match exactly. Einstein's equation is, by analogy, an equation of
+          state — a thermodynamic consequence of an underlying microscopic theory of
+          spacetime that we have not yet identified.
+        </p>
+      </div>
+    </div>
+
+    <div class="qa" id="q4-2">
+      <h3 class="question"><span class="qid">Q4.2</span> What's the implication for quantum gravity?</h3>
+      <p class="hint">Hint: you don't quantize $P$ or $T$ to find the quantum theory of an ideal gas.</p>
+      <div class="answer">
+        <p>
+          If $g_{\mu\nu}$ is a thermodynamic-limit variable (like $P$ or $T$), then
+          trying to quantize it directly — canonical quantum gravity, loop quantum
+          gravity, perturbative quantization of GR — is suspect. You'd be quantizing the
+          wrong variable.
+        </p>
+        <p>
+          The right quantum theory of gravity should be a quantum theory of the underlying
+          microstates, with GR emerging as the $N \to \infty$ thermodynamic limit. The
+          unknown "underlying microstates" are the central question of modern theoretical
+          physics. Candidates:
+        </p>
+        <ul>
+          <li><strong>Holographic d.o.f.</strong> (AdS/CFT, matrix models) — microstates
+            live on a lower-dimensional boundary.</li>
+          <li><strong>Entanglement bits</strong> (Van Raamsdonk's "spacetime from
+            entanglement," HaPPY codes) — entanglement structure encodes geometry.</li>
+          <li><strong>Strings and branes</strong> — strings as underlying objects, geometry
+            as long-distance limit.</li>
+        </ul>
+        <p>
+          None is settled. All trace conceptual lineage to this 1995 paper.
+          <strong>That's why Jacobson 1995 matters far beyond its length.</strong>
+        </p>
+      </div>
+    </div>
+
+    <p style="text-align: center; color: var(--muted); font-size: 14px; margin-top: 60px;">
+      End of guide. Open the
+      <a href="../papers/hawking_radiation/Jacobson1995.pdf">paper</a> alongside —
+      it should now read in 15 minutes. Return to the
+      <a href="index.html">main learning hub</a>.
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

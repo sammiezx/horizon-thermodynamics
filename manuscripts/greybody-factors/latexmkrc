@@ -1,0 +1,13 @@
+# latexmk configuration for REVTeX + biblatex/biber
+# Run: `latexmk` (no args) to build main.tex with this config.
+
+$pdf_mode      = 1;            # produce PDF directly (pdflatex)
+$pdflatex      = 'pdflatex -interaction=nonstopmode -synctex=1 %O %S';
+$bibtex_use    = 2;            # always run biber/bibtex
+$biber         = 'biber --validate-datamodel %O %S';
+
+# Tell latexmk which engine to use for bibliography
+@default_files = ('main.tex');
+
+# Cleanup extensions
+$clean_ext = 'bbl run.xml synctex.gz nav snm vrb';

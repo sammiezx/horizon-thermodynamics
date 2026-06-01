@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Thermodynamics of Spacetime — a graduate course</title>
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true, tags: 'ams',
+        macros: {
+          dd: '\\mathrm{d}',
+          half: '\\tfrac{1}{2}',
+          kk: 'k^\\mu',
+          Rmn: 'R_{\\mu\\nu}',
+          Tmn: 'T_{\\mu\\nu}',
+          gmn: 'g_{\\mu\\nu}'
+        }
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #fbfaf6; --bg-sidebar: #f1eee2; --fg: #1c1c1a; --muted: #6a6660;
+      --accent: #8a3a18; --accent-soft: #c97a4f; --teal: #1f6e7e;
+      --green: #3a6a2a; --purple: #6a3a8a; --border: #d8d3c4;
+      --code-bg: #efeadc; --max-w: 800px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; background: var(--bg); color: var(--fg);
+      font-family: "Charter","Iowan Old Style","Palatino Linotype","Georgia",serif;
+      font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+    }
+    .layout { display: grid; grid-template-columns: 280px 1fr; min-height: 100vh; }
+    aside {
+      background: var(--bg-sidebar); border-right: 1px solid var(--border);
+      padding: 30px 22px; position: sticky; top: 0; align-self: start;
+      height: 100vh; overflow-y: auto; font-size: 13.5px;
+    }
+    aside .brand { font-weight: 700; font-size: 16px; line-height: 1.25; margin-bottom: 6px; }
+    aside .brand small { display:block; font-weight: 400; font-size: 11.5px; color: var(--muted); margin-top: 5px; }
+    aside .back-link { display:block; padding: 8px 0; font-size: 12px; color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--border); margin: 14px 0; }
+    aside .back-link:hover { color: var(--accent); }
+    aside h2 { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 18px 0 8px; font-weight: 700; }
+    aside ol { list-style: none; padding: 0; margin: 0 0 8px; }
+    aside ol li { margin-bottom: 4px; }
+    aside ol a { color: var(--fg); text-decoration: none; display: flex; gap: 7px; font-size: 12.5px; line-height: 1.35; }
+    aside ol a:hover { color: var(--accent); }
+    aside ol a .num { color: var(--muted); font-size: 10.5px; min-width: 26px; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    main { padding: 54px 56px 120px; max-width: calc(var(--max-w) + 112px); }
+    main > * { max-width: var(--max-w); }
+    h1 { font-size: 31px; line-height: 1.15; margin: 0 0 6px; letter-spacing: -0.01em; }
+    h1 + .subtitle { color: var(--muted); font-size: 15px; margin-bottom: 14px; }
+    .meta-row { font-family: -apple-system, system-ui, sans-serif; font-size: 12.5px; color: var(--muted); margin-bottom: 40px; }
+
+    h2.lecture { font-size: 25px; margin: 72px 0 6px; letter-spacing: -0.01em; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+    h2.lecture .lnum { display:block; font-family: -apple-system, system-ui, sans-serif; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+    h3 { font-size: 18px; margin: 32px 0 8px; color: var(--accent); }
+    h4 { font-size: 15.5px; margin: 20px 0 6px; color: var(--fg); font-weight: 700; }
+    p { margin: 0 0 14px; }
+    a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-soft); text-underline-offset: 2px; }
+    code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-family: "JetBrains Mono","SF Mono","Menlo",monospace; font-size: 0.87em; }
+    pre { background: var(--code-bg); padding: 12px 16px; border-radius: 4px; border-left: 3px solid var(--accent-soft); overflow-x: auto; font-size: 13.5px; line-height: 1.55; margin: 14px 0; }
+    pre code { background: none; padding: 0; }
+    ul, ol.body { margin: 0 0 14px; padding-left: 24px; }
+    li { margin-bottom: 5px; }
+
+    .def, .thm, .worked, .exercise, .keyresult, .remark {
+      margin: 18px 0; padding: 14px 18px; border-radius: 4px; font-size: 16px;
+    }
+    .def { background: #dde7f1; border-left: 4px solid #2a5a8a; }
+    .thm { background: #ece2f3; border-left: 4px solid var(--purple); }
+    .worked { background: #eaf3e0; border-left: 4px solid var(--green); }
+    .exercise { background: #f7e9dc; border-left: 4px solid var(--accent); }
+    .remark { background: #e8e6e0; border-left: 4px solid #5a5a5a; font-size: 15.5px; }
+    .keyresult { background: #faf2e2; border: 1px solid var(--accent-soft); border-left: 4px solid var(--accent); text-align: center; }
+    .label {
+      display: inline-block; font-family: -apple-system, system-ui, sans-serif;
+      font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase;
+      font-weight: 700; color: white; padding: 1px 8px; border-radius: 3px;
+      margin-right: 8px; vertical-align: 2px;
+    }
+    .def .label { background: #2a5a8a; }
+    .thm .label { background: var(--purple); }
+    .worked .label { background: var(--green); }
+    .exercise .label { background: var(--accent); }
+    .remark .label { background: #5a5a5a; }
+    .def p:last-child, .thm p:last-child, .worked p:last-child, .exercise p:last-child, .remark p:last-child { margin-bottom: 0; }
+
+    details { margin-top: 10px; }
+    details summary { cursor: pointer; color: var(--accent); font-family: -apple-system, system-ui, sans-serif; font-size: 13px; font-weight: 600; user-select: none; padding: 3px 0; }
+    details[open] summary { margin-bottom: 8px; }
+    .diff { font-size: 12px; font-family: -apple-system, system-ui, sans-serif; font-weight: 700; padding: 1px 7px; border-radius: 3px; margin-left: 8px; vertical-align: 2px; }
+    .diff.std { background: #d6e9d0; color: #2f5a1b; }
+    .diff.hard { background: #f5dcd8; color: #b03020; }
+    .diff.research { background: #e3dfb0; color: #6a5e10; }
+
+    figure.diagram { margin: 18px auto; max-width: 520px; text-align: center; }
+    figure.diagram svg { display:block; margin: 0 auto; max-width: 100%; height: auto; background: #faf6e9; border: 1px solid var(--border); border-radius: 4px; }
+    figure.diagram figcaption { font-family: -apple-system, system-ui, sans-serif; font-size: 12.5px; color: var(--muted); padding: 8px 12px 0; line-height: 1.5; }
+
+    hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 30px 22px 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div class="brand">Thermodynamics of Spacetime
+      <small>A graduate mini-course around Jacobson (1995)</small>
+    </div>
+    <a href="index.html" class="back-link">← main learning hub</a>
+    <a href="jacobson-1995.html" class="back-link">← short Q&amp;A guide</a>
+
+    <h2>Front matter</h2>
+    <ol>
+      <li><a href="#prereq"><span class="num">0</span><span>Prerequisites &amp; conventions</span></a></li>
+    </ol>
+    <h2>Lectures</h2>
+    <ol>
+      <li><a href="#L1"><span class="num">L1</span><span>Black hole thermodynamics</span></a></li>
+      <li><a href="#L2"><span class="num">L2</span><span>The Unruh effect</span></a></li>
+      <li><a href="#L3"><span class="num">L3</span><span>Null congruences &amp; Raychaudhuri</span></a></li>
+      <li><a href="#L4"><span class="num">L4</span><span>Local Rindler horizons</span></a></li>
+      <li><a href="#L5"><span class="num">L5</span><span>The Einstein equation of state</span></a></li>
+      <li><a href="#L6"><span class="num">L6</span><span>Beyond equilibrium</span></a></li>
+      <li><a href="#L7"><span class="num">L7</span><span>The emergent-gravity program</span></a></li>
+    </ol>
+    <h2>Back matter</h2>
+    <ol>
+      <li><a href="#finalset"><span class="num">PS</span><span>Final problem set</span></a></li>
+      <li><a href="#refs"><span class="num">R</span><span>References</span></a></li>
+    </ol>
+  </aside>
+
+  <main>
+    <h1>Thermodynamics of Spacetime</h1>
+    <div class="subtitle">A graduate mini-course built around T. Jacobson, <em>"Thermodynamics of Spacetime: The Einstein Equation of State,"</em> Phys. Rev. Lett. <strong>75</strong>, 1260 (1995), gr-qc/9504004.</div>
+    <div class="meta-row">7 lectures · worked examples · exercises with solutions · a qualifying-exam-level final problem set. Difficulty tags: <span class="diff std">standard</span> <span class="diff hard">hard</span> <span class="diff research">research</span></div>
+
+    <!-- ================= PREREQ ================= -->
+    <h2 class="lecture" id="prereq"><span class="lnum">Front matter</span>0. Prerequisites &amp; conventions</h2>
+    <p>This course assumes: general relativity through the Einstein equation (Wald chs. 1–6), the canonical quantization of a free scalar field, and undergraduate statistical mechanics. The harder lectures (L6, L7) touch the research literature.</p>
+    <div class="def"><span class="label">Conventions</span>
+      <ul>
+        <li>Metric signature $(-,+,+,+)$.</li>
+        <li>Natural units $\hbar = c = k_B = 1$ unless restoring constants is instructive. Newton's constant $G$ kept explicit.</li>
+        <li>Greek indices $\mu,\nu,\dots \in \{0,1,2,3\}$. Riemann tensor $R^\rho{}_{\sigma\mu\nu} = \partial_\mu \Gamma^\rho_{\nu\sigma} - \dots$, Ricci $R_{\mu\nu} = R^\rho{}_{\mu\rho\nu}$.</li>
+        <li>Horizon generators are null vectors $k^\mu$; affine parameter $\lambda$.</li>
+      </ul>
+    </div>
+
+    <!-- ================= LECTURE 1 ================= -->
+    <h2 class="lecture" id="L1"><span class="lnum">Lecture 1</span>Black hole thermodynamics</h2>
+
+    <p>The historical and logical entry point. Before Jacobson can say "entropy of a horizon $= A/4G$," that statement has to come from somewhere. It comes from the laws of black hole mechanics and Hawking's calculation.</p>
+
+    <h3>1.1 The four laws of black hole mechanics</h3>
+    <p>For a stationary black hole with mass $M$, angular momentum $J$, charge $Q$, horizon area $A$, surface gravity $\kappa$, angular velocity $\Omega$, electric potential $\Phi$:</p>
+    <div class="thm"><span class="label">Four laws (Bardeen–Carter–Hawking 1973)</span>
+      <ul>
+        <li><strong>Zeroth:</strong> $\kappa$ is constant over the horizon of a stationary black hole.</li>
+        <li><strong>First:</strong> $\dd M = \dfrac{\kappa}{8\pi G}\,\dd A + \Omega\,\dd J + \Phi\,\dd Q$.</li>
+        <li><strong>Second:</strong> $\dd A \ge 0$ in any classical process (Hawking's area theorem).</li>
+        <li><strong>Third:</strong> $\kappa \to 0$ cannot be achieved in finite steps.</li>
+      </ul>
+      <p>The structural identity with ordinary thermodynamics ($\dd U = T\,\dd S - P\,\dd V + \dots$) is exact if $T \propto \kappa$ and $S \propto A$.</p>
+    </div>
+
+    <h3>1.2 Surface gravity</h3>
+    <div class="def"><span class="label">Definition</span>
+      For a Killing horizon with null generator $\xi^\mu$ (a Killing vector, null on the horizon), the surface gravity $\kappa$ is defined by
+      $$ \xi^\nu \nabla_\nu \xi^\mu = \kappa\, \xi^\mu \quad\text{(on the horizon)}. $$
+      Equivalently $\kappa^2 = -\half (\nabla_\mu \xi_\nu)(\nabla^\mu \xi^\nu)$ evaluated on the horizon. For Schwarzschild, $\kappa = 1/4GM$.
+    </div>
+
+    <h3>1.3 Bekenstein–Hawking entropy and the Hawking temperature</h3>
+    <p>Hawking's 1975 calculation (derived properly in Lecture 2 via the Unruh effect) fixes the proportionality constants:</p>
+    <div class="keyresult">
+      $$ T_H = \frac{\hbar \kappa}{2\pi},\qquad S_{\rm BH} = \frac{A}{4 G \hbar}. $$
+    </div>
+    <p>These are the two inputs Jacobson will <em>assume</em> hold for any local horizon.</p>
+
+    <h3>1.4 The Smarr formula and the first law</h3>
+    <div class="worked"><span class="label">Worked example</span>
+      <p><strong>Derive the first law from the Smarr formula.</strong> For Kerr–Newman, the Smarr formula (an integrated Euler relation, from $M$ being homogeneous of the right degrees in $(A^{1/2}, J, Q)$) reads</p>
+      $$ M = \frac{\kappa A}{4\pi G} + 2\Omega J + \Phi Q. $$
+      <p>Differentiate, using that $M = M(A,J,Q)$ is a homogeneous function and applying Euler's theorem. The scaling weights are $A \sim L^2$, $J \sim L^2$, $Q \sim L$, $M \sim L$. Euler's theorem for a function homogeneous of degree $\half$ in $(A, J, Q^2)$ gives back exactly</p>
+      $$ \dd M = \frac{\kappa}{8\pi G}\,\dd A + \Omega\,\dd J + \Phi\,\dd Q, $$
+      <p>the first law. The factor mismatch ($\kappa A/4\pi$ in Smarr vs $\kappa/8\pi$ in the first law) is exactly the homogeneity degree of $A$.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 1.1</span><span class="diff std">standard</span>
+      <p>Compute $\kappa = 1/4GM$ for Schwarzschild directly from the definition $\xi^\nu\nabla_\nu\xi^\mu = \kappa\xi^\mu$ with $\xi = \partial_t$.</p>
+      <details><summary>Solution</summary>
+        With $\xi = \partial_t$, $\xi_\mu = (-f, 0,0,0)$, $f = 1-2GM/r$. The only nonzero relevant Christoffel near the horizon is $\Gamma^r_{tt} = \half f f'$. Then $\xi^\nu\nabla_\nu\xi^r = \Gamma^r_{tt}\xi^t\xi^t = \half f f'$. The norm of $\xi$ vanishes at the horizon, and one finds $\kappa = \half f'(r_h) = \half \cdot \frac{2GM}{r_h^2} = \frac{GM}{(2GM)^2} = \frac{1}{4GM}$.</p>
+      </details>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 1.2</span><span class="diff std">standard</span>
+      <p>A solar-mass black hole: compute $T_H$ in kelvin. Comment on why astrophysical black holes don't evaporate today.</p>
+      <details><summary>Solution</summary>
+        $T_H = \hbar c^3/(8\pi G M k_B) \approx 6\times10^{-8}\,(M_\odot/M)\,$K. For $M = M_\odot$, $T_H \sim 60$ nK — far below the 2.7 K CMB, so the hole absorbs more than it emits and grows. Evaporation dominates only for $M \lesssim 10^{11}$ kg.</p>
+      </details>
+    </div>
+
+    <!-- ================= LECTURE 2 ================= -->
+    <h2 class="lecture" id="L2"><span class="lnum">Lecture 2</span>The Unruh effect</h2>
+    <p>The temperature in Jacobson's argument is the Unruh temperature of a local accelerated observer. This lecture derives it from scratch — it is the one genuinely quantum input.</p>
+
+    <h3>2.1 Rindler coordinates</h3>
+    <p>The right Rindler wedge ($x > |t|$) of Minkowski space is covered by $(\eta, \xi)$:</p>
+    $$ t = \frac{1}{a}e^{a\xi}\sinh(a\eta),\qquad x = \frac{1}{a}e^{a\xi}\cosh(a\eta), $$
+    $$ \dd s^2 = e^{2a\xi}\bigl(-\dd\eta^2 + \dd\xi^2\bigr) + \dd y^2 + \dd z^2. $$
+    <p>A worldline of constant $\xi$ is a uniformly accelerated observer; the one at $\xi=0$ has proper acceleration $a$. The boost Killing vector is $\chi = \partial_\eta = a(x\partial_t + t\partial_x)$, null on the horizon $x = \pm t$.</p>
+
+    <div class="worked"><span class="label">Worked example</span>
+      <p><strong>Surface gravity of the Rindler horizon.</strong> With $\chi = \partial_\eta$, $\chi\cdot\chi = -e^{2a\xi}$. Using $\kappa^2 = -\half(\nabla_\mu\chi_\nu)(\nabla^\mu\chi^\nu)$ on the horizon, one finds $\kappa = a$ for the observer normalized at $\xi=0$. So the Unruh temperature $T = \kappa/2\pi = a/2\pi$.</p>
+    </div>
+
+    <h3>2.2 The Unruh temperature via Bogoliubov coefficients</h3>
+    <p>Quantize a massless scalar. Minkowski modes are positive-frequency w.r.t. $t$; Rindler modes positive-frequency w.r.t. $\eta$. They are related by a Bogoliubov transformation. Unruh's trick: positive Minkowski-frequency modes are bounded and analytic in the <em>lower-half</em> complex $u$-plane ($u = t-x$).</p>
+
+    <div class="worked"><span class="label">Worked example</span>
+      <p><strong>The thermal spectrum.</strong> On the horizon a right-wedge Rindler mode behaves as $\phi^R_\omega \sim (-u)^{i\omega/a}$ and a left-wedge mode as $\phi^L_\omega \sim (u)^{i\omega/a}$. The combinations</p>
+      $$ \Phi^{(1)}_\omega = \phi^R_\omega + e^{-\pi\omega/a}\,\phi^{L*}_\omega,\qquad \Phi^{(2)}_\omega = \phi^L_\omega + e^{-\pi\omega/a}\,\phi^{R*}_\omega $$
+      <p>are analytic in the lower-half $u$-plane (continue $(-u)^{i\omega/a}$ through $u\to e^{-i\pi}|u|$, picking up $e^{\pi\omega/a}$), hence pure positive Minkowski frequency. The Bogoliubov coefficients therefore satisfy</p>
+      $$ \frac{|\beta_\omega|}{|\alpha_\omega|} = e^{-\pi\omega/a}. $$
+      <p>With the normalization $|\alpha_\omega|^2 - |\beta_\omega|^2 = 1$, the Rindler-particle number in the Minkowski vacuum is</p>
+      $$ \langle 0_M|\, N^R_\omega\, |0_M\rangle = |\beta_\omega|^2 = \frac{1}{e^{2\pi\omega/a} - 1}. $$
+      <p>A Bose–Einstein distribution at temperature $T = a/2\pi$. This is the Unruh effect.</p>
+    </div>
+
+    <div class="remark"><span class="label">Remark</span>
+      The same analytic-continuation structure ($e^{-\pi\omega/\kappa}$ from continuing a log-type phase around the horizon) is exactly Hawking's 1975 argument for an evaporating black hole. Unruh's contribution was recognizing that you need only the <em>near-horizon</em> region, not propagation to infinity — see Jacobson 2003 §6.2.1.
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 2.1</span><span class="diff hard">hard</span>
+      <p>Show that the Wightman function of a uniformly accelerated detector, $W(\tau) = \langle 0_M|\phi(x(\tau))\phi(x(0))|0_M\rangle$, satisfies the KMS condition $W(\tau) = W(-\tau - i\beta)$ with $\beta = 2\pi/a$, and explain why this is equivalent to thermality.</p>
+      <details><summary>Solution sketch</summary>
+        Along the accelerated worldline, the geodesic interval entering the Minkowski two-point function becomes $\propto \sinh^2(a\Delta\tau/2)$. The function $1/\sinh^2(a\tau/2)$ is periodic in imaginary time with period $2\pi/a$ and analytic in the strip $-\beta < \mathrm{Im}\,\tau < 0$. Periodicity in imaginary time with period $\beta$ is the KMS condition, which <em>defines</em> a thermal (Gibbs) state at temperature $1/\beta = a/2\pi$. The detailed-balance ratio of excitation to de-excitation rates is $e^{-\beta\omega}$.</p>
+      </details>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 2.2</span><span class="diff std">standard</span>
+      <p>Restore $\hbar, c, k_B$ in $T = a/2\pi$ and compute the acceleration needed for $T = 1$ K.</p>
+      <details><summary>Solution</summary>
+        $T = \hbar a /(2\pi c k_B)$. Setting $T = 1$ K gives $a = 2\pi c k_B/\hbar \approx 2.5\times10^{20}\,\mathrm{m/s^2}$. Enormous — why the Unruh effect has never been directly observed.</p>
+      </details>
+    </div>
+
+    <!-- ================= LECTURE 3 ================= -->
+    <h2 class="lecture" id="L3"><span class="lnum">Lecture 3</span>Null congruences &amp; the Raychaudhuri equation</h2>
+    <p>The geometry side of Jacobson's argument: how the area of a horizon changes is governed by the focusing of null geodesics.</p>
+
+    <h3>3.1 Congruences and the deviation tensor</h3>
+    <div class="def"><span class="label">Definition</span>
+      A <em>congruence</em> is a family of curves filling a region, one through each point. For an affinely parametrized null geodesic congruence with tangent $k^\mu$ ($k^\mu k_\mu = 0$, $k^\nu\nabla_\nu k^\mu = 0$), define the deviation tensor on the 2D transverse space:
+      $$ B_{\mu\nu} = \nabla_\nu k_\mu. $$
+      Decompose into trace, symmetric-traceless, antisymmetric parts:
+      $$ \theta = h^{\mu\nu}B_{\mu\nu}\ (\text{expansion}),\quad \sigma_{\mu\nu}\ (\text{shear}),\quad \omega_{\mu\nu}\ (\text{twist}), $$
+      where $h_{\mu\nu}$ is the transverse metric (the 2-metric orthogonal to $k$ and an auxiliary null $\ell$).
+    </div>
+
+    <h3>3.2 Deriving the Raychaudhuri equation</h3>
+    <div class="thm"><span class="label">Theorem (null Raychaudhuri)</span>
+      $$ \frac{\dd\theta}{\dd\lambda} = -\half\theta^2 - \sigma_{\mu\nu}\sigma^{\mu\nu} + \omega_{\mu\nu}\omega^{\mu\nu} - R_{\mu\nu}k^\mu k^\nu. $$
+    </div>
+    <div class="worked"><span class="label">Worked example — proof</span>
+      <p>Start from $k^\rho\nabla_\rho B_{\mu\nu} = k^\rho\nabla_\rho\nabla_\nu k_\mu$. Commute derivatives using the Riemann tensor:</p>
+      $$ \nabla_\rho\nabla_\nu k_\mu = \nabla_\nu\nabla_\rho k_\mu + R_{\mu\sigma\rho\nu}... \;\Rightarrow\; k^\rho\nabla_\rho B_{\mu\nu} = -B_{\mu\rho}B^\rho{}_\nu - R_{\mu\rho\nu\sigma}k^\rho k^\sigma. $$
+      <p>(The geodesic equation kills a term; the $B^2$ term comes from $\nabla_\nu(k^\rho\nabla_\rho k_\mu) = 0$ expanded.) Take the transverse trace $h^{\mu\nu}$. Using $h^{\mu\nu}B_{\mu\rho}B^\rho{}_\nu = \half\theta^2 + \sigma^2 - \omega^2$ and $h^{\mu\nu}R_{\mu\rho\nu\sigma}k^\rho k^\sigma = R_{\rho\sigma}k^\rho k^\sigma$ (the transverse trace of Riemann contracted with two $k$'s gives the Ricci contraction, since the $k k$ directions drop out), one obtains the stated equation.</p>
+    </div>
+
+    <div class="remark"><span class="label">Focusing theorem</span>
+      For hypersurface-orthogonal congruences (such as horizon generators), the twist vanishes: $\omega_{\mu\nu}=0$. With the null energy condition $R_{\mu\nu}k^\mu k^\nu \ge 0$, every term on the RHS is $\le 0$: <em>gravity focuses light</em>. This is the engine of the singularity theorems and, here, of the area–curvature link.
+    </div>
+
+    <h3>3.3 Area change to the order Jacobson needs</h3>
+    <div class="worked"><span class="label">Worked example</span>
+      <p>At the bifurcation point $p$ of a local Rindler horizon, choose the congruence so that $\theta = \sigma = 0$ at $p$ (local equilibrium). Then $\theta, \sigma = O(\lambda)$, so $\theta^2, \sigma^2 = O(\lambda^2)$ are negligible at leading order, and $\omega = 0$ (hypersurface-orthogonal). Raychaudhuri reduces to</p>
+      $$ \frac{\dd\theta}{\dd\lambda} \approx -R_{\mu\nu}k^\mu k^\nu \;\Rightarrow\; \theta(\lambda) \approx -R_{\mu\nu}k^\mu k^\nu\,\lambda. $$
+      <p>Hence the area change of the horizon patch is</p>
+      $$ \delta A = \int \theta\,\dd\lambda\,\dd A = -\int R_{\mu\nu}k^\mu k^\nu\,\lambda\,\dd\lambda\,\dd A. $$
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 3.1</span><span class="diff hard">hard</span>
+      <p>Fill in the commutator step in the Raychaudhuri proof: show explicitly that $k^\rho\nabla_\rho B_{\mu\nu} = -B_{\mu\rho}B^\rho{}_\nu - R_{\mu\rho\nu\sigma}k^\rho k^\sigma$, being careful with index symmetries and the affine condition.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 3.2</span><span class="diff std">standard</span>
+      <p>Show that for a hypersurface-orthogonal congruence, the twist $\omega_{\mu\nu}$ vanishes. (Hint: Frobenius' theorem.)</p>
+    </div>
+
+    <!-- ================= LECTURE 4 ================= -->
+    <h2 class="lecture" id="L4"><span class="lnum">Lecture 4</span>Local Rindler horizons</h2>
+
+    <h3>4.1 The equivalence principle and normal coordinates</h3>
+    <p>At any point $p$, choose Riemann normal coordinates: $g_{\mu\nu}(p) = \eta_{\mu\nu}$, $\partial_\rho g_{\mu\nu}(p) = 0$, with curvature appearing only at $O(x^2)$. So a neighborhood of $p$ is Minkowski up to curvature corrections — and we can import the entire Rindler construction of Lecture 2.</p>
+
+    <h3>4.2 Construction</h3>
+    <div class="def"><span class="label">Definition (local Rindler horizon)</span>
+      Pick $p$ and a null direction $k^\mu$ there. The past horizon of the local boost about the spatial 2-plane through $p$ orthogonal to $k$ is the <em>local Rindler horizon</em>. $p$ lies on it; its generators are null geodesics with tangent $k^\mu$; the approximate boost Killing field $\chi^\mu = -\kappa\lambda\,k^\mu$ vanishes at $p$ (the bifurcation surface).
+    </div>
+
+    <h3>4.3 The approximate boost Killing field</h3>
+    <div class="remark"><span class="label">The key subtlety</span>
+      In curved space, $\chi^\mu$ is <em>not</em> an exact Killing vector. In Riemann normal coordinates it satisfies Killing's equation $\nabla_{(\mu}\chi_{\nu)} = 0$ only up to $O(x^2)$ corrections (from the curvature in the metric). Because $\delta Q$ and $\delta S$ are computed to <em>leading</em> order in the size of the patch, these corrections do not affect the leading-order balance. This is the load-bearing approximation in Jacobson's argument — and the focus of much subsequent scrutiny (see L6).
+    </div>
+
+    <h3>4.4 Local equilibrium</h3>
+    <p>"Local equilibrium" means choosing the horizon so $\theta = \sigma = 0$ at $p$ — the horizon is instantaneously stationary there. This is what lets us use $\delta Q = T\,\dd S$ (equality, reversible) rather than the Clausius inequality. When this fails (L6), one needs an entropy-production term.</p>
+
+    <div class="exercise"><span class="label">Exercise 4.1</span><span class="diff hard">hard</span>
+      <p>In Riemann normal coordinates about $p$, write the metric to $O(x^2)$: $g_{\mu\nu} = \eta_{\mu\nu} - \tfrac{1}{3}R_{\mu\alpha\nu\beta}x^\alpha x^\beta + \dots$. Show that the flat-space boost field $\chi^\mu$ fails Killing's equation only at $O(x^2)$, and estimate the size of the violation in terms of curvature.</p>
+    </div>
+
+    <!-- ================= LECTURE 5 ================= -->
+    <h2 class="lecture" id="L5"><span class="lnum">Lecture 5</span>The Einstein equation of state</h2>
+    <p>Everything assembled. This is the content of Jacobson's paper.</p>
+
+    <h3>5.1 Heat as boost energy</h3>
+    <p>The heat flux across the horizon is the boost-energy flux of matter:</p>
+    $$ \delta Q = \int_{\mathcal H} T_{\mu\nu}\,\chi^\mu\,\dd\Sigma^\nu = -\kappa\int T_{\mu\nu}k^\mu k^\nu\,\lambda\,\dd\lambda\,\dd A, $$
+    <p>using $\chi^\mu = -\kappa\lambda k^\mu$ and $\dd\Sigma^\nu = k^\nu\dd\lambda\,\dd A$.</p>
+
+    <h3>5.2 Entropy change</h3>
+    <p>From Lecture 3, with $S = \eta A$, $\eta = 1/4G\hbar$:</p>
+    $$ \delta S = \eta\,\delta A = -\eta\int R_{\mu\nu}k^\mu k^\nu\,\lambda\,\dd\lambda\,\dd A. $$
+
+    <h3>5.3 Impose the first law</h3>
+    <p>Set $\delta Q = T\,\delta S$ with $T = \hbar\kappa/2\pi$:</p>
+    $$ -\kappa\int T_{\mu\nu}k^\mu k^\nu\,\lambda\,\dd\lambda\,\dd A = \frac{\hbar\kappa}{2\pi}\cdot\Bigl(-\frac{1}{4G\hbar}\Bigr)\int R_{\mu\nu}k^\mu k^\nu\,\lambda\,\dd\lambda\,\dd A. $$
+    <p>The $\kappa$, the signs, and the $\lambda\,\dd\lambda\,\dd A$ all cancel, leaving the pointwise statement</p>
+    <div class="keyresult">
+      $$ T_{\mu\nu}k^\mu k^\nu = \frac{1}{8\pi G}\,R_{\mu\nu}k^\mu k^\nu \quad\text{for all null } k^\mu. $$
+    </div>
+
+    <h3>5.4 From null $k^\mu$ to a tensor equation</h3>
+    <p>"For all null $k^\mu$" means $T_{\mu\nu} - \frac{1}{8\pi G}R_{\mu\nu}$ is proportional to $g_{\mu\nu}$ (the only symmetric tensor annihilated by all null contractions):</p>
+    $$ T_{\mu\nu} = \frac{1}{8\pi G}\bigl(R_{\mu\nu} + f g_{\mu\nu}\bigr). $$
+
+    <h3>5.5 The cosmological constant as integration constant</h3>
+    <div class="worked"><span class="label">Worked example</span>
+      <p>Impose local conservation $\nabla^\mu T_{\mu\nu} = 0$. With the contracted Bianchi identity $\nabla^\mu R_{\mu\nu} = \half\nabla_\nu R$:</p>
+      $$ 0 = \nabla^\mu T_{\mu\nu} = \frac{1}{8\pi G}\Bigl(\half\nabla_\nu R + \nabla_\nu f\Bigr) \;\Rightarrow\; \nabla_\nu\Bigl(\half R + f\Bigr) = 0. $$
+      <p>So $\half R + f = -\Lambda$ for a constant $\Lambda$, giving $f = -\half R - \Lambda$. Substitute:</p>
+    </div>
+    <div class="keyresult">
+      $$ R_{\mu\nu} - \half R\,g_{\mu\nu} + \Lambda g_{\mu\nu} = 8\pi G\,T_{\mu\nu}. $$
+    </div>
+    <p>Einstein's equation, with $\Lambda$ as an undetermined integration constant. <em>The thermodynamics fixes the field equations but not the value of $\Lambda$.</em></p>
+
+    <div class="exercise"><span class="label">Exercise 5.1</span><span class="diff hard">hard</span>
+      <p>Carry the full derivation keeping the $O(\lambda^2)$ terms ($\theta^2$, $\sigma^2$) you dropped. Show they would contribute at higher order in the patch size, hence cannot modify the leading balance — but argue heuristically that they are the seed of the "entropy production" of Lecture 6.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 5.2</span><span class="diff std">standard</span>
+      <p>Why must the argument demand the first law for <em>all</em> null directions $k^\mu$ at <em>all</em> points $p$? What weaker equation would you get from a single null direction?</p>
+      <details><summary>Solution</summary>
+        A single $k^\mu$ gives only one scalar equation $T_{\mu\nu}k^\mu k^\nu \propto R_{\mu\nu}k^\mu k^\nu$. Requiring it for all null $k^\mu$ promotes this to a full tensor identity (mod $g_{\mu\nu}$); requiring it at all $p$ makes it a local field equation rather than a constraint at one event. Both quantifiers are essential.</p>
+      </details>
+    </div>
+
+    <!-- ================= LECTURE 6 ================= -->
+    <h2 class="lecture" id="L6"><span class="lnum">Lecture 6</span>Beyond equilibrium</h2>
+    <p>Jacobson's 1995 argument assumed local equilibrium and recovered Einstein gravity. What happens for higher-curvature theories? This is where the program gets subtle — and interesting.</p>
+
+    <h3>6.1 Wald entropy</h3>
+    <div class="def"><span class="label">Definition (Wald entropy)</span>
+      For a diffeomorphism-invariant theory with Lagrangian $\mathcal L(g, R_{\mu\nu\rho\sigma}, \dots)$, the black hole entropy is the Noether charge
+      $$ S_{\rm Wald} = -2\pi\oint \frac{\partial \mathcal L}{\partial R_{\mu\nu\rho\sigma}}\,\epsilon_{\mu\nu}\epsilon_{\rho\sigma}\,\dd A. $$
+      For Einstein gravity this reduces to $A/4G$. For $f(R)$ gravity it gives $S = \frac{1}{4G}\oint f'(R)\,\dd A$.
+    </div>
+
+    <h3>6.2 $f(R)$ gravity and the failure of equilibrium</h3>
+    <div class="thm"><span class="label">Eling–Guedens–Jacobson (2006)</span>
+      <p>If you assume $S = \frac{1}{4G}\oint f'(R)\,\dd A$ and demand the equilibrium relation $\delta Q = T\,\delta S$, you do <em>not</em> recover the $f(R)$ field equations. The naive balance is off by a term. To fix it you must allow an internal entropy production:</p>
+      $$ \delta Q = T\,\delta S - T\,\dd_i S,\qquad \dd_i S \ge 0. $$
+      <p>The field equations of $f(R)$ gravity emerge only with this non-equilibrium term.</p>
+    </div>
+    <div class="remark"><span class="label">Interpretation</span>
+      The extra term behaves like the entropy produced by a <em>dissipative</em> process — spacetime acquires a "bulk viscosity." So higher-curvature gravity is the <em>non-equilibrium</em> thermodynamics of spacetime, with Einstein gravity the special equilibrium (reversible) case. This both extends Jacobson's program and exposes its assumptions: equilibrium ⟺ Einstein.
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 6.1</span><span class="diff research">research</span>
+      <p>For $f(R) = R + \alpha R^2$, compute $\delta S$ from the Wald entropy along the horizon generators and identify the term that cannot be written as $\delta Q/T$. Match it to the $\dd_i S$ of Eling–Guedens–Jacobson. (See gr-qc/0602001.)</p>
+    </div>
+
+    <!-- ================= LECTURE 7 ================= -->
+    <h2 class="lecture" id="L7"><span class="lnum">Lecture 7</span>The emergent-gravity program</h2>
+    <p>Where Jacobson's result sits in the larger landscape, and where the open problems are.</p>
+
+    <h3>7.1 Sakharov's induced gravity (1967)</h3>
+    <p>The earliest "gravity is emergent" idea: the Einstein–Hilbert action arises as the one-loop effective action of quantum matter fields in a curved background, with $1/G$ proportional to a UV-cutoff-squared. Gravity as elasticity of the vacuum.</p>
+
+    <h3>7.2 The holographic principle</h3>
+    <p>'t Hooft (1993), Susskind (1995): the degrees of freedom in a region scale as the boundary <em>area</em>, not volume — exactly the Bekenstein–Hawking scaling. AdS/CFT (Maldacena 1997) is the concrete realization: gravity in the bulk = a CFT on the boundary, with the bulk metric emergent from boundary data.</p>
+
+    <h3>7.3 Entanglement and spacetime</h3>
+    <p>Van Raamsdonk (2010): bulk geometric connectivity is built from boundary entanglement; cutting entanglement pinches off the geometry. Jacobson himself returned to this in 2015 ("Entanglement equilibrium and the Einstein equation," PRL 116, 201101): the Einstein equation follows from demanding that small causal-diamond vacua be in <em>entanglement equilibrium</em> — a quantum-information refinement of his 1995 thermodynamic argument.</p>
+
+    <h3>7.4 Open problems</h3>
+    <ul>
+      <li>What are the microstates? (No agreed answer outside AdS/CFT.)</li>
+      <li>Does the argument fix the <em>dynamics</em> or only kinematic constraints?</li>
+      <li>The cosmological constant: thermodynamics leaves $\Lambda$ free; the observed tiny value is unexplained.</li>
+      <li>The approximate-Killing-field assumption: is it innocuous or load-bearing? (Active debate.)</li>
+    </ul>
+
+    <!-- ================= FINAL PROBLEM SET ================= -->
+    <h2 class="lecture" id="finalset"><span class="lnum">Back matter</span>Final problem set</h2>
+    <p>Qualifying-exam level. Attempt without the solutions first.</p>
+
+    <div class="exercise"><span class="label">P1</span><span class="diff std">standard</span>
+      <p>Derive the Euclidean periodicity of Schwarzschild and hence $T_H = 1/8\pi GM$. (Continue $t\to-i\tau$, expand near $r=2GM$, demand absence of a conical singularity.)</p>
+      <details><summary>Solution</summary>
+        Near $r = 2GM$, set $f \approx (r-2GM)/2GM$. Substituting $\rho = 2\sqrt{2GM(r-2GM)}$ turns the $(\tau,r)$ part into $\dd\rho^2 + \rho^2(\dd\tau/4GM)^2$. Regularity demands $\tau/4GM$ have period $2\pi$, i.e. $\beta = 8\pi GM$, so $T = 1/8\pi GM = \kappa/2\pi$.</p>
+      </details>
+    </div>
+
+    <div class="exercise"><span class="label">P2</span><span class="diff hard">hard</span>
+      <p>Starting from the null Raychaudhuri equation, prove the area form $\delta A = -\int R_{\mu\nu}k^\mu k^\nu\,\lambda\,\dd\lambda\,\dd A$ used by Jacobson, stating precisely which terms are dropped and why each is subleading in the patch size.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P3</span><span class="diff hard">hard</span>
+      <p>Reproduce the Unruh spectrum $\langle N_\omega\rangle = (e^{2\pi\omega/a}-1)^{-1}$ via the analyticity argument, computing the Bogoliubov coefficients explicitly and verifying $|\alpha|^2 - |\beta|^2 = 1$.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P4</span><span class="diff hard">hard</span>
+      <p>Complete the Jacobson derivation end-to-end: heat flux, area change, first law, tensor promotion, and the appearance of $\Lambda$. Identify every assumption used and where.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P5</span><span class="diff research">research</span>
+      <p>For $f(R)$ gravity, show the equilibrium relation $\delta Q = T\delta S$ with Wald entropy fails, and derive the entropy-production term $\dd_i S$. Discuss what "bulk viscosity of spacetime" means physically. (Eling–Guedens–Jacobson 2006.)</p>
+    </div>
+
+    <div class="exercise"><span class="label">P6</span><span class="diff research">research</span>
+      <p>Compare the 1995 thermodynamic derivation with Jacobson's 2015 "entanglement equilibrium" derivation (PRL 116, 201101). What replaces $\delta Q = T\delta S$? What is gained by phrasing it in terms of entanglement entropy of a small causal diamond?</p>
+    </div>
+
+    <!-- ================= REFERENCES ================= -->
+    <h2 class="lecture" id="refs"><span class="lnum">Back matter</span>References</h2>
+    <ul>
+      <li>T. Jacobson, <em>Thermodynamics of spacetime: the Einstein equation of state</em>, PRL 75, 1260 (1995), gr-qc/9504004. <a href="../papers/hawking_radiation/Jacobson1995.pdf">[local PDF]</a></li>
+      <li>T. Jacobson, <em>Introduction to QFT in curved spacetime and the Hawking effect</em>, gr-qc/0308048. <a href="../papers/hawking_radiation/Jacobson2003.pdf">[local PDF]</a></li>
+      <li>S. W. Hawking, <em>Particle creation by black holes</em>, Commun. Math. Phys. 43, 199 (1975). <a href="../papers/hawking_radiation/Hawking1975.pdf">[local PDF]</a></li>
+      <li>Bardeen, Carter, Hawking, <em>The four laws of black hole mechanics</em>, Commun. Math. Phys. 31, 161 (1973).</li>
+      <li>W. G. Unruh, <em>Notes on black-hole evaporation</em>, PRD 14, 870 (1976).</li>
+      <li>R. M. Wald, <em>General Relativity</em> (1984), chs. 9, 12, 14; and <em>QFT in Curved Spacetime and Black Hole Thermodynamics</em> (1994).</li>
+      <li>Eling, Guedens, Jacobson, <em>Non-equilibrium thermodynamics of spacetime</em>, PRL 96, 121301 (2006), gr-qc/0602001.</li>
+      <li>T. Jacobson, <em>Entanglement equilibrium and the Einstein equation</em>, PRL 116, 201101 (2016), arXiv:1505.04753.</li>
+      <li>Poisson, <em>A Relativist's Toolkit</em> (2004), ch. 2 (congruences, Raychaudhuri) — the best pedagogical source for Lecture 3.</li>
+    </ul>
+
+    <p style="text-align:center; color: var(--muted); font-size: 14px; margin-top: 56px;">
+      End of course. <a href="index.html">Return to the main learning hub.</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

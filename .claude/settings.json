@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pdftotext *)",
+      "Bash(/opt/homebrew/bin/pdftotext *)",
+      "Bash(git clone *)",
+      "Bash(git fetch *)",
+      "Bash(say *)"
+    ]
+  }
+}

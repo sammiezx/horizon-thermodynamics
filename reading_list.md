@@ -8,13 +8,41 @@ broadly. Re-order, prune, and extend freely — this file is yours.
 
 ---
 
-## Now (next 1–2 weeks)
+## Now (next 1–2 weeks) — Hawking 1975 deep-dive
 
-- [ ] _empty — add what you're reading this week_
+Centerpiece-paper roadmap: read [notes/topics/hawking_1975_reading_guide.md](notes/topics/hawking_1975_reading_guide.md).
+See [manuscripts/greybody-factors/README.md](manuscripts/greybody-factors/README.md)
+for how this study feeds into the planned paper.
 
-## Reading
+- [ ] **Hawking 1975** — three-pass study (orientation → derivation → critique).
+      Goal: reproduce the Bogoliubov-coefficient spine on a whiteboard, no notes.
+      Notes scaffold: [notes/per_paper/Hawking1975.md](notes/per_paper/Hawking1975.md).
+- [ ] **Jacobson 2003** (gr-qc/0308048) — modern pedagogical companion; read
+      §§1–4 alongside pass 2 of Hawking. PDF at
+      [papers/hawking_radiation/Jacobson2003.pdf](papers/hawking_radiation/Jacobson2003.pdf).
 
-- [ ] _empty_
+## Reading (next, after Hawking is solid)
+
+Literature-scan summary with priorities + literature-gap hypotheses:
+[notes/topics/greybody_literature_scan.md](notes/topics/greybody_literature_scan.md).
+
+- [ ] **Page 1976** — direct precursor to the centerpiece paper; Schwarzschild
+      greybody-factor numerics. This is the calculation you will reproduce as
+      a sanity benchmark before doing anything novel.
+- [ ] **Unruh 1976** — clarifies horizon / vacuum-choice subtleties left fuzzy
+      in Hawking 1975.
+- [ ] **Konoplya & Zhidenko 2011** (RMP, arXiv:1102.4014) — QNM review; read
+      the *methods* chapters (continued fractions, WKB, time-domain) for the
+      machinery you will reuse for greybody numerics.
+- [ ] **Rincón & Santos 2020** (EPJ C, arXiv:2009.04386) — greybody + QNM for
+      regular BHs that generalize Bardeen and Hayward. Read carefully if
+      regular BHs are the candidate spacetime.
+- [ ] **Wu, Cai, Xie 2024** (PRD in press, arXiv:2411.07734) — frontier
+      direction on greybody-factor *stability* for the Hayward BH.
+- [ ] **Konoplya & Pappas 2025** (JCAP, arXiv:2507.01954) — frontier paper on
+      dirty BHs; read if dirty BHs are the candidate spacetime.
+- [ ] **Kanti 2004** (IJMPA, arXiv:hep-ph/0402168) — read *selectively* for
+      the analytical greybody-factor sections; skip the brane-world phenomenology.
 
 ## Foundations — General Relativity & QFT in curved spacetime
 

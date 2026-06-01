@@ -1,0 +1,989 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>What makes something paper-worthy + AI in research</title>
+  <script>
+    window.MathJax = { tex:{ inlineMath:[['$','$']], displayMath:[['$$','$$']], processEscapes:true, tags:'ams' }, svg:{fontCache:'global'} };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg:#fbfaf6; --bg-side:#f1eee2; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
+      --red:#b03020; --border:#d8d3c4; --code:#efeadc; --maxw:780px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:17px/1.65 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
+    .layout{display:grid;grid-template-columns:270px 1fr;min-height:100vh}
+    aside{background:var(--bg-side);border-right:1px solid var(--border);
+          padding:30px 22px;position:sticky;top:0;align-self:start;
+          height:100vh;overflow-y:auto;font-size:13px}
+    aside .brand{font-weight:700;font-size:16px;line-height:1.25}
+    aside .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:5px}
+    aside .back-link{display:block;padding:8px 0;font-size:12px;color:var(--muted);
+                     text-decoration:none;border-bottom:1px solid var(--border);margin:14px 0}
+    aside .back-link:hover{color:var(--accent)}
+    aside h2{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
+             margin:18px 0 8px;font-weight:700}
+    aside ol{list-style:none;padding:0;margin:0 0 8px}
+    aside ol li{margin-bottom:4px}
+    aside ol a{color:var(--fg);text-decoration:none;display:flex;gap:7px;font-size:12.5px;line-height:1.35}
+    aside ol a:hover{color:var(--accent)}
+    aside ol a .num{color:var(--muted);font-size:10.5px;min-width:30px;font-weight:600}
+    main{padding:54px 56px 120px;max-width:calc(var(--maxw) + 112px)}
+    main > *{max-width:var(--maxw)}
+    h1{font-size:31px;line-height:1.15;margin:0 0 6px;letter-spacing:-0.01em}
+    h1 + .subtitle{color:var(--muted);font-size:15px;margin-bottom:14px}
+    .meta-row{font-family:-apple-system,system-ui,sans-serif;font-size:12.5px;color:var(--muted);margin-bottom:40px}
+    h2.module{font-size:24px;margin:64px 0 6px;letter-spacing:-0.01em;
+              padding-bottom:8px;border-bottom:2px solid var(--accent)}
+    h2.module .mnum{display:block;font:700 12px/1.4 -apple-system,system-ui,sans-serif;
+                    letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    h3{font-size:18px;margin:30px 0 8px;color:var(--accent)}
+    h4{font-size:15.5px;margin:18px 0 5px;font-weight:700}
+    p{margin:0 0 14px}
+    a{color:var(--accent);text-decoration:underline;text-decoration-color:var(--soft);text-underline-offset:2px}
+    code{background:var(--code);padding:1px 5px;border-radius:3px;font:0.87em "JetBrains Mono",Menlo,monospace}
+    pre{background:var(--code);padding:12px 16px;border-radius:4px;border-left:3px solid var(--soft);
+        overflow-x:auto;font-size:13.5px;line-height:1.55;margin:12px 0}
+    pre code{background:none;padding:0}
+    ul,ol.body{margin:0 0 14px;padding-left:24px}
+    li{margin-bottom:4px}
+    .yes,.no,.maybe,.warn,.honest,.exercise,.exemplar,.aiwhat{
+      margin:18px 0;padding:14px 18px;border-radius:4px;font-size:15.5px
+    }
+    .yes{background:#eaf3e0;border-left:4px solid var(--green)}
+    .no{background:#f5dcd8;border-left:4px solid var(--red)}
+    .maybe{background:#e3dfb0;border-left:4px solid #6a5e10}
+    .warn{background:#f5dcd8;border-left:4px solid var(--red)}
+    .honest{background:#f6f1e3;border-left:4px solid var(--fg);font-style:italic;font-size:16px;padding:18px 22px}
+    .honest .attr{display:block;margin-top:8px;font-style:normal;font-size:12.5px;color:var(--muted)}
+    .exercise{background:#f7e9dc;border-left:4px solid var(--accent)}
+    .exemplar{background:#dde7f1;border-left:4px solid #2a5a8a}
+    .aiwhat{background:#ece2f3;border-left:4px solid var(--purple)}
+    .label{display:inline-block;font:700 10.5px/1.4 -apple-system,sans-serif;letter-spacing:0.1em;
+           text-transform:uppercase;color:white;padding:1px 8px;border-radius:3px;margin-right:8px;vertical-align:2px}
+    .yes .label{background:var(--green)}
+    .no .label{background:var(--red)}
+    .maybe .label{background:#6a5e10}
+    .warn .label{background:var(--red)}
+    .exercise .label{background:var(--accent)}
+    .exemplar .label{background:#2a5a8a}
+    .aiwhat .label{background:var(--purple)}
+    .yes p:last-child,.no p:last-child,.maybe p:last-child,.warn p:last-child,
+    .exercise p:last-child,.exemplar p:last-child,.aiwhat p:last-child,.honest p:last-child{margin-bottom:0}
+    hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+    table.compare{border-collapse:collapse;width:100%;margin:18px 0;font-size:14.5px}
+    table.compare th,table.compare td{padding:8px 12px;border:1px solid var(--border);text-align:left;vertical-align:top}
+    table.compare th{background:var(--bg-side);font-weight:700}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}
+      aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+      main{padding:30px 22px 80px}}
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div class="brand">Paper-Worthiness &amp; AI
+      <small>How to know · what to read · honest assessment</small>
+    </div>
+    <a href="index.html" class="back-link">← main learning hub</a>
+    <a href="research-craft-course.html" class="back-link">← Research Craft course</a>
+
+    <h2>Part I · Is it a paper?</h2>
+    <ol>
+      <li><a href="#M1"><span class="num">M1</span><span>Five criteria, in order</span></a></li>
+      <li><a href="#M2"><span class="num">M2</span><span>The minimum publishable unit</span></a></li>
+      <li><a href="#M3"><span class="num">M3</span><span>Six self-tests</span></a></li>
+    </ol>
+    <h2>Part II · Read these</h2>
+    <ol>
+      <li><a href="#M4"><span class="num">M4</span><span>Short classics</span></a></li>
+      <li><a href="#M5"><span class="num">M5</span><span>Numerical exemplars</span></a></li>
+      <li><a href="#M6"><span class="num">M6</span><span>Modern landmarks</span></a></li>
+      <li><a href="#M7"><span class="num">M7</span><span>How to study an exemplar</span></a></li>
+    </ol>
+    <h2>Part III · AI</h2>
+    <ol>
+      <li><a href="#M8"><span class="num">M8</span><span>State as of 2026</span></a></li>
+      <li><a href="#M9"><span class="num">M9</span><span>What AI is &amp; is not good at</span></a></li>
+      <li><a href="#M10"><span class="num">M10</span><span>Where it is going (5-yr)</span></a></li>
+      <li><a href="#M11"><span class="num">M11</span><span>You, specifically</span></a></li>
+      <li><a href="#M12"><span class="num">M12</span><span>Practical rules</span></a></li>
+    </ol>
+    <h2>Part IV · Decision</h2>
+    <ol>
+      <li><a href="#M13"><span class="num">M13</span><span>Pre-paper checklist</span></a></li>
+    </ol>
+    <h2>Part V · Deeper research</h2>
+    <ol>
+      <li><a href="#M14"><span class="num">M14</span><span>What has actually shipped (catalog)</span></a></li>
+      <li><a href="#M15"><span class="num">M15</span><span>Formal methods — Lean × AI × physics</span></a></li>
+      <li><a href="#M16"><span class="num">M16</span><span>The practical 2026 stack</span></a></li>
+      <li><a href="#M17"><span class="num">M17</span><span>Named cases — Schwartz, Krenn, IAIFI</span></a></li>
+      <li><a href="#M18"><span class="num">M18</span><span>2030 prognosis — triangulated</span></a></li>
+      <li><a href="#M19"><span class="num">M19</span><span>Updated implications for you</span></a></li>
+    </ol>
+    <h2>Part VI · Reading list</h2>
+    <ol>
+      <li><a href="#M20"><span class="num">M20</span><span>Successor papers — annotated</span></a></li>
+    </ol>
+  </aside>
+
+  <main>
+
+    <h1>Paper-Worthiness &amp; AI in Research</h1>
+    <div class="subtitle">When is a finding worth a paper? What papers should you read as models? And — honestly — where is paper-writing going given AI? Four parts.</div>
+    <div class="meta-row">13 modules · exemplar PDFs fetched to <code>papers/exemplars/</code> · honest section on AI in Part III is not corporate</div>
+
+    <!-- ===================================================================
+         PART I — WHEN IS IT A PAPER?
+         =================================================================== -->
+
+    <h2 class="module" id="M1"><span class="mnum">Module 1</span>Five criteria, in order of importance</h2>
+
+    <p>Almost all of what passes for "what makes a paper publishable" advice is vague. Here are the operational criteria. They are listed in order: a paper missing #1 cannot be saved by #2–#5; a paper missing #5 alone can sometimes still be published.</p>
+
+    <h3>1. Novelty</h3>
+    <p>The single mandatory criterion. A paper must contain a fact, a derivation, a method, a perspective, or a connection that did not exist in the literature before. "Novel" does not mean revolutionary — it means new. The bar is lower than people think, but it is sharp.</p>
+
+    <p>Types of novelty, in roughly decreasing power:</p>
+    <ol class="body">
+      <li>A new theoretical framework that re-organizes a field (Maldacena 1997 — AdS/CFT).</li>
+      <li>A new theorem or no-go result (Hawking's area theorem 1971).</li>
+      <li>A new physical phenomenon predicted or discovered (Hawking radiation 1975).</li>
+      <li>A new microscopic explanation of an established macroscopic result (Strominger–Vafa 1996 — counting BH microstates).</li>
+      <li>A new calculation: solving a problem that had been open (any specific QNM or greybody calculation done numerically for the first time).</li>
+      <li>A new method that improves an existing calculation (Leaver's continued-fraction method for QNMs, 1985).</li>
+      <li>A new connection between two previously-disconnected results (the wide class of "X is dual to Y" papers).</li>
+      <li>A reorganization or pedagogical reframing — only sometimes sufficient.</li>
+    </ol>
+
+    <h3>2. Soundness</h3>
+    <p>The math must be right. The numerics must be reproducible. The argument must not contain logical gaps. Soundness is non-negotiable and is what referees check first. A paper with a beautiful idea but a wrong calculation is rejected.</p>
+
+    <h3>3. Significance</h3>
+    <p>The result must matter to other researchers. "Matter" is field-specific. In black hole physics: does it advance our understanding of horizons, of Hawking radiation, of the information paradox, of observational signatures, of theoretical structure? "Significance" is what determines journal tier (Nature → PRL → PRD → CQG → JHEP → specialized journals).</p>
+
+    <h3>4. Reproducibility</h3>
+    <p>Other people must be able to reproduce your work. For numerical papers this means: clear specification of method, accuracy targets, convergence tests, ideally a public code repository. For theoretical papers: all steps in the derivation, or a clear pointer to where they live.</p>
+
+    <h3>5. Communicability</h3>
+    <p>The paper must be readable. Mostly this means: clear writing, well-structured sections, equations that are explained, figures that stand alone. A paper that satisfies 1–4 but is unreadable will still be published (sometimes), but it will be cited less and your reputation will absorb the cost.</p>
+
+    <h2 class="module" id="M2"><span class="mnum">Module 2</span>The minimum publishable unit</h2>
+
+    <p>The "minimum publishable unit" (MPU) in physics is field-dependent but roughly:</p>
+
+    <table class="compare">
+      <thead><tr><th>Field</th><th>MPU</th><th>Typical journal</th></tr></thead>
+      <tbody>
+        <tr><td>Black hole physics (theory)</td><td>One clean new calculation or framework</td><td>PRD, CQG</td></tr>
+        <tr><td>String theory / formal</td><td>One non-trivial new derivation or duality</td><td>JHEP, PRD</td></tr>
+        <tr><td>Numerical relativity</td><td>One new numerical result or method improvement</td><td>PRD, CQG</td></tr>
+        <tr><td>Phenomenology</td><td>One specific prediction tied to observation</td><td>PRD, JCAP</td></tr>
+        <tr><td>Cosmology</td><td>One new model or analysis of data</td><td>PRD, JCAP, ApJ</td></tr>
+        <tr><td>Experiment</td><td>One measurement with stated uncertainty</td><td>PRD, PRL, Nature</td></tr>
+        <tr><td>Review</td><td>Synthesis of a sub-field by invitation</td><td>Rev. Mod. Phys., Liv. Rev. Rel.</td></tr>
+      </tbody>
+    </table>
+
+    <p>For your centerpiece paper (numerical greybody factors for a less-studied spacetime): the MPU is satisfied by one spacetime, one field species, $\Gamma_{\omega\ell}(\omega)$ tabulated for a useful range of parameters, and the integrated emission spectrum, with the result compared to Schwarzschild as a benchmark. That is enough for PRD.</p>
+
+    <div class="yes"><span class="label">Yes — paper</span>
+      <ul>
+        <li>"We compute $\Gamma_{\omega\ell}(\omega)$ for the Hayward black hole, scalar field, $\ell=0..5$, and find suppression at low frequency consistent with the regular-core structure." Concrete, novel, reproducible.</li>
+        <li>"We propose a new derivation of $S = A/4$ using only entanglement of small causal diamonds." (Jacobson 2015.)</li>
+        <li>"We compute greybody factors for spacetime X using a PINN, demonstrating accuracy comparable to continued fractions at 10× the speed. Reproducible code released." Method paper.</li>
+      </ul>
+    </div>
+
+    <div class="no"><span class="label">No — not a paper</span>
+      <ul>
+        <li>"We re-derive the Schwarzschild greybody factors using the standard method." No novelty.</li>
+        <li>"We propose that black holes are composed of stringy fuzz." No calculation, no soundness.</li>
+        <li>"We compute $\Gamma_{\omega\ell}$ for the Bardeen spacetime, but our results disagree with Rincón–Santos 2020 by orders of magnitude with no explanation." Likely unsound.</li>
+        <li>"We comment on a recent paper's typo." Unless the typo invalidates a major result.</li>
+      </ul>
+    </div>
+
+    <div class="maybe"><span class="label">Maybe — depends on framing</span>
+      <ul>
+        <li>"We provide a pedagogical introduction to the Jacobson derivation accessible to early-career students." Possibly for AJP (American Journal of Physics).</li>
+        <li>"We solve a special case of a known problem cleanly." If the special case is interesting or the cleanness is itself the contribution.</li>
+        <li>"We extend a known result from $D=4$ to $D=5$." If the extension is non-trivial.</li>
+      </ul>
+    </div>
+
+    <h2 class="module" id="M3"><span class="mnum">Module 3</span>Six self-tests — apply before writing</h2>
+
+    <ol class="body">
+      <li><strong>Can you write the abstract in 4 sentences right now?</strong> (Problem, method, result, why it matters.) If yes, you probably have a paper. If you struggle past the second sentence, you do not yet have a result; you have an aspiration.</li>
+      <li><strong>Can someone cite you for a specific reason?</strong> Imagine a future paper writing "$X$ shown that..." — what fills the blank? If you can't fill it cleanly, the contribution isn't sharp enough.</li>
+      <li><strong>What's the one number, one equation, or one plot that is the headline?</strong> Every paper has one. If you can't point to it, it doesn't exist yet.</li>
+      <li><strong>Can you defend the result at a seminar with five hostile questions?</strong> Imagine the questions. If they all have answers, you have a paper. If even one stumps you, fix it before writing.</li>
+      <li><strong>Has somebody done this already?</strong> Search arXiv with five different keyword combinations. If you find a paper that does what you're doing within $\epsilon$, you must either find your distinct angle or drop the project.</li>
+      <li><strong>Why would Hamming ask "why aren't you working on something more important?"</strong> Give the honest answer. If the answer is "because this is what I can finish in 6 months and it's a defensible stepping stone," that's fine. If the answer is "because I'm avoiding the harder thing I should be doing," reconsider.</li>
+    </ol>
+
+    <div class="exercise"><span class="label">Exercise</span>
+      <p>Right now, draft a 4-sentence abstract of your intended centerpiece paper. The four sentences:</p>
+      <ol>
+        <li>What is the question / open problem?</li>
+        <li>What did you do?</li>
+        <li>What did you find?</li>
+        <li>Why does it matter?</li>
+      </ol>
+      <p>If you cannot do this exercise, you don't have a paper yet. You have an intention. The first action item is to refine the question until you can.</p>
+    </div>
+
+    <!-- ===================================================================
+         PART II — EXEMPLARS
+         =================================================================== -->
+
+    <h2 class="module" id="M4"><span class="mnum">Module 4</span>Short classics — read for style</h2>
+
+    <p>The best way to learn paper-writing is to study short, excellent papers as models. The papers below are all short (the longest is 22 pages). All have changed the field. Each one teaches a different lesson about craft.</p>
+
+    <div class="exemplar"><span class="label">Exemplar 4.1</span>
+      <p><strong>Bekenstein, "Black holes and entropy," PRD 7, 2333 (1973).</strong> <em>~12 pages.</em></p>
+      <p><strong>Why read it:</strong> the introduction of black hole entropy. A short, audacious paper that proposes one of the most important formulas in physics ($S = A/4$) on dimensional and information-theoretic grounds, before Hawking had any quantum derivation. The argument structure is principle-driven and clear.</p>
+      <p><strong>What to copy:</strong> the way a result is motivated by a thought experiment (lowering a particle into a black hole) before any equations. Read for the argument's <em>logical spine</em>, not the math.</p>
+      <p><strong>Access:</strong> PRD, paywalled. Library or university access. Not in your corpus.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Exemplar 4.2</span>
+      <p><strong>Unruh, "Notes on black-hole evaporation," PRD 14, 870 (1976).</strong> <em>~22 pages.</em></p>
+      <p><strong>Why read it:</strong> clarifies and sharpens Hawking 1975 with the Unruh effect. The paper is a model of how to extend a major result by isolating the simplest core argument.</p>
+      <p><strong>What to copy:</strong> the way an existing famous result is re-derived from a cleaner starting point. This pattern — "here is a clearer way to see what was already known" — is a respectable paper genre in itself.</p>
+      <p><strong>Access:</strong> PRD, paywalled.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Exemplar 4.3</span>
+      <p><strong>Jacobson, "Thermodynamics of spacetime: The Einstein equation of state," PRL 75, 1260 (1995).</strong> <em>9 pages.</em></p>
+      <p><strong>Why read it:</strong> the canonical short conceptual paper of the last 30 years. Four ingredients, one identity, the entire Einstein equation derived. PRL letter format forces extreme compression — and the paper benefits.</p>
+      <p><strong>What to copy:</strong> the compression itself. Every paragraph carries weight. There is no padding. The conclusion arrives in 9 pages because every step is necessary.</p>
+      <p><strong>Access:</strong> <a href="../papers/exemplars/Jacobson1995_EinsteinEquationOfState.pdf"><code>papers/exemplars/Jacobson1995_EinsteinEquationOfState.pdf</code></a> (already on disk).</p>
+    </div>
+
+    <h2 class="module" id="M5"><span class="mnum">Module 5</span>Numerical exemplars — your closest models</h2>
+
+    <p>For a numerical first paper, the most directly relevant exemplars are pre-2000 PRD papers that established the templates of the genre.</p>
+
+    <div class="exemplar"><span class="label">Exemplar 5.1 — your direct template</span>
+      <p><strong>Page, "Particle emission rates from a black hole: Massless particles from an uncharged, nonrotating hole," PRD 13, 198 (1976).</strong> <em>~9 pages.</em></p>
+      <p><strong>Why read it:</strong> the canonical numerical-greybody paper. Computes $\Gamma_{\omega\ell}$ for Schwarzschild for scalar, photon, graviton — tabulated values that have been benchmarked against for fifty years. <em>This is the paper your centerpiece paper is modeled on.</em></p>
+      <p><strong>What to copy:</strong> (i) the structure — set up the problem, state the numerical method, present tables of results, end with the integrated emission spectrum. (ii) the discipline of providing tables that other people can benchmark against. (iii) the brevity — no padding.</p>
+      <p><strong>Access:</strong> PRD, paywalled. Library access. The most important paper for you to read is the most awkward to obtain.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Exemplar 5.2 — method paper</span>
+      <p><strong>Leaver, "An analytic representation for the quasinormal modes of Kerr black holes," Proc. Roy. Soc. A 402, 285 (1985).</strong> <em>~14 pages.</em></p>
+      <p><strong>Why read it:</strong> the introduction of the continued-fraction method for QNMs. A method paper that has been the workhorse of numerical black hole physics for forty years.</p>
+      <p><strong>What to copy:</strong> the architecture of a method paper. State the problem, derive the algorithm, demonstrate accuracy on known cases, apply to a new case. If your paper's contribution is partly methodological (e.g., a ML emulator alongside classical numerics), this is the structural template.</p>
+      <p><strong>Access:</strong> Proc. Roy. Soc., paywalled.</p>
+    </div>
+
+    <h2 class="module" id="M6"><span class="mnum">Module 6</span>Modern landmarks</h2>
+
+    <div class="exemplar"><span class="label">Exemplar 6.1</span>
+      <p><strong>Strominger &amp; Vafa, "Microscopic origin of the Bekenstein–Hawking entropy," PLB 379, 99 (1996).</strong> <em>12 pages.</em></p>
+      <p><strong>Why read it:</strong> a short paper that explicitly computes $S = A/4$ from D-brane microstate counting for a specific extremal black hole. The entire derivation in 12 pages. A masterclass in conveying a result with global implications via a single concrete calculation.</p>
+      <p><strong>What to copy:</strong> the discipline of choosing the <em>simplest non-trivial case</em> that proves your point. The paper does not try to derive $S = A/4$ for all black holes; it derives it exactly for one. The general lesson follows from the example.</p>
+      <p><strong>Access:</strong> <a href="../papers/string_theory/StromingerVafa1996_BHEntropy.pdf"><code>papers/string_theory/StromingerVafa1996_BHEntropy.pdf</code></a>.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Exemplar 6.2</span>
+      <p><strong>Maldacena, "The large N limit of superconformal field theories and supergravity," Adv. Theor. Math. Phys. 2, 231 (1997).</strong> <em>22 pages.</em></p>
+      <p><strong>Why read it:</strong> proposes AdS/CFT. The most-cited paper in theoretical physics since Einstein 1916. Worth studying as a model of how to propose a framework: the actual claim is hedged carefully, the evidence is laid out step by step, and the implications are sketched without being over-claimed.</p>
+      <p><strong>What to copy:</strong> the way a sweeping claim is presented with carefully bounded evidence. The paper does not overclaim what it has proven.</p>
+      <p><strong>Access:</strong> <a href="../papers/string_theory/Maldacena1997_AdSCFT.pdf"><code>papers/string_theory/Maldacena1997_AdSCFT.pdf</code></a>.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Exemplar 6.3 — modern format</span>
+      <p><strong>Penington, "Entanglement wedge reconstruction and the information paradox," JHEP 09 (2020) 002, arXiv:1905.08255.</strong> <em>~75 pages.</em></p>
+      <p><strong>Why read it:</strong> a modern long-form theoretical paper. One of two simultaneous papers that resurrected the information paradox after 40 years. Read for the structure of a long paper that nevertheless reads cleanly: a clear introduction that surveys the question, careful step-by-step setup of the calculation, an explicit "main result" boxed equation, extensive discussion of implications.</p>
+      <p><strong>What to copy:</strong> how a long paper organizes its sections so a reader can navigate. The table of contents and roadmap paragraph in the introduction are tutorial-quality.</p>
+      <p><strong>Access:</strong> <a href="../papers/exemplars/Penington2019_EntanglementWedgeIslands.pdf"><code>papers/exemplars/Penington2019_EntanglementWedgeIslands.pdf</code></a>.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Exemplar 6.4</span>
+      <p><strong>Almheiri, Engelhardt, Marolf, Maxfield, "The entropy of bulk quantum fields and the entanglement wedge of an evaporating black hole," JHEP 12 (2019) 063, arXiv:1905.08762.</strong> <em>~55 pages.</em></p>
+      <p><strong>Why read it:</strong> the parallel paper to Penington 2019, written by four authors. A good model of how multi-author papers carry distinct voices into a coherent presentation. Read for the introduction (model of a research-front review).</p>
+      <p><strong>Access:</strong> <a href="../papers/exemplars/AEMM2019_EntropyOfBulkQuantumFields.pdf"><code>papers/exemplars/AEMM2019_EntropyOfBulkQuantumFields.pdf</code></a>.</p>
+    </div>
+
+    <h2 class="module" id="M7"><span class="mnum">Module 7</span>How to study an exemplar — the three-pass method</h2>
+
+    <p>Don't just read these papers. Study them as artifacts. Three-pass protocol:</p>
+
+    <h4>Pass 1 — Architecture (20 min)</h4>
+    <ul>
+      <li>Read only: title, abstract, section headings, figures + captions, conclusion.</li>
+      <li>Question to answer: what is the overall claim? what is the headline result?</li>
+      <li>Write down in your own words, two sentences max.</li>
+    </ul>
+
+    <h4>Pass 2 — Argument spine (2 hours)</h4>
+    <ul>
+      <li>Read the introduction in full. Mark every paragraph with one of: motivation, prior work, contribution, roadmap.</li>
+      <li>Read the main calculation, skimming algebra. Identify the central inequality / equation / theorem.</li>
+      <li>Read the discussion carefully.</li>
+      <li>Question to answer: what is the structure of the argument? Could you sketch it in 5 bullets?</li>
+    </ul>
+
+    <h4>Pass 3 — Mechanics (1 day if you really want to learn)</h4>
+    <ul>
+      <li>Read every paragraph for craft, not for content. How is the equation set up before display? How is each figure introduced? How is prior work cited — by name and result, or by reference number only?</li>
+      <li>Note three things the paper does that you should adopt in your own writing.</li>
+      <li>Note one thing the paper does that you would do differently.</li>
+    </ul>
+
+    <p>Do this for one of the short classics (Jacobson 1995 or Strominger–Vafa 1996) this week. The lessons compound across papers.</p>
+
+    <!-- ===================================================================
+         PART III — AI IN RESEARCH — HONEST
+         =================================================================== -->
+
+    <h2 class="module" id="M8"><span class="mnum">Module 8</span>State of AI in research, mid-2026 — what's actually happening</h2>
+
+    <p>You asked me to be honest. Here is the honest assessment, from the actor whose role you are asking about.</p>
+
+    <h3>8.1 What physicists actually use AI for, today</h3>
+    <ul>
+      <li><strong>Prose drafting and polishing.</strong> Nearly universal among non-native English speakers; majority of native speakers also. Drafting introductions, polishing phrasing, restructuring paragraphs. This is the dominant use.</li>
+      <li><strong>Literature orientation.</strong> "Summarize the main results of arXiv:XXXX." "Find papers on Y by ABC." Useful but with frequent hallucinations on specifics.</li>
+      <li><strong>Code generation.</strong> Drafting numerical-method scripts (shooting methods, FFTs, plot generation). Very effective for routine code.</li>
+      <li><strong>Derivation drafting.</strong> Working through routine multi-line calculations with verification by the human. The human's role: check.</li>
+      <li><strong>Concept explanation.</strong> "Explain Wilsonian renormalization in terms of this thing I already know." Effective tutoring.</li>
+      <li><strong>Translation between formalisms.</strong> "Rewrite this in Penrose notation." "Convert this from $(-+++)$ to $(+---)$."</li>
+    </ul>
+
+    <h3>8.2 What journals require, as of 2026</h3>
+    <ul>
+      <li><strong>Nature, Science:</strong> AI tools must be disclosed. AI cannot be listed as author. Authors are responsible for content.</li>
+      <li><strong>arXiv:</strong> requires disclosure of "substantial use of generative AI tools." No specific list.</li>
+      <li><strong>APS journals (PRL, PRD):</strong> disclosure required for substantive use; AI not an author.</li>
+      <li>The norm has settled: <em>AI is a tool; you are accountable for what your paper says.</em></li>
+    </ul>
+
+    <h2 class="module" id="M9"><span class="mnum">Module 9</span>What AI is, and is not, good at — concretely</h2>
+
+    <div class="aiwhat"><span class="label">Genuinely good at</span>
+      <ul>
+        <li>Cleaning up English prose, removing redundancy, tightening sentences.</li>
+        <li>Generating boilerplate (LaTeX preamble, BibTeX entries, common plot styles).</li>
+        <li>Drafting numerical code in standard libraries (SciPy, NumPy, matplotlib).</li>
+        <li>Identifying that a derivation is wrong because of a sign or factor of 2 (basic verification).</li>
+        <li>Summarizing a paper at the level of "what is it about, what did they do, what did they find" — when the paper is in its training data.</li>
+        <li>Helping a beginner navigate unfamiliar formalism by translating to language they know.</li>
+        <li>Recognizing common patterns: "this looks like a Bogoliubov transformation," "this resembles a CFT 4-point function."</li>
+      </ul>
+    </div>
+
+    <div class="aiwhat"><span class="label">Not good at — and confidently wrong</span>
+      <ul>
+        <li>Knowing which problems are important. Physical taste is not in the training data; the field's evolving sense of what matters is.</li>
+        <li>Sustained multi-step novel reasoning. Will lose its thread in a calculation that requires holding many constraints simultaneously.</li>
+        <li>Recognizing when it has confabulated a citation, a formula, or a result. The output is fluent regardless of whether the content is real.</li>
+        <li>Distinguishing subtle valid arguments from subtle invalid ones — especially in areas where it has been trained on confused literature (foundations of QM, interpretations, fringe theories).</li>
+        <li>Finding genuine errors in published papers. Will agree with the paper.</li>
+        <li>Producing the one-line physical insight that turns a routine calculation into an interesting paper. That is the irreducibly human contribution.</li>
+        <li>Knowing when your draft is "done." Will iterate forever if asked. You decide.</li>
+      </ul>
+    </div>
+
+    <div class="warn"><span class="label">The dangerous failure mode</span>
+      <p>The dangerous failure mode is not AI generating wrong physics — that is detectable. The dangerous failure mode is <em>you delegating your understanding to AI</em>. If you use AI to "explain" something you have not worked through yourself, you have not learned it. You have outsourced the cognition. When a referee asks you a follow-up question, you will not know the answer, and you will not know that you don't know.</p>
+      <p>The temptation is highest precisely when the material is hardest. The discipline required is to do the hard work yourself <em>and then</em> use AI to verify, summarize, or polish — never to replace.</p>
+    </div>
+
+    <h2 class="module" id="M10"><span class="mnum">Module 10</span>Where it is going (5-year horizon)</h2>
+
+    <p>Predictions are unreliable but the trajectory is clear in outline:</p>
+
+    <h4>Near term (2026–2028)</h4>
+    <ul>
+      <li>AI becomes a universal research assistant. Drafting, refactoring, code-writing, literature search become AI-assisted by default.</li>
+      <li>Routine calculations (parameter scans, standard numerical methods) increasingly automated.</li>
+      <li>Most papers have some AI involvement; disclosure becomes standardized.</li>
+      <li>Some papers ship with their AI-generated code review.</li>
+    </ul>
+
+    <h4>Medium term (2028–2030)</h4>
+    <ul>
+      <li>AI begins to handle multi-step calculations reliably with verification. The Lean / Coq / formal-methods ecosystem matures; some theoretical results checked formally.</li>
+      <li>Literature synthesis at scale. "Show me every paper using the local Rindler horizon construction with f(R) gravity since 2010" becomes a working query.</li>
+      <li>Reviewers themselves use AI. The signal/noise of refereeing changes.</li>
+      <li>Specialized scientific AI (DeepMind-style applied physics agents) start producing papers — initially with strong human involvement, with the boundary increasingly hard to draw.</li>
+      <li>The skill of <em>verifying AI output</em> becomes a primary research skill.</li>
+    </ul>
+
+    <h4>Longer term (2030+)</h4>
+    <ul>
+      <li>The gap between human and AI contribution becomes harder to draw. Papers will list AI tools the way they list mathematical software now.</li>
+      <li>Some classes of research become AI-dominant (high-throughput parameter exploration, certain types of bug-finding in proofs). Others remain irreducibly human (taste, problem selection, conceptual leaps).</li>
+      <li>The premium on physical taste — knowing which problems matter — increases as routine output becomes cheap.</li>
+      <li>It is plausible that some research is produced by AI agents with human oversight; the institutional norms around this are not yet established.</li>
+    </ul>
+
+    <h3>The honest, uncomfortable summary</h3>
+    <div class="honest">
+      In five years, the routine content of most physics papers — calculations, literature reviews, exposition, code — will be substantially AI-produced and AI-verified. The hard, expensive thing will be physical insight: knowing which problem to attack, recognizing when an answer is real versus plausible-looking, identifying the connection that turns a calculation into an idea. The successful physicist of 2030 is one whose human contribution is concentrated in those upstream decisions, with the downstream execution accelerated by AI tools. The unsuccessful one is the person whose calculations and prose are AI-generated but whose understanding never caught up — they will produce mediocre work and not know that's what they are producing.
+      <span class="attr">— my honest reading, written in 2026 for the version of you that will be reading in 2030</span>
+    </div>
+
+    <h2 class="module" id="M11"><span class="mnum">Module 11</span>You, specifically</h2>
+
+    <p>You are a software engineer transitioning to physics. AI is your native tool. This is an advantage and a liability.</p>
+
+    <h4>Your advantage</h4>
+    <ul>
+      <li>You are not intimidated by AI tools. You will deploy them faster than most early-career physicists.</li>
+      <li>You can write code that uses AI APIs in your research pipeline. PINN training, GP surrogate models, automated parameter scans — all native to you.</li>
+      <li>You can prompt AI more effectively than someone who has only used it for chat. You understand how to specify tasks unambiguously.</li>
+    </ul>
+
+    <h4>Your liability — and this is sharp</h4>
+    <ul>
+      <li>You have been asking AI (me) to do an unusual amount of the cognitive work in this workspace. The HTML files, the courses, the methodology — all generated. You have read them. You have not <em>made</em> them. The distinction matters.</li>
+      <li>If you outsource the understanding of physics to AI, you will not develop the physical intuition that distinguishes real work from plausible-looking work in five years. The intuition cannot be copied from training data; it has to be grown in your own head by sitting with hard problems.</li>
+      <li>The MSc-application committee that will evaluate you is composed of physicists who themselves use AI but who can distinguish a candidate with deep physical intuition from one without. You must be the former.</li>
+    </ul>
+
+    <div class="honest">
+      I have been writing courses for you on Hawking, Jacobson, string theory, and the craft of research. The courses are accurate, more or less, and the structure is useful. But I am the one writing them. You read them. Reading is not the same as constructing. The papers I quote from Hamming and Feynman are quoted because I have seen them many times in training; you have not yet had the experience of sitting with a hard derivation alone for three hours and surfacing exhausted but with a result of your own. That experience is not replaceable. It is what makes a physicist.
+      <span class="attr">— honestly, your AI</span>
+    </div>
+
+    <h2 class="module" id="M12"><span class="mnum">Module 12</span>Practical rules — what to do tomorrow</h2>
+
+    <p>Concrete operational rules, distilled from the above.</p>
+
+    <ol class="body">
+      <li><strong>Compute first, ask later.</strong> Do the calculation by hand or in your own code before asking AI to explain or check it. If you do not have your own attempt, you cannot evaluate the AI's answer.</li>
+      <li><strong>Use AI for prose polish, not prose generation.</strong> Write a rough paragraph yourself. Ask AI to tighten it. Do not skip the rough draft.</li>
+      <li><strong>Verify every citation.</strong> AI hallucinates references with high confidence. Click through every arXiv link before citing.</li>
+      <li><strong>Use AI as a search tool, not as a source.</strong> "Are there papers on $X$?" is a fine query. "What does paper $Y$ say?" requires you to read paper $Y$ yourself.</li>
+      <li><strong>Disclose AI use.</strong> Per arXiv and journal policies. A footnote in the acknowledgments is sufficient: "We used [AI tool] for [specific tasks]."</li>
+      <li><strong>Maintain a "no AI" practice block.</strong> At least one block per day, do physics with paper, pen, and your own laptop's REPL — no AI assistant. This is where the intuition gets built.</li>
+      <li><strong>When stuck, sit with it longer before reaching for AI.</strong> The first half-hour of frustration is where understanding gets built. Skipping it short-circuits the learning.</li>
+      <li><strong>Treat AI output as a draft, never as final.</strong> Edit, rewrite, verify. If you can't tell whether a sentence in your paper is right, do not include it.</li>
+    </ol>
+
+    <!-- ===================================================================
+         PART IV — DECISION
+         =================================================================== -->
+
+    <h2 class="module" id="M13"><span class="mnum">Module 13</span>Pre-paper checklist — do you have a paper?</h2>
+
+    <p>The decision tree, before committing months to a write-up:</p>
+
+    <pre>
+─────────────────────────────────────────────────────────────
+1.  Can I state the result in one sentence?
+        no  →  refine the question; you don't have a paper yet
+        yes →  continue
+                        ↓
+2.  Is the result new? (search arXiv with 5 keyword combos)
+        no  →  identify your distinct angle, OR drop project
+        yes →  continue
+                        ↓
+3.  Is the calculation/argument sound, end to end,
+    reproducible from the methods I will describe?
+        no  →  finish the calculation before writing
+        yes →  continue
+                        ↓
+4.  Does the result advance my field's question or
+    open a new question?
+        no  →  it may still be publishable but lower-tier;
+               reconsider scope
+        yes →  continue
+                        ↓
+5.  Can a hostile referee object to it without breaking
+    the result?
+        no  →  good — write
+        yes →  fix the gap first, then write
+                        ↓
+6.  Can I imagine a future paper citing mine for
+    something specific?
+        no  →  the contribution is too vague
+        yes →  WRITE THE PAPER
+─────────────────────────────────────────────────────────────
+</pre>
+
+    <p>Run this checklist for your centerpiece paper now. Honestly. Write the answers down, even one sentence per node. If you cannot pass node 1 or 2, the work to do first is not writing — it is sharpening the question. If you cannot pass node 3, the work is not writing — it is finishing the calculation. Only when all six pass do you commit to the months of write-up.</p>
+
+    <hr>
+
+    <h3>Closing — and what I'd actually do if I were you</h3>
+
+    <p>Read Page 1976 (library access). Build the Schwarzschild benchmark in Python — by yourself, no AI for the physics, only for syntax debugging. Match Page's Table II to three digits. That is one week of work and produces something nobody else can take from you.</p>
+
+    <p>Then ask Hamming's questions weekly. If the greybody paper still feels worth doing, commit. If it doesn't, switch — but switch <em>once</em>, deliberately, after thinking, not in response to fatigue.</p>
+
+    <p>Do not let me write your physics. I cannot do it. The papers and courses I have made for you are useful, but the work that makes you a physicist is the work I cannot do — sitting with the hard derivation, alone, until it cracks.</p>
+
+    <!-- ===================================================================
+         PART V — DEEPER RESEARCH: EVIDENCE-BASED 2026 STATE
+         Appended after parallel-agent research surveys. Citation-dense.
+         =================================================================== -->
+
+    <h2 class="module" id="M14"><span class="mnum">Module 14</span>What has actually shipped — evidence catalog (mid-2026)</h2>
+
+    <p>The Part III modules above were too conservative. The honest 2026 catalog of AI-in-physics deliverables — only shipped results, with citations — is in this and the next four modules. Compiled by three parallel research agents in May 2026. Every citation can be verified by the reader.</p>
+
+    <h3>14.1 The strongest single data point</h3>
+
+    <div class="exemplar"><span class="label">AI Co-Scientist + Gemini Deep Think</span>
+      <p><strong>Cosmic-string gravitational-wave power spectra (February 2026).</strong> Google's AI Co-Scientist (Feb 2025, multi-agent generate–debate–evolve over Gemini) combined with Deep Think tree search <em>derived new exact analytical solutions</em> for cosmic-string GW power spectra. The follow-up paper from Pushmeet Kohli's group is the most credible "AI did real theoretical physics" data point to date — a closed-form result, not just a fit. Read this as the bellwether.</p>
+      <p>References: AI Co-Scientist announcement, research.google/blog/accelerating-scientific-breakthroughs-with-an-ai-co-scientist/ (Feb 2025); follow-up cosmic-string paper Feb 2026.</p>
+    </div>
+
+    <h3>14.2 LLM-supervised theoretical physics</h3>
+
+    <div class="exemplar"><span class="label">Schwartz (Harvard) × Claude Opus 4.5</span>
+      <p><strong>QFT factorization theorem (arXiv, 5 Jan 2026).</strong> Matthew Schwartz supervised Claude Opus 4.5 through a factorization theorem in QFT. The paper was posted to arXiv on January 5, 2026. Schwartz publicly rated the model's contribution at "G2 graduate student" level and estimated 1–2 years of work were compressed into two weeks. Anthropic published this as a case study under the label "Vibe Physics."</p>
+      <p>References: anthropic.com/research/vibe-physics; arXiv Jan 2026.</p>
+    </div>
+
+    <h3>14.3 AI-designed experimental apparatus</h3>
+
+    <div class="exemplar"><span class="label">Krenn (Tübingen) — Urania algorithm</span>
+      <p><strong>LIGO interferometer redesign (Phys. Rev. X, Feb 2025).</strong> Mario Krenn's Urania algorithm designed LIGO interferometer layouts <em>10–15% more sensitive</em> than current designs, in the process rediscovering forgotten Soviet-era squeezed-light proposals. Featured in Quanta Magazine, July 21, 2025 — "AI Comes Up With Bizarre Physics Experiments. But They Work."</p>
+      <p>References: PRX Feb 2025; quantamagazine.org/ai-comes-up-with-bizarre-physics-experiments-but-they-work-20250721/.</p>
+    </div>
+
+    <h3>14.4 Other shipped 2024–2026 results</h3>
+
+    <ul>
+      <li><strong>Sakana AI Scientist v2</strong> (arXiv:2504.08066, April 2025) — produced the <em>first fully AI-generated paper accepted at an ICLR 2025 workshop</em> (not main track). Cost ~$50–200 of compute per cycle. ML domain only; no physics analogue yet. github.com/SakanaAI/AI-Scientist-v2.</li>
+      <li><strong>FermiNet excited states</strong> (Pfau et al., Science 385, eadn0137, Aug 2024; DOI:10.1126/science.adn0137) — neural-network quantum many-body excited-state computation, benchmark-beating on small molecules.</li>
+      <li><strong>DINGO-BNS gravitational-wave Bayesian inference</strong> (Dax et al., PRL 134, 011403, Jan 2025; arXiv:2407.09602) — full BNS posterior in ~1 second, fast enough for <em>pre-merger</em> alerts. Classical pipelines cannot do this.</li>
+      <li><strong>Calabi–Yau metric learning</strong> (Berglund et al., arXiv:2211.09801 + 2024 followups including arXiv:2401.04075) — ML-computed Ricci-flat metrics good enough for physical Yukawa couplings. String-landscape program: Constantin–Harvey–Lukas–Ruehle review at arXiv:2502.03245.</li>
+      <li><strong>AlphaProof</strong> (DeepMind, Nature 2025; DOI:10.1038/s41586-025-09833-y) — IMO 2024 silver-medal level in Lean. Operates on Mathlib; physics is out of scope as long as Mathlib's Lorentzian geometry is absent.</li>
+      <li><strong>AlphaEvolve</strong> (Google DeepMind, Nov 2025; arXiv:2511.02864) — Gemini-driven evolutionary coding agent. Recovered best-known solutions on 67 math problems, improved several.</li>
+      <li><strong>Physics Supernova</strong> (Mengdi Wang, Princeton) — physics-tuned agent, 23.5/30 on the 2025 International Physics Olympiad. Olympiad ≠ research, but signals capability at undergraduate end-of-pipeline tasks.</li>
+      <li><strong>Lattice QCD flow-based sampling</strong> (Albergo, Kanwar, Shanahan et al.) — normalizing-flow samplers (arXiv:2211.07541, PRD 106, 014514, etc.). Efficiency claims, no new physics yet.</li>
+    </ul>
+
+    <h3>14.5 What is documented as NOT shipped (gaps worth knowing)</h3>
+
+    <div class="warn"><span class="label">Honest gaps</span>
+      <ul>
+        <li>No verified symbolic-regression result that is <em>genuinely new physics</em> (rather than rediscovery or empirical fit) as of mid-2026. PySR and AI Feynman re-find Newton, Maxwell, Kepler reliably. The new-discovery list is essentially empty.</li>
+        <li>No physics analogue of Sakana's peer-reviewed AI-authored paper has cleared even workshop-level review.</li>
+        <li>No PRL, PRD, or Nature Physics editorial specifically setting policy on AI-assisted theoretical physics manuscripts (compare to Nature's general policy, Nature 613, 612, Jan 2023).</li>
+        <li>No systematic peer-reviewed benchmark of LLM performance on <em>graduate-level</em> physics derivations. GPQA (Rein et al., arXiv:2311.12022) and FrontierMath (Glazer et al., arXiv:2411.04872) touch this but are multiple-choice or math-only. Lean4Physics (arXiv:2510.26094) is college-level.</li>
+      </ul>
+    </div>
+
+    <div class="aiwhat"><span class="label">Methodology caveats — read these</span>
+      <ul>
+        <li>Messeri &amp; Crockett, <em>"Artificial intelligence and illusions of understanding in scientific research,"</em> Nature 627, 49 (March 2024; DOI:10.1038/s41586-024-07146-0) — most-cited recent caution about AI-induced illusions.</li>
+        <li>Sakana AI Scientist v1 paper (arXiv:2408.06292) §6 + appendix — the most useful first-person catalog of LLM failure modes in a research pipeline: fabricated citations, miscomputed statistics, self-grading bias.</li>
+        <li>BrokenMath (arXiv:2510.04721) — LLM provers are documented as sycophantic on open problems (will agree with whatever you suggest).</li>
+        <li>Nature, <em>"AI tools expand scientists' impact but contract science's focus"</em> (DOI:10.1038/s41586-025-09922-y, late 2025) — empirical finding: AI use <em>narrows</em> what the collective field investigates, even while expanding individual reach. Read as a strategic opportunity: work on what AI doesn't suggest.</li>
+      </ul>
+    </div>
+
+    <h2 class="module" id="M15"><span class="mnum">Module 15</span>Formal methods — Lean × AI × physics, where it actually stands</h2>
+
+    <p>The formal-verification + AI-for-math arc is where mathematical physics gets touched first. Honest current state:</p>
+
+    <h3>15.1 The first non-trivial QFT formalization</h3>
+
+    <div class="exemplar"><span class="label">Constructive QFT in Lean 4 (March 2026)</span>
+      <p><strong>arXiv:2603.15770.</strong> A Harvard/MIT team formalized the construction of free bosonic QFT in 4D Euclidean spacetime satisfying the Glimm–Jaffe / Osterwalder–Schrader axioms in Lean 4. Initially assumed Minlos' theorem, nuclearity of Schwartz space, and Goursat — all <em>subsequently discharged</em>. This is the first non-trivial constructive-QFT result in a proof assistant. The greybody-factor calculation is, in principle, within reach of a Mathlib + PhysLean stack once Lorentzian geometry matures.</p>
+    </div>
+
+    <h3>15.2 Schwarzschild geometry, formally</h3>
+
+    <p>The Schwarzschild curvature pipeline has been mechanized in Lean 4 (~16k lines, ResearchGate item 400459124, 2026): $g_{\mu\nu} \to \Gamma \to R^\rho{}_{\sigma\mu\nu} \to R_{\mu\nu} \to K$, verifying $R_{\mu\nu} = 0$ in the exterior and $K = 48 M^2/r^6$. This is a textbook coordinate computation, not a theorem about families of solutions.</p>
+
+    <h3>15.3 What is NOT in Mathlib (for physicists)</h3>
+
+    <ul>
+      <li>Industrial-strength <strong>tensor calculus with abstract-index notation</strong>. There are partial implementations; nothing a physicist would actually use.</li>
+      <li><strong>Lorentzian causality theory</strong>: achronal sets, trapped surfaces, focusing of null geodesics. None of the Penrose/Hawking machinery for singularity theorems exists.</li>
+      <li><strong>Hawking's area theorem, Penrose's 1965 singularity theorem</strong>: not formalized in Lean, Coq, or Isabelle. Estimated 3–5 years minimum.</li>
+      <li>String-theory math: <strong>vertex operator algebras, modular tensor categories, characters of affine Lie algebras</strong>. Essentially absent from Mathlib. The biggest gap; unlikely to close on a 2–3 year timescale.</li>
+    </ul>
+
+    <h3>15.4 The LLM-prover stack (Lean-native)</h3>
+
+    <ul>
+      <li><strong>Kimina-Prover</strong> — 92.2% on miniF2F (arXiv:2504.11354).</li>
+      <li><strong>DeepSeek-Prover-V2</strong> — top contender on competition math.</li>
+      <li><strong>InternLM2-Step-Prover</strong> — Lean step-by-step proof generation.</li>
+      <li><strong>Lean Copilot</strong> (arXiv:2404.12534) — IDE-integrated tactic suggestion.</li>
+      <li><strong>Ax-Prover</strong> (arXiv:2510.12787, Oct 2025) — first agentic Lean workflow targeting research-level math and quantum physics.</li>
+      <li>Coverage: competition math and undergraduate real analysis. <em>Physics is out of reach</em> until Mathlib's geometry/topology catches up.</li>
+    </ul>
+
+    <h3>15.5 Physics-specific Lean tooling</h3>
+
+    <ul>
+      <li><strong>PhysLean / PhysLib</strong> (arXiv:2405.08863, merging with Lean-QuantumInfo at github.com/leanprover-community/physlib) — has Wick's theorem, QM scaffolding, E&amp;M bits.</li>
+      <li><strong>Generalized Quantum Stein's Lemma</strong> formalized (arXiv:2510.08672).</li>
+      <li><strong>Tooby-Smith 2025</strong>: used Lean to find a <em>real error</em> in a 2006 two-Higgs-doublet stability paper. This is the first documented Lean find of a published-but-wrong physics result.</li>
+    </ul>
+
+    <h3>15.6 Symbolic regression — the underrated near-term lever</h3>
+
+    <ul>
+      <li><strong>PySR</strong> (Cranmer, arXiv:2305.01582; github.com/MilesCranmer/PySR) — now standard in LHC precision-observable pipelines (arXiv:2412.07839).</li>
+      <li><strong>QDSR</strong> (arXiv:2503.19043) — 91.6% exact recovery on the AI-Feynman benchmark.</li>
+      <li><strong>AI Poincaré</strong> (Liu–Tegmark, arXiv:2011.04698) — auto-discovers conserved quantities, including for the gravitational 3-body problem.</li>
+      <li><strong>KAN-based discovery</strong> ("Kolmogorov–Arnold Networks Meet Science," Phys. Rev. X) — extending symbolic-regression to Lie-algebra identification.</li>
+      <li><em>Bottom line</em>: rediscovery, not discovery. The win is interpretability + acceleration. For your centerpiece paper, PySR on greybody-factor data could yield closed-form approximations that are publishable in their own right.</li>
+    </ul>
+
+    <h2 class="module" id="M16"><span class="mnum">Module 16</span>The practical 2026 research stack</h2>
+
+    <p>What an actively working AI-augmented physicist uses end-to-end, mid-2026:</p>
+
+    <pre>
+LAYER                  TOOL                            ROLE
+─────────────────────────────────────────────────────────────────────
+Code editing/IDE       Cursor + Claude Code            primary
+                       OpenAI Codex                    secondary
+                       (these are composing,
+                        not consolidating)
+
+Synthesis & writing    Claude Opus 4.7                 main draft+critique
+                       Claude Sonnet 4.6 (1M ctx)      workhorse
+                       Claude Haiku 4.5                grunt tasks
+
+Theoretical            Gemini Deep Think               ONLY system
+derivation                                             with public
+                                                       theoretical-physics
+                                                       derivation wins
+                                                       (cosmic-string spectra)
+
+Formal verification    Lean + mathlib (>210k thms)     theorem proving
+                       PhysLean / PhysLib              physics primitives
+                       SciLean                         scientific computing
+                       Ax-Prover (arXiv:2510.12787)    agentic Lean
+
+Symbolic               Wolfram Notebook Assistant      mature integration
+computation            (Mathematica 14.2/14.3)         RAG + Wolfram Lang
+                       SymPy + LLM wrapper             open-source
+
+Literature             FutureHouse Crow                general lit QA
+                       FutureHouse Falcon              deep lit review
+                       OpenAI Deep Research            triage
+                       Claude + Zotero (via MCP)       personal corpus
+
+Knowledge graphs       — no winner yet —               opportunity area
+</pre>
+
+    <div class="warn"><span class="label">Stack notes — read these</span>
+      <ul>
+        <li>FutureHouse (Andrew White, Sam Rodriques; the user's earlier "Pierson" reference was wrong) is biology/chemistry-focused. There is no FutureHouse physics agent. They spun out Edison Scientific ($70M, Nov 2025) for pharma.</li>
+        <li>Gemini Deep Think currently dominates published theoretical-physics derivation wins. Claude and GPT-4 are strong on prose, code, and synthesis but have no peer-reviewed analytical-physics result.</li>
+        <li>Wolfram + LLM is the most mature symbolic stack — Mathematica 14.2/14.3's RAG + computation-augmented generation actually works.</li>
+        <li>No physics-specific knowledge-graph tool has won. This is a real product opportunity for someone with a CS background.</li>
+      </ul>
+    </div>
+
+    <h2 class="module" id="M17"><span class="mnum">Module 17</span>Named cases — who is actually doing this</h2>
+
+    <h3>17.1 Three case studies</h3>
+
+    <div class="exemplar"><span class="label">Matthew Schwartz (Harvard)</span>
+      <p>Theoretical particle physicist. Used Claude Opus 4.5 as a research partner to derive a QFT factorization theorem; arXiv preprint Jan 5, 2026. His public estimate: current frontier LLMs are at "G2 graduate student" level, compressing 1–2 years of routine technical derivation work into two weeks under supervision. Anthropic's "Vibe Physics" case study is the public artifact. <em>This is the model to follow for your own work.</em></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Mario Krenn (MPL → Tübingen)</span>
+      <p>Algorithmic physicist; created Urania (the LIGO-design algorithm) and the "Adaptive AI Scientist" framework. Recently appointed to a chair at Tübingen: <em>"Machine Learning for Science"</em> (March 2025) — one of the few cleanly-named "AI for Physics" full professorships created in the period.</p>
+    </div>
+
+    <div class="exemplar"><span class="label">Mengdi Wang (Princeton)</span>
+      <p>Created the Physics Supernova agent (23.5/30 on IPhO 2025). Worth tracking for production-grade physics-tuned agent architectures.</p>
+    </div>
+
+    <h3>17.2 Institutional response</h3>
+
+    <ul>
+      <li><strong>IAIFI</strong> (NSF AI Institute, MIT/Harvard/Northeastern/Tufts) — created a physics + statistics + data-science PhD pathway with MIT IDSS. <em>About 10% of MIT physics PhD students now take it</em>, per MIT News "3 Questions" (March 2026). The Jan 2025 IAIFI Workshop on the Future of AI+MPS called for "centaur scientists" and interdisciplinary hiring.</li>
+      <li><strong>Simons Collaboration on the Physics of Learning</strong> (Stanford-led, postdoc deadline Dec 2025) — most visible new program in this space.</li>
+      <li><strong>Most other top departments</strong> (Stanford, Caltech, Cambridge, Princeton, IAS): no formal PhD program changes as of May 2026. IAS remains conventional.</li>
+      <li><strong>APS News, April 2026</strong>: <em>"How are physicists feeling about AI?"</em> — useful community-temperature data, aps.org/apsnews/2026/04/how-physicists-feeling-ai.</li>
+    </ul>
+
+    <h3>17.3 The high-theory silence</h3>
+
+    <div class="honest">
+      Witten, Maldacena, Susskind — no on-record position papers on AI workflows for theoretical physics as of May 2026. The silence is itself notable. Hassabis has publicly said his original motivation for AI was that <em>physics had stagnated since the 1970s</em>. The closest serious engagement from the high-theory camp is the arXiv preprint <em>"Can Theoretical Physics Research Benefit from Language Agents?"</em> (arXiv:2506.06214, June 2025) — read it; it is the only such paper.
+      <span class="attr">— pattern observation, May 2026</span>
+    </div>
+
+    <h2 class="module" id="M18"><span class="mnum">Module 18</span>2030 prognosis — triangulated honestly</h2>
+
+    <p>Three credible voices on the 3–5 year horizon. Triangulate them.</p>
+
+    <div class="aiwhat"><span class="label">The three datapoints</span>
+      <ul>
+        <li><strong>Demis Hassabis</strong> (Cambridge lecture March 2025, Dwarkesh interview): AI is <em>5–10 years from "true innovation and creativity"</em>; current systems cannot generate genuinely new hypotheses unaided.</li>
+        <li><strong>Matthew Schwartz</strong> (working physicist, after the Vibe Physics paper): current LLMs are at G2-grad-student level on derivations; expert-supervised LLM accelerates technical work by <em>~50× in narrow tasks</em>.</li>
+        <li><strong>Sam Altman</strong> (TechCrunch, October 28, 2025): a <em>"legitimate AI researcher" by 2028</em>. This is the most aggressive number on the table, from the most commercially-interested speaker.</li>
+      </ul>
+    </div>
+
+    <h3>18.1 The triangulated central expectation</h3>
+
+    <div class="honest">
+      By 2029–2030, <em>expert-supervised AI as a 10–100× productivity multiplier in technical-derivation-heavy subfields</em> is the central, defensible expectation. Fully autonomous theoretical discovery is not on any credible near-term roadmap. The Witten/Maldacena/Susskind silence suggests the high-theory community either does not yet take AI seriously or is using and not saying. Both interpretations matter; neither is "AI is about to do everything."
+      <span class="attr">— Hassabis × Schwartz × Altman triangulation, May 2026</span>
+    </div>
+
+    <h3>18.2 Faster than expected (so far)</h3>
+    <ul>
+      <li>AI-designed experimental apparatus (Krenn/Urania → LIGO).</li>
+      <li>Formal-math agents (AlphaProof, AlphaEvolve).</li>
+      <li>LLM-supervised derivations producing publishable theory (Schwartz).</li>
+      <li>Cosmic-string GW power-spectrum derivation (AI Co-Scientist + Deep Think, Feb 2026) — the strongest single data point that AI can do exact analytical work in a physics context.</li>
+    </ul>
+
+    <h3>18.3 Slower than expected</h3>
+    <ul>
+      <li>Autonomous hypothesis generation (Hassabis's own admission: 5–10 years).</li>
+      <li>Reliable citation. Hallucination is not solved.</li>
+      <li>Physical-intuition / approximation judgment (arXiv:2506.06214 documents this explicitly).</li>
+      <li>Any agent operating independently in theoretical physics.</li>
+      <li>Sakana's peer-reviewed paper was at workshop level in ML, not at journal level in physics.</li>
+    </ul>
+
+    <h2 class="module" id="M19"><span class="mnum">Module 19</span>Updated implications for you</h2>
+
+    <p>The previous Modules 11–12 of this file are not wrong, but the new evidence sharpens them. Concrete updates:</p>
+
+    <div class="yes"><span class="label">Do — sharpened</span>
+      <ul>
+        <li><strong>Adopt the Schwartz pattern.</strong> Physicist supervises LLM through a real derivation; verifies every step; ships the paper. This is the model. Anthropic's Vibe Physics case study is your template; Claude Opus 4.7 is the current best partner for synthesis.</li>
+        <li><strong>Add PySR to your centerpiece paper.</strong> Symbolic regression on your numerical $\Gamma_{\omega\ell}$ data may produce closed-form approximations that are publishable as a follow-up note in their own right. arXiv:2305.01582.</li>
+        <li><strong>Track IAIFI announcements</strong> and the Simons Physics of Learning postdoc cycle. These are the most credible new institutional pathways for someone wanting to do AI-augmented physics formally.</li>
+        <li><strong>Read arXiv:2506.06214</strong> ("Can Theoretical Physics Research Benefit from Language Agents?"). The only thoughtful paper in this space; cite it in any application essay where you discuss AI methodology.</li>
+        <li><strong>Aim to be the "Schwartz-style" supervisor within 2 years.</strong> This is a concrete career target: by mid-2028, you should have one paper where you supervised an LLM through a non-trivial derivation, with full verification, and shipped.</li>
+      </ul>
+    </div>
+
+    <div class="no"><span class="label">Avoid — sharpened</span>
+      <ul>
+        <li><strong>Do not pick pure-calculation subfields</strong> for your career bet. Lattice QCD, parameter-scan phenomenology, routine numerical relativity — these will be commodity within 3 years. Your contribution becomes replaceable. <em>The greybody-factor centerpiece is borderline</em>: it is fine as a first paper, but the second paper must move toward something where human judgment is load-bearing (see [3] and [5] from yesterday's project list).</li>
+        <li><strong>Do not delegate physical understanding to AI.</strong> The "G2 grad student" rating from Schwartz means current LLMs are competent under <em>expert supervision</em>. You must become the expert; the LLM is the grad student. Reverse this and you become unable to verify, unable to defend, unemployable.</li>
+        <li><strong>Do not follow the FutureHouse trap.</strong> Most AI-for-science tooling in 2026 is biology/chemistry-focused. Physics-specific agent tooling is underdeveloped — which means there is room to build it. If you can ship even a small open-source physics-agent tool (e.g., a Lean-physics autocomplete or a greybody-factor benchmark suite), that is a real differentiator.</li>
+      </ul>
+    </div>
+
+    <div class="warn"><span class="label">The strategic point you should not miss</span>
+      <p>Nature (DOI:10.1038/s41586-025-09922-y, late 2025) documents that AI use <em>narrows</em> what the collective field investigates while expanding individual reach. <strong>Most physicists are converging on the same AI-suggested directions.</strong> Your competitive advantage is to deliberately work on what AI does not suggest — problems requiring physical taste that the field doesn't have a consensus on. Hamming's three questions (Module 3 of the Research Craft course) are not optional. They are now the single most important discipline for a 2030 career.</p>
+    </div>
+
+    <div class="honest">
+      The trajectory is faster than I admitted in Modules 8–12. It is not as fast as Altman claims. The honest center is: expert-supervised AI in 2030 is a routine multiplier; autonomous AI doing physics is not. For you, this is good news: your CS background lets you adopt the Schwartz pattern earlier than most peers. The specific risk is that you skip the "becoming the expert" step. You cannot.
+      <span class="attr">— honestly, after the agents reported back</span>
+    </div>
+
+    <hr>
+
+    <h3>Sources for Part V</h3>
+    <p>This part was compiled by three parallel research agents, May 2026. Citations above can be verified individually. The agents' raw reports are not on disk; their citations are. If you want to spot-check, start with:</p>
+    <ul>
+      <li>Schwartz / Vibe Physics — anthropic.com/research/vibe-physics</li>
+      <li>Krenn / Urania — Quanta, July 21 2025 + Phys. Rev. X Feb 2025</li>
+      <li>Cosmic-string GW spectra — AI Co-Scientist follow-up, Feb 2026</li>
+      <li>QFT in Lean 4 — arXiv:2603.15770</li>
+      <li>"Can Theoretical Physics Research Benefit from Language Agents?" — arXiv:2506.06214</li>
+      <li>Messeri &amp; Crockett, Nature 627, 49 (2024) — the methodology caveat that doesn't go away</li>
+      <li>AI narrows field focus — Nature DOI:10.1038/s41586-025-09922-y, late 2025</li>
+    </ul>
+
+    <!-- ===================================================================
+         PART VI — SUCCESSOR READING LIST
+         All papers below have been fetched to papers/bh_successors/.
+         =================================================================== -->
+
+    <h2 class="module" id="M20"><span class="mnum">Module 20</span>Successor papers — your annotated reading list</h2>
+
+    <p>The papers below are the canonical post-Hawking literature on black-hole thermodynamics, information, and emergent gravity — the ones that pick up where Hawking 1975 stopped and run the story to mid-2026. <strong>All have been fetched to <code>papers/bh_successors/</code></strong> (16 papers, ~440 pages). For each: cite key, what it does, why it matters, what to extract.</p>
+
+    <div class="reading"><span class="label">Already on disk from earlier modules</span>
+      <ul>
+        <li><a href="../papers/hawking_radiation/Hawking1975.pdf"><code>papers/hawking_radiation/Hawking1975.pdf</code></a> — the founding paper.</li>
+        <li><a href="../papers/hawking_radiation/Jacobson2003.pdf"><code>papers/hawking_radiation/Jacobson2003.pdf</code></a> — the modern pedagogical companion.</li>
+        <li><a href="../papers/hawking_radiation/Jacobson1995.pdf"><code>papers/hawking_radiation/Jacobson1995.pdf</code></a> — Einstein equation of state.</li>
+        <li><a href="../papers/string_theory/StromingerVafa1996_BHEntropy.pdf"><code>papers/string_theory/StromingerVafa1996_BHEntropy.pdf</code></a> — microscopic $S = A/4$.</li>
+        <li><a href="../papers/string_theory/Maldacena1997_AdSCFT.pdf"><code>papers/string_theory/Maldacena1997_AdSCFT.pdf</code></a> — AdS/CFT.</li>
+        <li><a href="../papers/exemplars/Penington2019_EntanglementWedgeIslands.pdf"><code>papers/exemplars/Penington2019_EntanglementWedgeIslands.pdf</code></a></li>
+        <li><a href="../papers/exemplars/AEMM2019_EntropyOfBulkQuantumFields.pdf"><code>papers/exemplars/AEMM2019_EntropyOfBulkQuantumFields.pdf</code></a></li>
+      </ul>
+    </div>
+
+    <h3>20.1 The information-paradox spine — Page → AMPS → ER=EPR → Islands</h3>
+
+    <div class="exemplar"><span class="label">Reading 20.1.1 — Page 1993 (a)</span>
+      <p><strong>D. N. Page, "Average entropy of a subsystem," PRL 71, 1291 (1993). arXiv: gr-qc/9305007. 10 pages.</strong></p>
+      <p><em>What it does:</em> proves the now-famous result that for a random pure state of a bipartite system $A \otimes B$ with $\dim A \le \dim B$, the average entanglement entropy of subsystem $A$ is very close to $\ln(\dim A)$ minus a tiny correction. <em>Why it matters:</em> the mathematical foundation of the Page curve. The "Page time" — the moment at which the radiation entropy starts to fall — comes directly from this result. <em>Extract:</em> the formula and its meaning; you will see it in every islands paper.</p>
+      <p><a href="../papers/bh_successors/Page1993a_AverageEntropy.pdf"><code>papers/bh_successors/Page1993a_AverageEntropy.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.2 — Page 1993 (b)</span>
+      <p><strong>D. N. Page, "Information in black hole radiation," PRL 71, 3743 (1993). arXiv: hep-th/9306083. 13 pages.</strong></p>
+      <p><em>What it does:</em> applies the result of 20.1.1 to Hawking radiation. Argues that if BH evaporation is unitary, the entropy of the emitted radiation must follow a curve — flat, peak, then descending — which is now called the <em>Page curve</em>. <em>Why it matters:</em> the entire islands program is the attempt to derive this curve from semiclassical gravity. Without this paper, there is no "information paradox" as we mean it today. <em>Extract:</em> the qualitative shape of the curve and its physical interpretation. The crux of every modern paper.</p>
+      <p><a href="../papers/bh_successors/Page1993b_InfoInRadiation.pdf"><code>papers/bh_successors/Page1993b_InfoInRadiation.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.3 — Susskind–Thorlacius–Uglum 1993</span>
+      <p><strong>L. Susskind, L. Thorlacius, J. Uglum, "The stretched horizon and black hole complementarity," PRD 48, 3743 (1993). arXiv: hep-th/9306069. 48 pages.</strong></p>
+      <p><em>What it does:</em> the original statement of black hole complementarity — observers outside vs. observers falling in see incompatible but locally consistent descriptions. The "stretched horizon" is the membrane at $\sim$ Planck distance outside the event horizon where the outside observer's degrees of freedom live. <em>Why it matters:</em> the whole edifice of how high-energy physicists think about BH information traces back here. AMPS 2013 is direct rebuttal; ER=EPR is the modern resolution. <em>Extract:</em> the principle, the stretched horizon picture, the formalism.</p>
+      <p><a href="../papers/bh_successors/STU1993_StretchedHorizon.pdf"><code>papers/bh_successors/STU1993_StretchedHorizon.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.4 — Hayden–Preskill 2007</span>
+      <p><strong>P. Hayden, J. Preskill, "Black holes as mirrors," JHEP 0709 (2007) 120. arXiv: 0708.4025. 18 pages.</strong></p>
+      <p><em>What it does:</em> shows that if you throw a qubit into an already-old (past Page time) black hole, you can recover it from the Hawking radiation extraordinarily quickly — within a scrambling time. <em>Why it matters:</em> a foundational result in quantum-information-applied-to-BH-physics. The "Hayden–Preskill decoding problem" is now a standard probe of holographic models. <em>Extract:</em> the protocol; the scrambling-time prediction.</p>
+      <p><a href="../papers/bh_successors/HaydenPreskill2007_BHMirrors.pdf"><code>papers/bh_successors/HaydenPreskill2007_BHMirrors.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.5 — AMPS 2013 (Firewalls)</span>
+      <p><strong>A. Almheiri, D. Marolf, J. Polchinski, J. Sully, "Black holes: complementarity or firewalls?", JHEP 02 (2013) 062. arXiv: 1207.3123. 24 pages.</strong></p>
+      <p><em>What it does:</em> argues that BH complementarity is inconsistent with unitarity, entanglement monogamy, and the equivalence principle <em>all at once</em> for old black holes. The proposed resolution is a "firewall" at the horizon — a wall of high-energy quanta destroying any infalling observer. <em>Why it matters:</em> the paper that broke open the modern information paradox debate; everything from ER=EPR through islands is partly a response. <em>Extract:</em> the trilemma argument; the precise statement of the contradiction.</p>
+      <p><a href="../papers/bh_successors/AMPS2013_Firewalls.pdf"><code>papers/bh_successors/AMPS2013_Firewalls.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.6 — Maldacena–Susskind 2013 (ER = EPR)</span>
+      <p><strong>J. Maldacena, L. Susskind, "Cool horizons for entangled black holes," Fortsch. Phys. 61, 781 (2013). arXiv: 1306.0533. 49 pages.</strong></p>
+      <p><em>What it does:</em> proposes the conjecture <em>ER = EPR</em>: two black holes connected by an Einstein–Rosen bridge (wormhole) are equivalent to two black holes in an entangled (EPR) state. Generalization: entanglement <em>is</em> geometric connectivity. <em>Why it matters:</em> the modern face of holography. Directly relevant to your project: the metric as emergent from entanglement (the deep Jacobson connection). <em>Extract:</em> the conjecture, the supporting examples, the implications for the firewall paradox.</p>
+      <p><a href="../papers/bh_successors/MaldacenaSusskind2013_ER_EPR.pdf"><code>papers/bh_successors/MaldacenaSusskind2013_ER_EPR.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.7 — AMMZ 2019 (Page curve from semiclassical geometry)</span>
+      <p><strong>A. Almheiri, R. Mahajan, J. Maldacena, Y. Zhao, "The Page curve of Hawking radiation from semiclassical geometry," JHEP 03 (2020) 149. arXiv: 1908.10996. 22 pages.</strong></p>
+      <p><em>What it does:</em> a companion to Penington 2019 and AEMM 2019; derives the descending part of the Page curve from a semiclassical bulk calculation using the "quantum extremal surface" prescription. <em>Why it matters:</em> the cleanest version of the islands argument. <em>Extract:</em> the quantum extremal surface formula; the role of replica wormholes.</p>
+      <p><a href="../papers/bh_successors/AMMZ2019_PageCurveSemiclassical.pdf"><code>papers/bh_successors/AMMZ2019_PageCurveSemiclassical.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.8 — PSSY 2019 (Replica wormholes)</span>
+      <p><strong>G. Penington, S. H. Shenker, D. Stanford, Z. Yang, "Replica wormholes and the black hole interior," JHEP 03 (2022) 205. arXiv: 1911.11977. 79 pages.</strong></p>
+      <p><em>What it does:</em> derives the islands formula via the replica trick, including the contribution of wormhole-like saddles in the gravitational path integral. <em>Why it matters:</em> the technical workhorse paper that made islands respectable. Long; only the central calculation (and §1–2) is necessary on first pass. <em>Extract:</em> the replica method as applied to BH, and how wormholes restore the Page curve.</p>
+      <p><a href="../papers/bh_successors/PSSY2019_ReplicaWormholes.pdf"><code>papers/bh_successors/PSSY2019_ReplicaWormholes.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.1.9 — AHMST 2020 (the comprehensive review)</span>
+      <p><strong>A. Almheiri, T. Hartman, J. Maldacena, E. Shaghoulian, A. Tajdini, "The entropy of Hawking radiation," Rev. Mod. Phys. 93, 035002 (2021). arXiv: 2006.06872. 47 pages.</strong></p>
+      <p><em>What it does:</em> the canonical 2020 review of the islands program. Synthesizes Page 1993, AMPS, Penington 2019, AEMM, PSSY, AMMZ into a coherent narrative. <em>Why it matters:</em> if you read one paper to understand "where the information paradox stands as of 2020," it is this. Read it before the technical originals; come back to the originals for depth. <em>Extract:</em> the synthesis; the open questions section.</p>
+      <p><a href="../papers/bh_successors/AHMST2020_EntropyHawkingReview.pdf"><code>papers/bh_successors/AHMST2020_EntropyHawkingReview.pdf</code></a></p>
+    </div>
+
+    <h3>20.2 Holographic & emergent-gravity backbone</h3>
+
+    <div class="exemplar"><span class="label">Reading 20.2.1 — Maldacena 2001 (Eternal BH in AdS)</span>
+      <p><strong>J. Maldacena, "Eternal black holes in anti-de Sitter," JHEP 04 (2003) 021. arXiv: hep-th/0106112. 20 pages.</strong></p>
+      <p><em>What it does:</em> proposes the thermofield-double interpretation of the eternal Schwarzschild–AdS black hole — the two-sided geometry is dual to two CFTs in an entangled state. <em>Why it matters:</em> the prototype of geometry-from-entanglement; the direct technical ancestor of ER=EPR. <em>Extract:</em> the thermofield double; the role of the Einstein–Rosen bridge as the bulk dual of CFT entanglement.</p>
+      <p><a href="../papers/bh_successors/Maldacena2001_EternalBHinAdS.pdf"><code>papers/bh_successors/Maldacena2001_EternalBHinAdS.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.2.2 — Ryu–Takayanagi 2006</span>
+      <p><strong>S. Ryu, T. Takayanagi, "Holographic derivation of entanglement entropy from AdS/CFT," PRL 96, 181602 (2006). arXiv: hep-th/0603001. 5 pages.</strong></p>
+      <p><em>What it does:</em> the celebrated <em>holographic entanglement entropy</em> formula — boundary CFT entanglement entropy = area of a minimal bulk surface, divided by $4 G_N$. <em>Why it matters:</em> the formula that drives all of geometry-from-entanglement. The bulk geometry literally <em>is</em> boundary entanglement. <em>Extract:</em> the formula; the philosophical interpretation. 5 pages — read it tonight.</p>
+      <p><a href="../papers/bh_successors/RyuTakayanagi2006_HolographicEE.pdf"><code>papers/bh_successors/RyuTakayanagi2006_HolographicEE.pdf</code></a></p>
+    </div>
+
+    <h3>20.3 The Jacobson program — beyond 1995</h3>
+
+    <div class="exemplar"><span class="label">Reading 20.3.1 — Eling–Guedens–Jacobson 2006</span>
+      <p><strong>C. Eling, R. Guedens, T. Jacobson, "Nonequilibrium thermodynamics of spacetime," PRL 96, 121301 (2006). arXiv: gr-qc/0602001. 4 pages.</strong></p>
+      <p><em>What it does:</em> shows that for $f(R)$ gravity, Jacobson's 1995 equilibrium derivation fails; one must add an internal entropy-production term. <em>Why it matters:</em> identifies precisely where the 1995 program assumes equilibrium, and what the "non-equilibrium thermodynamics of spacetime" looks like. <em>Extract:</em> the entropy production term; the analogy to bulk viscosity. 4 pages.</p>
+      <p><a href="../papers/bh_successors/EGJ2006_NonEqThermodynamicsSpacetime.pdf"><code>papers/bh_successors/EGJ2006_NonEqThermodynamicsSpacetime.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.3.2 — Wall 2011 (GSL proof)</span>
+      <p><strong>A. C. Wall, "A proof of the generalized second law for rapidly-evolving Rindler horizons," PRD 85, 104049 (2012). arXiv: 1105.3445. 44 pages.</strong></p>
+      <p><em>What it does:</em> rigorously proves the generalized second law (GSL) for non-stationary horizons in semiclassical gravity. Validates Jacobson's program in a controlled setting. <em>Why it matters:</em> the most rigorous existing result on the second law of horizon thermodynamics. Cite it whenever you invoke GSL. <em>Extract:</em> the precise setting, the proof spine, and the limitations.</p>
+      <p><a href="../papers/bh_successors/Wall2011_GSLproof.pdf"><code>papers/bh_successors/Wall2011_GSLproof.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.3.3 — Jacobson 2015 (Entanglement equilibrium)</span>
+      <p><strong>T. Jacobson, "Entanglement equilibrium and the Einstein equation," PRL 116, 201101 (2016). arXiv: 1505.04753. 8 pages.</strong></p>
+      <p><em>What it does:</em> reprises the 1995 derivation, replacing the first law of thermodynamics with the condition that a small causal-diamond vacuum is in <em>entanglement equilibrium</em>. The Einstein equation again drops out. <em>Why it matters:</em> the modern, quantum-information–native version of Jacobson 1995. Bridges Jacobson's program directly to the holographic / entanglement-geometry literature. <em>Extract:</em> the condition, the derivation, and the philosophical sharpening over 1995. 8 pages — high signal density.</p>
+      <p><a href="../papers/bh_successors/Jacobson2015_EntanglementEquilibrium.pdf"><code>papers/bh_successors/Jacobson2015_EntanglementEquilibrium.pdf</code></a></p>
+    </div>
+
+    <h3>20.4 The AI-physics intersection (the new corner)</h3>
+
+    <div class="exemplar"><span class="label">Reading 20.4.1 — Constantin–Harvey–Lukas–Ruehle 2025</span>
+      <p><strong>A. Constantin, J. Harvey, A. Lukas, F. Ruehle, "Machine Learning String Theory," (2025). arXiv: 2502.03245. 6 pages.</strong></p>
+      <p><em>What it does:</em> concise 2025 perspective on what ML has and has not done for string-theory landscape work. <em>Why it matters:</em> the most current sober assessment from the string-theory side. <em>Extract:</em> the list of capabilities and the honest gaps.</p>
+      <p><a href="../papers/bh_successors/ConstantinHarveyLukasRuehle2025_MLStringTheory.pdf"><code>papers/bh_successors/ConstantinHarveyLukasRuehle2025_MLStringTheory.pdf</code></a></p>
+    </div>
+
+    <div class="exemplar"><span class="label">Reading 20.4.2 — Language agents in theoretical physics</span>
+      <p><strong>"Can Theoretical Physics Research Benefit from Language Agents?" (2025). arXiv: 2506.06214. 19 pages.</strong></p>
+      <p><em>What it does:</em> the only thoughtful paper to date specifically on language-model agents in theoretical physics research. Honest about what works, what doesn't, and where the immediate research opportunities are. <em>Why it matters:</em> if you write any application essay touching AI methodology, this is the paper to cite. <em>Extract:</em> the documented failure modes; the research workflow proposals.</p>
+      <p><a href="../papers/bh_successors/LangAgentsTheorPhysics2025.pdf"><code>papers/bh_successors/LangAgentsTheorPhysics2025.pdf</code></a></p>
+    </div>
+
+    <h3>20.5 Suggested reading order</h3>
+
+    <pre>
+WEEK 1   Foundations review (already done) — Hawking 1975, Jacobson 1995/2003.
+
+WEEK 2   The Page curve.
+         20.1.1  Page 1993 (a)            10 p   formula
+         20.1.2  Page 1993 (b)            13 p   apply to Hawking
+         20.1.3  STU 1993                 48 p   complementarity
+            (skim §1–3, deep on §4)
+
+WEEK 3   Modern revival (information paradox).
+         20.1.5  AMPS 2013                24 p   the firewall trilemma
+         20.1.6  Maldacena–Susskind 2013  49 p   ER = EPR
+            (skim middle, careful on §1 and final summary)
+
+WEEK 4   The islands era — start with the review.
+         20.1.9  AHMST 2020 review        47 p   the synthesis
+         20.1.7  AMMZ 2019                22 p   companion calculation
+         20.1.4  Hayden–Preskill 2007     18 p   scrambling
+
+WEEK 5   Islands — technical core.
+         20.1.8  PSSY 2019                79 p   replica wormholes
+            (only §1–3 + §6 on first pass)
+
+WEEK 6   Holographic backbone.
+         20.2.2  Ryu–Takayanagi 2006       5 p   READ TONIGHT
+         20.2.1  Maldacena 2001           20 p   eternal BH in AdS
+
+WEEK 7   The Jacobson lineage extended.
+         20.3.1  EGJ 2006                  4 p   non-equilibrium
+         20.3.3  Jacobson 2015             8 p   entanglement equilibrium
+         20.3.2  Wall 2011                44 p   GSL proof (deep)
+
+WEEK 8   AI-physics frontier.
+         20.4.2  Language agents          19 p
+         20.4.1  ML string theory          6 p
+         Both short; one evening combined.
+
+WEEK 9+  Re-read AHMST 2020 with everything fresh.
+         By now the synthesis lands differently.
+</pre>
+
+    <p>Total: ~440 pages of canonical successor literature, on a 9-week cadence. Approximately 50 pages per week — manageable alongside the centerpiece-paper coding work.</p>
+
+    <div class="honest">
+      You now have the corpus. The work I cannot do for you is sitting with each paper for the hours it requires. The annotated reading list is scaffolding; the understanding has to happen in your head. If after this corpus the islands picture is not in your fingertips, no number of summaries from me will put it there.
+      <span class="attr">— closing, honestly</span>
+    </div>
+
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:54px">
+      End. <a href="index.html">Return to the main learning hub.</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

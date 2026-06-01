@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>The Craft of Physics Research</title>
+  <script>
+    window.MathJax = { tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true, tags:'ams' }, svg:{fontCache:'global'} };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg:#fbfaf6; --bg-side:#f1eee2; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
+      --border:#d8d3c4; --code:#efeadc; --maxw:780px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:17px/1.65 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
+    .layout{display:grid;grid-template-columns:270px 1fr;min-height:100vh}
+    aside{background:var(--bg-side);border-right:1px solid var(--border);
+          padding:30px 22px;position:sticky;top:0;align-self:start;
+          height:100vh;overflow-y:auto;font-size:13px}
+    aside .brand{font-weight:700;font-size:16px;line-height:1.25}
+    aside .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:5px}
+    aside .back-link{display:block;padding:8px 0;font-size:12px;color:var(--muted);
+                     text-decoration:none;border-bottom:1px solid var(--border);margin:14px 0}
+    aside .back-link:hover{color:var(--accent)}
+    aside h2{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
+             margin:18px 0 8px;font-weight:700}
+    aside ol{list-style:none;padding:0;margin:0 0 8px}
+    aside ol li{margin-bottom:4px}
+    aside ol a{color:var(--fg);text-decoration:none;display:flex;gap:7px;font-size:12.5px;line-height:1.35}
+    aside ol a:hover{color:var(--accent)}
+    aside ol a .num{color:var(--muted);font-size:10.5px;min-width:30px;font-weight:600}
+    main{padding:54px 56px 120px;max-width:calc(var(--maxw) + 112px)}
+    main > *{max-width:var(--maxw)}
+    h1{font-size:31px;line-height:1.15;margin:0 0 6px;letter-spacing:-0.01em}
+    h1 + .subtitle{color:var(--muted);font-size:15px;margin-bottom:14px}
+    .meta-row{font-family:-apple-system,system-ui,sans-serif;font-size:12.5px;color:var(--muted);margin-bottom:40px}
+    h2.module{font-size:24px;margin:72px 0 6px;letter-spacing:-0.01em;
+              padding-bottom:8px;border-bottom:2px solid var(--accent)}
+    h2.module .mnum{display:block;font:700 12px/1.4 -apple-system,system-ui,sans-serif;
+                    letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    h3{font-size:18px;margin:30px 0 8px;color:var(--accent)}
+    h4{font-size:15.5px;margin:18px 0 5px;font-weight:700}
+    p{margin:0 0 14px}
+    a{color:var(--accent);text-decoration:underline;text-decoration-color:var(--soft);text-underline-offset:2px}
+    code{background:var(--code);padding:1px 5px;border-radius:3px;font:0.87em "JetBrains Mono",Menlo,monospace}
+    pre{background:var(--code);padding:12px 16px;border-radius:4px;border-left:3px solid var(--soft);
+        overflow-x:auto;font-size:13.5px;line-height:1.55;margin:12px 0}
+    pre code{background:none;padding:0}
+    ul,ol.body{margin:0 0 14px;padding-left:24px}
+    li{margin-bottom:4px}
+    .reading,.quote,.lesson,.exercise,.warning,.workflow{
+      margin:18px 0;padding:14px 18px;border-radius:4px;font-size:15.5px
+    }
+    .reading{background:#f0e6cf;border-left:4px solid #7a5b1a}
+    .quote{background:#f6f1e3;border-left:4px solid var(--fg);font-family:"Charter",serif;font-style:italic;font-size:16px;line-height:1.7;padding:18px 22px 16px}
+    .quote .attr{display:block;margin-top:10px;font-style:normal;font-size:12.5px;color:var(--muted);letter-spacing:0.02em;font-family:-apple-system,sans-serif}
+    .lesson{background:#eaf3e0;border-left:4px solid var(--green)}
+    .warning{background:#f5dcd8;border-left:4px solid #b03020}
+    .workflow{background:#d8ece9;border-left:4px solid var(--teal)}
+    .exercise{background:#f7e9dc;border-left:4px solid var(--accent)}
+    .label{display:inline-block;font:700 10.5px/1.4 -apple-system,sans-serif;letter-spacing:0.1em;
+           text-transform:uppercase;color:white;padding:1px 8px;border-radius:3px;margin-right:8px;vertical-align:2px}
+    .reading .label{background:#7a5b1a}
+    .lesson .label{background:var(--green)}
+    .warning .label{background:#b03020}
+    .workflow .label{background:var(--teal)}
+    .exercise .label{background:var(--accent)}
+    .reading p:last-child,.lesson p:last-child,.warning p:last-child,.workflow p:last-child,.exercise p:last-child{margin-bottom:0}
+    details{margin-top:10px}
+    details summary{cursor:pointer;color:var(--accent);font:600 13px/1.4 -apple-system,sans-serif;padding:3px 0}
+    hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}
+      aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+      main{padding:30px 22px 80px}}
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div class="brand">The Craft of Physics Research
+      <small>How great physicists worked, and how to write a paper</small>
+    </div>
+    <a href="index.html" class="back-link">← main learning hub</a>
+
+    <h2>Front matter</h2>
+    <ol>
+      <li><a href="#why"><span class="num">0</span><span>Honest framing</span></a></li>
+    </ol>
+    <h2>Part I · Three masters</h2>
+    <ol>
+      <li><a href="#M1"><span class="num">M1</span><span>Feynman — visualize, compute, be honest</span></a></li>
+      <li><a href="#M2"><span class="num">M2</span><span>Einstein — principles, gedankens, patience</span></a></li>
+      <li><a href="#M3"><span class="num">M3</span><span>Hamming — work on important problems</span></a></li>
+    </ol>
+    <h2>Part II · The craft</h2>
+    <ol>
+      <li><a href="#M4"><span class="num">M4</span><span>Anatomy of a physics paper</span></a></li>
+      <li><a href="#M5"><span class="num">M5</span><span>Writing physics prose</span></a></li>
+      <li><a href="#M6"><span class="num">M6</span><span>Equations &amp; figures</span></a></li>
+    </ol>
+    <h2>Part III · The workflow</h2>
+    <ol>
+      <li><a href="#M7"><span class="num">M7</span><span>Daily practice — log + write + read</span></a></li>
+      <li><a href="#M8"><span class="num">M8</span><span>Drafting cycle &amp; revision</span></a></li>
+      <li><a href="#M9"><span class="num">M9</span><span>From draft to arXiv to journal</span></a></li>
+    </ol>
+    <h2>Part IV · Applied</h2>
+    <ol>
+      <li><a href="#M10"><span class="num">M10</span><span>Mapped to your centerpiece paper</span></a></li>
+    </ol>
+  </aside>
+
+  <main>
+
+    <h1>The Craft of Physics Research</h1>
+    <div class="subtitle">A guide to working like Feynman, Einstein, and Hamming — and to writing a paper that actually ships. Compiled from the primary sources and the canonical advice literature.</div>
+    <div class="meta-row">10 modules · primary-source quotes · lessons · concrete workflow templates · applied to your specific paper at the end.</div>
+
+    <!-- ============ HONEST FRAMING ============ -->
+    <h2 class="module" id="why"><span class="mnum">0</span>Honest framing — why this file exists</h2>
+
+    <p>You asked whether reading the string-theory course (or the Jacobson course, or any other technical material) is what you should be doing to write a paper. Honest answer: no, not directly. Those courses build the <em>field</em> in your head. They don't build the <em>craft</em>.</p>
+
+    <p>Writing a physics paper is a discipline distinct from understanding physics. It involves picking a tractable question, doing concrete calculations to the end, writing the result in a form other physicists can read, and shipping. Every step has known traps. The great physicists wrote about them explicitly — Feynman in his Caltech commencement and Nobel lecture, Einstein in his autobiographical notes, Hamming in his 1986 Bell Labs talk. This file is the synthesis: what they said, why it matters, how to apply it.</p>
+
+    <div class="warning"><span class="label">A caveat about you specifically</span>
+      <p>You have switched topics often in this workspace (Hawking → Jacobson → string theory). Burnout is real and switching is sometimes correct. But producing a paper requires sustained attention on a single problem for months. That is a separate discipline from learning, and it cannot be replaced by reading more sources. Pick your subject, then sit. Hamming (Module 3) is unsparing on this point.</p>
+    </div>
+
+    <!-- ===================================================================
+         PART I — THREE MASTERS
+         =================================================================== -->
+
+    <h2 class="module" id="M1"><span class="mnum">Module 1</span>Feynman — visualize, compute, be honest</h2>
+
+    <div class="reading"><span class="label">Primary sources</span>
+      <ul>
+        <li>R. P. Feynman, <em>Cargo Cult Science</em> — Caltech commencement, June 1974. PDF in <code>papers/research_craft/Feynman1974_CargoCultScience.pdf</code>. Four pages. Read it tonight.</li>
+        <li>R. P. Feynman, Nobel Lecture, 1965 — "The development of the space-time view of quantum electrodynamics." Available on nobelprize.org.</li>
+        <li>R. P. Feynman, <em>"Surely You're Joking, Mr. Feynman!"</em> and <em>"What Do You Care What Other People Think?"</em> — anecdotal but methodologically illuminating.</li>
+        <li>The Feynman Lectures on Physics, Vol. I, Chapter 1 ("Atoms in Motion") — model of physical exposition.</li>
+      </ul>
+    </div>
+
+    <h3>1.1 The five Feynman lessons</h3>
+
+    <div class="lesson"><span class="label">Lesson 1 — Visualize concretely</span>
+      <p>Feynman never reasoned about an equation without a physical picture. He invented the path integral because he could see the alternative paths a particle "could" take. He invented Feynman diagrams because he wanted to draw what was happening. When you cannot picture what an equation means, you do not yet understand the equation.</p>
+      <p><strong>Apply:</strong> for every calculation in your paper, draw the scenario before writing equations. If you cannot draw it, you cannot yet write it.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 2 — Compute, do not opine</span>
+      <p>Feynman's blackboard at the time of his death read: <em>"What I cannot create, I do not understand."</em> The unit of understanding is the worked example. Speculation, even brilliant speculation, is not knowledge. A theory you have computed one prediction from is in a totally different epistemic state than a theory you have only discussed.</p>
+      <p><strong>Apply:</strong> reduce every concept you encounter to a calculation you have done with your own hand. For your greybody-factor paper: compute one number first. Don't read more until you have the number.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 3 — Try the simplest non-trivial case</span>
+      <p>Feynman's habitual move when stuck: forget the general theorem and try one specific example. Almost always the example reveals what's going on — and frequently the general result follows by inspection. He once said something close to: "I generalize after doing the example, not before."</p>
+      <p><strong>Apply:</strong> for any spacetime you want to compute on, work the Schwarzschild case first as a warm-up. The general formulas come out of the specific calculation.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 4 — Reinvent everything once</span>
+      <p>Feynman re-derived virtually every result he used at least once for himself. He did not "stand on the shoulders of giants" in the sense of accepting results passively. He read, then put the book down and worked it out again. This habit gave him an almost physical sense of which steps were sturdy and which were fragile in any derivation.</p>
+      <p><strong>Apply:</strong> for the literature you cite, work the central derivation yourself before citing it. Your sense of what your paper is claiming becomes far sharper.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 5 — Be honest, ruthlessly, especially with yourself</span>
+      <p>From <em>Cargo Cult Science</em>:</p>
+      <div class="quote">
+        "The first principle is that you must not fool yourself — and you are the easiest person to fool. So you have to be very careful about that. After you've not fooled yourself, it's easy not to fool other scientists. You just have to be honest in a conventional way after that."
+        <span class="attr">— Feynman, Caltech commencement, 1974</span>
+      </div>
+      <p>And:</p>
+      <div class="quote">
+        "If you're doing an experiment, you should report everything that you think might make it invalid — not only what you think is right about it: other causes that could possibly explain your results; and things you thought of that you've eliminated by some other experiment, and how they worked... Details that could throw doubt on your interpretation must be given, if you know them."
+        <span class="attr">— Feynman, Caltech commencement, 1974</span>
+      </div>
+      <p><strong>Apply:</strong> in your paper's discussion section, list every limitation and assumption that could affect the result. Anticipate the referee's objections. Honesty about limitations is what makes a paper trustworthy. The reflex among inexperienced authors is to hide weaknesses; the right reflex is to surface them.</p>
+    </div>
+
+    <!-- ============ MODULE 2 — EINSTEIN ============ -->
+    <h2 class="module" id="M2"><span class="mnum">Module 2</span>Einstein — principles, gedankens, patience</h2>
+
+    <div class="reading"><span class="label">Primary sources</span>
+      <ul>
+        <li>A. Einstein, <em>Autobiographical Notes</em>, in P. A. Schilpp (ed.), <em>Albert Einstein: Philosopher–Scientist</em> (Open Court, 1949). The single most informative source on how he thought.</li>
+        <li>A. Einstein, "How I Created the Theory of Relativity" — Kyoto address, December 14, 1922 (English translation, Physics Today 35, 45 (1982)).</li>
+        <li>A. Einstein, <em>Ideas and Opinions</em> (Crown, 1954). Selected essays.</li>
+        <li>A. Pais, <em>'Subtle is the Lord...': The Science and Life of Albert Einstein</em> (Oxford, 1982). The authoritative biography by a physicist who knew him.</li>
+      </ul>
+    </div>
+
+    <h3>2.1 The four Einstein lessons</h3>
+
+    <div class="lesson"><span class="label">Lesson 1 — Start from a principle, not from data</span>
+      <p>Einstein's method was to identify a principle so fundamental that any consistent theory must respect it, then ride that principle wherever it led. For special relativity: the principle of relativity + the constancy of light. For general relativity: the equivalence principle. The dynamics followed; the data came later.</p>
+      <p>This contrasts with the empirical mode in which one fits a theory to known measurements. Einstein produced both: in 1905 (relativity, almost purely principled) and in 1915 (general relativity, principle-driven with one decisive observational test — Mercury's perihelion).</p>
+      <p><strong>Apply:</strong> for your work, identify the <em>principle</em> your paper rests on. Not the calculation, but the principle. "Greybody factors are well-defined because the late-time geometry is stationary" is a principle. State it clearly. Then derive.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 2 — Thought experiments are real experiments</span>
+      <p>Einstein's gedankens — riding alongside a light beam, the elevator in free fall, the train and the platform — were not metaphors. They were concrete physical scenarios reasoned through to a conclusion that was forced by physical law. From the Kyoto lecture:</p>
+      <div class="quote">
+        "I was sitting in a chair in the patent office at Bern when all of a sudden a thought occurred to me: 'If a person falls freely he will not feel his own weight.' I was startled. This simple thought made a deep impression on me. It impelled me toward a theory of gravitation."
+        <span class="attr">— Einstein, Kyoto, 1922</span>
+      </div>
+      <p>That one sentence was the seed of general relativity. He spent the next eight years working out the consequences.</p>
+      <p><strong>Apply:</strong> when you encounter a confusing point in your reading, do not ask "what does the textbook mean?" Ask "what physical scenario would make this true?" Construct the scenario. Reason through it. The textbook becomes a check, not a source.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 3 — Take the implication seriously, even when it sounds crazy</span>
+      <p>Special relativity required abolishing absolute simultaneity. General relativity required spacetime curvature. Quantum mechanics required probabilistic state evolution. In each case the implications of the principles sounded absurd. Einstein took them seriously. (He took GR's implications seriously; he resisted some of QM's, with mixed results. The pattern is not perfect, but the lesson stands.)</p>
+      <p><strong>Apply:</strong> if your calculation produces an unexpected result, do not assume you made an arithmetic mistake. Check the arithmetic, yes — but if the math is right, the unexpected result is your contribution. Most "wrong-looking" results are the interesting ones.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 4 — Patience</span>
+      <p>From his autobiographical notes:</p>
+      <div class="quote">
+        "After ten years of reflection such a principle resulted from a paradox upon which I had already hit at the age of sixteen: If I pursue a beam of light with the velocity c (velocity of light in a vacuum), I should observe such a beam of light as an electromagnetic field at rest though spatially oscillating. There seems to be no such thing, however, neither on the basis of experience nor according to Maxwell's equations..."
+        <span class="attr">— Einstein, Autobiographical Notes (1949)</span>
+      </div>
+      <p>Ten years on one question. He gave seven years to GR. The myth of the lone genius producing insight in a flash is exactly that — a myth. The reality is sustained engagement with one problem over years.</p>
+      <p><strong>Apply:</strong> a 6–9 month timeline for a first paper is fast by historical standards, but realistic by modern standards. Decide on the question; don't change it.</p>
+    </div>
+
+    <!-- ============ MODULE 3 — HAMMING ============ -->
+    <h2 class="module" id="M3"><span class="mnum">Module 3</span>Hamming — work on important problems</h2>
+
+    <div class="reading"><span class="label">Primary source</span>
+      <ul>
+        <li>R. W. Hamming, <em>You and Your Research</em> — Bell Labs colloquium, March 7, 1986. PDF in <code>papers/research_craft/Hamming1986_YouAndYourResearch.pdf</code>. Sixteen pages. <strong>The single most important essay in this entire course. Read it tonight.</strong></li>
+      </ul>
+    </div>
+
+    <p>Hamming was a mathematician and computer scientist at Bell Labs from 1946 to 1976. He worked alongside Shannon, von Neumann, Wiener, and many others. In 1986 he gave a colloquium attempting to explain why a small number of people produce the bulk of important work, and what the rest could do differently. It is a sharp and uncomfortable talk. The key points:</p>
+
+    <h3>3.1 The Hamming questions</h3>
+
+    <div class="quote">
+      "If what you are working on is not important, and not likely to lead to important things, why are you working on it?"
+      <span class="attr">— Hamming, 1986</span>
+    </div>
+
+    <div class="quote">
+      "What are the most important problems in your field?"<br>
+      "Why aren't you working on them?"
+      <span class="attr">— Hamming, 1986 (his three weekly questions)</span>
+    </div>
+
+    <p>Hamming reports asking these questions at lunch at Bell Labs and progressively losing lunch partners. They are uncomfortable. They are also, he argues, the only way to spend a career producing things that matter.</p>
+
+    <div class="lesson"><span class="label">Lesson 1 — Have courage</span>
+      <p>Hamming: "Newton said, 'If others would think as hard as I did, then they would get similar results.' One of the characteristics of successful scientists is having courage. Once you get your courage up and believe that you can do important problems, then you can. If you think you can't, almost surely you are not going to."</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 2 — Work on it consistently</span>
+      <p>Hamming: "Most great scientists have tremendous drive. I worked for ten years with John Tukey at Bell Labs. He had tremendous drive. One day about three or four years after I joined, I discovered that John Tukey was slightly younger than I was... I went storming into Bode's office and said, 'How can anybody my age know as much as John Tukey does?' He leaned back in his chair, put his hands behind his head, grinned slightly, and said, 'You would be surprised, Hamming, how much you would know if you worked as hard as he did that many years.'"</p>
+      <p>The compound interest of consistent effort is enormous. Three hours a day on one problem for six months is more than enough to produce a paper.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 3 — Tolerate ambiguity</span>
+      <p>Hamming on the great scientists' relationship to current theory: "The proper attitude is one of having faith in the theory but also being able to point out its limitations. Most people believe the current paradigm too much — they don't see the assumptions. The great ones see the assumptions and work on the limitations."</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 4 — Door open vs door closed</span>
+      <p>Hamming on a tradeoff he observed: scientists who keep their door open hear about everything and produce little; scientists who keep it permanently closed produce things but are out of touch. The successful ones alternated — door closed for the deep work, door open for the rest. Modern translation: long uninterrupted blocks for the hard thinking; meetings and chat for everything else. Never mix them.</p>
+    </div>
+
+    <div class="lesson"><span class="label">Lesson 5 — Communicate</span>
+      <p>Hamming: "Now, I want to talk about — for a few minutes — about the importance of selling things... I have offended many people by saying that you have to sell ideas. Yes, you do. You have to write papers; you have to give talks; you have to learn to give a good talk... Selling ideas and writing them up and giving talks is part of the job, not an extra. It is in fact almost half the job."</p>
+      <p>Most physicists think writing is a tax on real research. It is not. It is half of the research.</p>
+    </div>
+
+    <!-- ===================================================================
+         PART II — THE CRAFT OF WRITING
+         =================================================================== -->
+
+    <h2 class="module" id="M4"><span class="mnum">Module 4</span>Anatomy of a physics paper</h2>
+
+    <p>A physics paper has a standard skeleton. Every section serves a specific function. Deviate at your peril — referees hate idiosyncratic structures.</p>
+
+    <pre>
+─────────────────────────────────────────────────────────────
+TITLE              what the result is, in ≤ 12 words
+                   (committee will judge: is this interesting?)
+
+AUTHORS            yourself + affiliation
+
+ABSTRACT           one paragraph, ≤ 200 words.
+                   STRUCTURE:
+                     1. Problem        — what is at stake?
+                     2. Method         — how did you attack it?
+                     3. Result         — the headline finding
+                     4. Implication    — why it matters
+
+INTRODUCTION       ≤ 1 page. STRUCTURE:
+                     ¶1  General motivation (the field's question)
+                     ¶2  Prior work (what's been done, what's missing)
+                     ¶3  What this paper contributes (your gap, your method)
+                     ¶4  Roadmap of the sections
+
+SETUP / METHODS    state the model, conventions, equations.
+                   No new results yet. The reader should be
+                   able to reproduce the calculation from here.
+
+RESULTS            the calculation, the figures, the numbers.
+                   One result per subsection.
+
+DISCUSSION         limitations, comparison to prior work,
+                   what this means for the field.
+                   List every assumption.
+
+CONCLUSION         ≤ ½ page. Restate the result + name 2–3
+                   concrete next steps.
+
+ACKNOWLEDGMENTS    name people, funding, computational
+                   resources, anonymous referees.
+
+REFERENCES         BibTeX. Be exhaustive but not padded.
+
+APPENDICES         for anything that breaks the main flow
+                   (long algebra, numerical convergence tests).
+─────────────────────────────────────────────────────────────
+</pre>
+
+    <div class="lesson"><span class="label">Lesson — write the abstract LAST</span>
+      <p>The abstract is the hardest paragraph in the paper. Almost nobody writes it well before the rest exists. Write a placeholder ("TBD"). Write the full paper. Then write the abstract. Then iterate on it twenty times. It is the only thing most readers will see.</p>
+    </div>
+
+    <h2 class="module" id="M5"><span class="mnum">Module 5</span>Writing physics prose</h2>
+
+    <p>The canonical guide to physics writing is N. David Mermin's "Reference Frame" essays in <em>Physics Today</em> (especially "Writing Physics," "What's Wrong with This Lagrangean?", and "What's Wrong with This Library?"). Library access required for the originals. The principles, compactly:</p>
+
+    <div class="lesson"><span class="label">Mermin's rules, paraphrased</span>
+      <ol>
+        <li><strong>Number only equations you refer to elsewhere.</strong> Unreferred numbered equations clutter the page.</li>
+        <li><strong>Equations are sentences.</strong> They have subjects, verbs, and grammar. Punctuate them as such. "We have $E = mc^2$, which tells us that..." not "$E = mc^2$." sitting alone on a line.</li>
+        <li><strong>Every symbol must be defined exactly once.</strong> Not zero times. Not three times.</li>
+        <li><strong>Do not introduce a symbol that is used once.</strong> Inline the value instead.</li>
+        <li><strong>Active voice for results, passive only when necessary.</strong> "We compute" beats "It is computed." But "the metric was first written down by Schwarzschild in 1916" is fine.</li>
+        <li><strong>One idea per sentence.</strong> When you find yourself writing a long compound sentence, split it.</li>
+        <li><strong>Define unfamiliar notation explicitly the first time, even if the reader "should know it."</strong> Saving a referee three minutes of guessing is worth the line of prose.</li>
+      </ol>
+    </div>
+
+    <div class="warning"><span class="label">Common beginner mistakes</span>
+      <ul>
+        <li>The introductory section that "reviews the entire history of the field." A paragraph of prior work, not three pages.</li>
+        <li>Equations with no derivation indication ("from this it follows that..."). The referee will ask. Say at minimum which standard identity you used.</li>
+        <li>Mixing tenses. Past tense for what you did ("we computed"), present for results ("the spectrum shows").</li>
+        <li>"In this paper, we will..." in the introduction. Just say what you did. The reader knows it's the paper.</li>
+        <li>Cosmetic acknowledgments that sound insincere. Acknowledge specific contributions or skip.</li>
+      </ul>
+    </div>
+
+    <h2 class="module" id="M6"><span class="mnum">Module 6</span>Equations &amp; figures</h2>
+
+    <h3>6.1 Equations</h3>
+    <ul>
+      <li>Display equations only when you'll refer to them or they're the headline result.</li>
+      <li>Number every equation you cite. Don't number ones you don't.</li>
+      <li>Put the equation number at the right margin (REVTeX default).</li>
+      <li>Surround display equations with prose that says what they say. The equation is not self-explanatory; even Maxwell's equations need surrounding text.</li>
+    </ul>
+
+    <h3>6.2 Figures</h3>
+    <ul>
+      <li><strong>Each figure stands alone.</strong> The reader who only looks at figures + captions should grasp the paper's headline result.</li>
+      <li>Caption: 2–4 sentences. What the figure shows AND what to conclude from it. Not just labels.</li>
+      <li>One result per figure. If you find yourself describing two things, split into two figures.</li>
+      <li>Vector format (PDF/SVG), not raster. Referees zoom in.</li>
+      <li>Consistent style across figures: same fonts, same axis style, same color palette.</li>
+      <li>Avoid 3D plots unless the third dimension is genuinely necessary (almost never).</li>
+    </ul>
+
+    <h3>6.3 Tables</h3>
+    <ul>
+      <li>Use tables for precise numerical comparison; use figures for trends.</li>
+      <li>Caption explains what to look for, not just what the columns are.</li>
+      <li>If a table has fewer than 5 rows, prose is usually better.</li>
+    </ul>
+
+    <!-- ===================================================================
+         PART III — THE WORKFLOW
+         =================================================================== -->
+
+    <h2 class="module" id="M7"><span class="mnum">Module 7</span>Daily practice — log + write + read</h2>
+
+    <p>A research day, decomposed:</p>
+
+    <div class="workflow"><span class="label">Recommended daily structure</span>
+      <pre>
+06:00–09:00   DEEP WORK BLOCK (door closed)
+              The hard calculation. Phone in another room.
+              No email, no Slack, no browser tabs except
+              your paper draft, your code, and one reference.
+
+09:00–09:30   RESEARCH LOG ENTRY
+              Today's question. What I tried. What worked.
+              What didn't. What I'll try tomorrow.
+              ~5 sentences. Saves you weeks of rediscovery.
+
+09:30–10:30   READ ONE THING
+              One section of one paper. With pen. Not skim.
+              Add to BibTeX. Note what's surprising.
+
+10:30–11:30   WRITE ONE PARAGRAPH
+              Of your paper draft. Any section, however rough.
+              Daily prose accumulation matters more than
+              quality at first.
+
+11:30–...     The rest: meetings, follow-ups, errands.
+              All shallow tasks live here, away from the
+              deep block.</pre>
+      <p>This is one possible schedule. The structure that matters: <em>one deep block per day, before any shallow work touches it</em>. The order is non-negotiable. Email after the deep block, never before.</p>
+    </div>
+
+    <h3>7.1 The research log</h3>
+
+    <p>Keep a plain-text file. One entry per work session. Format:</p>
+
+    <pre>
+2026-05-30  [centerpiece-paper]
+  Q: What does the Schwarzschild greybody factor look like for ℓ=0?
+  - Computed V_ℓ(r) numerically; matches Tong §6 textbook plot.
+  - Shooting from horizon: first attempt blew up due to wrong
+    boundary condition on ψ'.  Fixed by enforcing dψ/dr* = -iω ψ.
+  - Got Γ(ωM=0.25, ℓ=0) ≈ 0.21.  Page 1976 Table II row 1: 0.213.
+    Agreement to 3 sig figs.  ✓
+  Next: extend to ℓ=1, ℓ=2.
+</pre>
+
+    <p>The log is for you, not for anyone else. Its purpose is to make tomorrow's you remember today's findings. Without it, you will rediscover the same dead ends repeatedly.</p>
+
+    <h2 class="module" id="M8"><span class="mnum">Module 8</span>Drafting cycle &amp; revision</h2>
+
+    <div class="workflow"><span class="label">The seven-step drafting cycle</span>
+      <ol>
+        <li><strong>Outline.</strong> Section headings and one sentence per intended subsection. No prose yet. This is the architecture.</li>
+        <li><strong>Skeleton.</strong> Replace each one-sentence outline with one paragraph of placeholder prose. Equations as bullet points; figures as <code>[TODO: figure of X vs Y]</code>. This is the scaffold.</li>
+        <li><strong>Fill.</strong> Replace placeholders with real prose and real equations and real figures. This is the bulk of the work and takes weeks.</li>
+        <li><strong>Cold read.</strong> 24 hours after finishing the fill, print the draft and read it on paper, in another room, with a pen. Mark every spot where you stopped to think. Each is a candidate for rewriting.</li>
+        <li><strong>Revise.</strong> Address every cold-read mark. This is where the paper becomes good.</li>
+        <li><strong>External read.</strong> Send to one trusted reader who is not the author. Even one is enough. Address their comments.</li>
+        <li><strong>Final polish.</strong> Abstract last. Title last. Bibliography clean.</li>
+      </ol>
+    </div>
+
+    <h2 class="module" id="M9"><span class="mnum">Module 9</span>From draft to arXiv to journal</h2>
+
+    <div class="workflow"><span class="label">Submission cycle</span>
+      <pre>
+DRAFT FINAL  →  arXiv preprint (gr-qc, hep-th, etc.)
+              ↓  (2 weeks; let the community see it)
+              ↓  emails from interested readers, possible revisions
+              ↓
+            Journal submission (PRD, JHEP, CQG, etc.)
+              ↓  (2–6 months)
+              ↓
+            Referee report(s)
+              ↓  respond point by point.  Be polite.
+              ↓  Address every comment, even ones you disagree with —
+              ↓  by either changing the paper or explaining clearly why not.
+              ↓
+            Revision(s)
+              ↓
+            Acceptance — or another revision round — or rejection.
+              ↓
+            Published paper.  Update arXiv preprint to match.</pre>
+    </div>
+
+    <h3>9.1 Choosing the arXiv category</h3>
+    <ul>
+      <li><strong>gr-qc</strong> — general relativity and quantum cosmology. Black hole physics goes here.</li>
+      <li><strong>hep-th</strong> — formal high energy / string theory. AdS/CFT, holography, formal aspects.</li>
+      <li><strong>hep-ph</strong> — phenomenology. Cross-list if your paper has observable consequences.</li>
+      <li><strong>astro-ph</strong> — astrophysics. Cross-list if relevant to observation.</li>
+    </ul>
+
+    <h3>9.2 Referees</h3>
+    <p>Referees are anonymous physicists who read your paper and recommend accept/reject/revise. Their reports may be sharp. Three rules:</p>
+    <ul>
+      <li>Never argue with their tone. Address only the substantive point.</li>
+      <li>Respond to every comment in writing. "We agree and have added text on page 4" or "We disagree because... but have clarified the wording."</li>
+      <li>If a referee asks for a major calculation that improves the paper, do it. If they ask for something tangential, push back politely.</li>
+    </ul>
+
+    <!-- ===================================================================
+         PART IV — APPLIED
+         =================================================================== -->
+
+    <h2 class="module" id="M10"><span class="mnum">Module 10</span>Mapped to your centerpiece paper</h2>
+
+    <p>Your stated centerpiece paper: a numerical computation of greybody factors for a less-studied black hole spacetime. Project memory: <code>project-centerpiece-paper</code>. The methodology of Modules 1–9, applied:</p>
+
+    <div class="workflow"><span class="label">Your week-by-week plan</span>
+      <pre>
+WEEK 1–2  Pick the question precisely.
+          – "Greybody factors for Hayward black hole, scalar field, ℓ = 0–5,
+             ωM ∈ [0.05, 2.0]."  Concrete is mandatory.
+          – Check arXiv for prior work on this exact spacetime.
+             (If 5+ recent papers exist, pick a different one or a fresh angle.)
+          – Write 1 paragraph: "What is the gap I am filling?"
+
+WEEK 3–6  Reproduce Schwarzschild.
+          – Apply Feynman Lesson 3 (simplest case first).
+          – Match Page 1976 Table II to 3 digits.
+          – Until this works, do not touch the new spacetime.
+          – Daily log + 1 paragraph of paper draft.
+
+WEEK 7–14 Run the new spacetime.
+          – Same code, swap f(r).  Tabulate Γ(ω, ℓ).
+          – Daily log + 1 figure per week.
+
+WEEK 15–20 Write up.
+          – Outline → skeleton → fill (Modules 4, 5, 6, 8).
+          – External read by week 18.
+
+WEEK 21   Cold read + revise.
+WEEK 22   Polish + abstract + title.
+WEEK 23   arXiv submission.  gr-qc.
+WEEK 24+  Journal submission to PRD or CQG.</pre>
+      <p>This is six months. It is the realistic timeline for a first paper produced solo. The schedule has slack but not infinite slack.</p>
+    </div>
+
+    <div class="warning"><span class="label">The discipline check</span>
+      <p>Read Hamming's three questions weekly. Adapted to your case:</p>
+      <ol>
+        <li>Is greybody factors for a less-studied spacetime an important problem in black hole physics today?</li>
+        <li>Why aren't more people working on it?</li>
+        <li>If the answer to (1) is "not really," what would be important — and why am I working on this instead?</li>
+      </ol>
+      <p>Honest answers: (1) it's a competent, citable contribution rather than a foundational result; (2) the niche is narrow but not empty; (3) the alternative would be a CS/AI bridge paper or a QEC-holography paper, both of which are harder. The choice of the greybody-factor paper is defensible IF you ship it and use it as a stepping stone to a more important second paper.</p>
+      <p>If the honest answer to (3) changes — if the paper stops feeling like a stepping stone and starts feeling like the destination — that is a signal to revisit the strategy. Not to switch subjects again, but to reconsider whether the current paper is the right vehicle.</p>
+    </div>
+
+    <hr>
+
+    <h3>Closing</h3>
+    <p>Three pieces of canonical advice to close:</p>
+
+    <div class="quote">
+      "The first principle is that you must not fool yourself — and you are the easiest person to fool."
+      <span class="attr">— Feynman, 1974</span>
+    </div>
+
+    <div class="quote">
+      "If you pursue a beam of light with the velocity c... There seems to be no such thing... From this paradox the special theory of relativity was already implicit. Today everyone knows, of course, that all attempts to clarify this paradox satisfactorily were condemned to failure as long as the axiom of the absolute character of time, viz., of simultaneity, unrecognizedly was anchored in the unconscious. Clearly to recognize this axiom and its arbitrary character really implies already the solution of the problem."
+      <span class="attr">— Einstein, Autobiographical Notes, 1949</span>
+    </div>
+
+    <div class="quote">
+      "What are the most important problems in your field? Why aren't you working on them?"
+      <span class="attr">— Hamming, 1986</span>
+    </div>
+
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:54px">
+      End of course. <a href="index.html">Return to the main learning hub.</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

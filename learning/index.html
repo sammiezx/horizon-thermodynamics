@@ -1,0 +1,1964 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Black Hole Radiation — Lectures</title>
+
+  <!-- MathJax for equations -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'ams'
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <style>
+    :root {
+      --bg: #fbfaf6;
+      --bg-sidebar: #f3f0e6;
+      --fg: #1c1c1a;
+      --muted: #6a6660;
+      --accent: #8a3a18;
+      --accent-soft: #c97a4f;
+      --border: #d8d3c4;
+      --code-bg: #efeadc;
+      --max-w: 760px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Charter", "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+      font-size: 17px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* -- Sidebar / TOC -- */
+    aside {
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      padding: 32px 24px;
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    aside h2 {
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 12px;
+      font-weight: 600;
+    }
+    aside .brand {
+      font-family: "Charter", serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--fg);
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+    aside .brand small {
+      display: block;
+      font-weight: 400;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    aside ol {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+    }
+    aside ol li {
+      margin-bottom: 8px;
+    }
+    aside ol a {
+      color: var(--fg);
+      text-decoration: none;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    aside ol a:hover { color: var(--accent); }
+    aside ol a .num {
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      font-size: 12px;
+      min-width: 28px;
+    }
+    aside ol a.status-done .num::after { content: " ✓"; color: var(--accent); }
+    aside .source-list a {
+      color: var(--fg);
+      text-decoration: none;
+      display: block;
+      padding: 4px 0;
+      border-bottom: 1px dotted var(--border);
+    }
+    aside .source-list a:hover { color: var(--accent); }
+    aside .source-list a small {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    /* -- Main content -- */
+    main {
+      padding: 56px 56px 120px;
+      max-width: calc(var(--max-w) + 112px);
+    }
+    main > * { max-width: var(--max-w); }
+
+    h1 {
+      font-size: 32px;
+      line-height: 1.15;
+      margin: 0 0 8px;
+      letter-spacing: -0.01em;
+    }
+    h1 + .subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 48px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 56px 0 12px;
+      letter-spacing: -0.005em;
+    }
+    h2 .lec-num {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      display: block;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    h3 {
+      font-size: 17px;
+      margin: 32px 0 8px;
+      color: var(--accent);
+    }
+
+    p { margin: 0 0 14px; }
+
+    a { color: var(--accent); text-decoration: underline; text-decoration-color: var(--accent-soft); text-underline-offset: 2px; }
+    a:hover { text-decoration-color: var(--accent); }
+
+    code {
+      background: var(--code-bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-family: "JetBrains Mono", "SF Mono", "Menlo", monospace;
+      font-size: 0.88em;
+    }
+    pre {
+      background: var(--code-bg);
+      padding: 14px 18px;
+      border-radius: 4px;
+      border-left: 3px solid var(--accent-soft);
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    pre code { background: none; padding: 0; }
+
+    .callout {
+      border-left: 3px solid var(--accent-soft);
+      background: var(--bg-sidebar);
+      padding: 12px 16px;
+      margin: 20px 0;
+      font-size: 15.5px;
+    }
+    .callout strong { color: var(--accent); }
+    .callout.exercise { border-color: #4a7c2a; }
+    .callout.exercise strong { color: #3a6020; }
+
+    .status-pill {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 3px;
+      background: var(--code-bg);
+      color: var(--muted);
+      vertical-align: middle;
+      margin-left: 8px;
+      font-family: -apple-system, system-ui, sans-serif;
+      font-weight: 500;
+    }
+    .status-pill.drafted { background: #e3dfb0; color: #6a5e10; }
+    .status-pill.in-progress { background: #d6e9d0; color: #2f5a1b; }
+    .status-pill.placeholder { background: #eee; color: var(--muted); }
+
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0;
+    }
+    .check-list li {
+      padding: 6px 0 6px 0;
+      font-size: 15.5px;
+    }
+    .check-list input[type=checkbox] {
+      margin-right: 10px;
+      transform: translateY(1px);
+    }
+    .check-list input:checked + label {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .equation-label {
+      font-size: 13px;
+      color: var(--muted);
+      text-align: right;
+      margin-top: -10px;
+      margin-bottom: 14px;
+      font-family: -apple-system, system-ui, sans-serif;
+    }
+
+    .ref {
+      font-size: 0.85em;
+      vertical-align: super;
+      line-height: 0;
+      color: var(--accent);
+    }
+    .ref a { text-decoration: none; }
+
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 48px 0;
+    }
+
+    .lecture-meta {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: -apple-system, system-ui, sans-serif;
+      margin-bottom: 24px;
+    }
+    .lecture-meta span + span::before { content: " · "; }
+
+    /* Blockquote from a primary source (Hawking, Jacobson, ...) */
+    blockquote.source {
+      margin: 18px 0;
+      padding: 12px 18px 12px 22px;
+      border-left: 3px solid var(--fg);
+      background: #f6f1e3;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #2a2823;
+    }
+    blockquote.source p { margin: 0 0 6px; }
+    blockquote.source .source-attr {
+      display: block;
+      margin-top: 8px;
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    blockquote.source .source-attr a { color: var(--muted); }
+
+    /* SVG figure container */
+    figure.diagram {
+      margin: 24px auto 8px;
+      max-width: 560px;
+      text-align: center;
+    }
+    figure.diagram svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
+      background: #faf6e9;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+    }
+    figure.diagram figcaption {
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 12px 0;
+      line-height: 1.5;
+      text-align: center;
+    }
+    figure.diagram figcaption strong { color: var(--fg); }
+
+    /* Hawking 1975 verbatim quote (annotated reading) */
+    blockquote.hawking {
+      margin: 20px 0 8px;
+      padding: 14px 20px 12px 24px;
+      border-left: 4px solid #5b4327;
+      background: #efe6cf;
+      font-family: "Charter", "Iowan Old Style", serif;
+      font-size: 15.5px;
+      line-height: 1.6;
+      color: #2a2520;
+    }
+    blockquote.hawking p { margin: 0 0 6px; }
+    blockquote.hawking .source-attr {
+      display: block;
+      margin-top: 8px;
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 11.5px;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+    }
+
+    /* Annotation boxes for the annotated reading.
+       Each annotation has a small label and a typed background tint. */
+    .annot {
+      margin: 10px 0 16px;
+      padding: 10px 14px 10px 16px;
+      border-left: 3px solid;
+      font-size: 14.5px;
+      line-height: 1.55;
+      background: #faf6e9;
+    }
+    .annot .label {
+      display: inline-block;
+      font-family: -apple-system, system-ui, sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 3px;
+      margin-right: 8px;
+      vertical-align: 2px;
+      color: white;
+    }
+    .annot.translation { border-color: #3a6a2a; background: #eaf3e0; }
+    .annot.translation .label { background: #3a6a2a; }
+    .annot.skipped { border-color: #b07a1a; background: #f7eed3; }
+    .annot.skipped .label { background: #b07a1a; }
+    .annot.outdated { border-color: #6a3a8a; background: #ece2f3; }
+    .annot.outdated .label { background: #6a3a8a; }
+    .annot.errata { border-color: #b03020; background: #f5dcd8; }
+    .annot.errata .label { background: #b03020; }
+    .annot.context { border-color: #2a5a8a; background: #dde7f1; }
+    .annot.context .label { background: #2a5a8a; }
+    .annot.modern { border-color: #1f7e7a; background: #d8ece9; }
+    .annot.modern .label { background: #1f7e7a; }
+    .annot.hard { border-color: #5a5a5a; background: #e8e6e0; }
+    .annot.hard .label { background: #5a5a5a; }
+    .annot p:last-child { margin-bottom: 0; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+      main { padding: 32px 24px 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ============================================ -->
+  <!-- SIDEBAR                                       -->
+  <!-- ============================================ -->
+  <aside>
+    <div class="brand">
+      Black Hole Radiation
+      <small>Personal lecture series — Sameer Pant</small>
+    </div>
+
+    <h2>Annotated reading — Jacobson 2003</h2>
+    <ol>
+      <li><a href="#jacob-foreword"><span class="num">—</span><span>Foreword</span></a></li>
+      <li><a href="#jacob-1-emerge"><span class="num">J1.1</span><span>§1 — Einstein eq. as thermodynamics</span></a></li>
+      <li><a href="#jacob-1-horizon"><span class="num">J1.2</span><span>What is a "horizon" here? (figures)</span></a></li>
+    </ol>
+
+    <h2>Dedicated companions</h2>
+    <ol>
+      <li><a href="hawking-1975-deep.html"><span class="num">★</span><span>Hawking 1975 — DEEP lecture (nothing skipped, 30 modules)</span></a></li>
+      <li><a href="paper-worthiness-and-AI.html"><span class="num">★</span><span>Paper-Worthiness &amp; AI in Research — honest assessment + exemplars</span></a></li>
+      <li><a href="research-craft-course.html"><span class="num">★</span><span>The Craft of Physics Research — Feynman, Einstein, Hamming, paper-writing</span></a></li>
+      <li><a href="string-theory-course.html"><span class="num">★</span><span>String Theory — full graduate COURSE (13 modules)</span></a></li>
+      <li><a href="jacobson-1995-course.html"><span class="num">★</span><span>Jacobson 1995 — full graduate COURSE (7 lectures + problem sets)</span></a></li>
+      <li><a href="jacobson-1995.html"><span class="num">→</span><span>Jacobson 1995 — short Q&amp;A guide</span></a></li>
+    </ol>
+
+    <h2>Annotated reading — Hawking 1975</h2>
+    <ol>
+      <li><a href="#annot-foreword"><span class="num">—</span><span>Foreword</span></a></li>
+      <li><a href="#annot-abstract"><span class="num">A0</span><span>The abstract</span></a></li>
+      <li><a href="#annot-1-open"><span class="num">A1.1</span><span>§1 opening — the approximation</span></a></li>
+      <li><a href="#annot-1-modes"><span class="num">A1.2</span><span>§1 — the mode expansion (Eq. 1.1)</span></a></li>
+      <li><a href="#annot-1-kg"><span class="num">A1.3</span><span>§1 — the Klein–Gordon inner product (Eq. 1.2)</span></a></li>
+      <li><a href="#annot-1-ambig"><span class="num">A1.4</span><span>§1 — vacuum ambiguity in curved spacetime</span></a></li>
+      <li><a href="#annot-1-locality"><span class="num">A1.5</span><span>§1 — the B-radius locality argument</span></a></li>
+      <li><a href="#annot-1-pair"><span class="num">A1.6</span><span>§1 — the virtual-pair heuristic</span></a></li>
+      <li><a href="#annot-2-coming"><span class="num">A2</span><span>§2 — Gravitational Collapse <em style="color:var(--muted)">(coming)</em></span></a></li>
+    </ol>
+
+    <h2>Lectures</h2>
+    <ol>
+      <li><a href="#lec-1" class="status-done"><span class="num">L1</span><span>From Hawking 1975 to one greybody factor</span></a></li>
+      <li><a href="#lec-2"><span class="num">L2</span><span>Page 1976 &amp; the Schwarzschild benchmark</span></a></li>
+      <li><a href="#lec-3"><span class="num">L3</span><span>Beyond scalars: Regge–Wheeler &amp; Teukolsky</span></a></li>
+      <li><a href="#lec-4"><span class="num">L4</span><span>Choosing the spacetime</span></a></li>
+      <li><a href="#lec-5"><span class="num">L5</span><span>Numerical methods: shooting vs. continued fractions</span></a></li>
+      <li><a href="#lec-6"><span class="num">L6</span><span>The ML angle: PINNs &amp; emulators</span></a></li>
+    </ol>
+
+    <h2>Sources</h2>
+    <div class="source-list">
+      <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975
+        <small>Particle creation by black holes</small></a>
+      <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003
+        <small>QFT in curved spacetime — lecture notes</small></a>
+      <a href="../papers/hawking_radiation/Jacobson1995.pdf">Jacobson 1995
+        <small>Einstein eq. from thermodynamics (PRL)</small></a>
+      <a href="../notes/topics/hawking_1975_reading_guide.md">Hawking 1975 reading guide
+        <small>3-pass study plan</small></a>
+      <a href="../notes/topics/greybody_literature_scan.md">Greybody literature scan
+        <small>landscape + gap notes</small></a>
+      <a href="../manuscripts/greybody-factors/README.md">Centerpiece manuscript
+        <small>plan + open decisions</small></a>
+      <a href="../reading_list.md">Reading list
+        <small>prioritized backlog</small></a>
+    </div>
+
+    <h2 style="margin-top:32px">How to use this</h2>
+    <p style="font-size:13px; color:var(--muted); line-height:1.55;">
+      One lecture at a time. The math is meant to be followed with pen and
+      paper alongside — derivation gaps in green callouts are
+      <em>not optional</em>. Checkboxes are saved in your browser.
+    </p>
+  </aside>
+
+  <!-- ============================================ -->
+  <!-- MAIN                                          -->
+  <!-- ============================================ -->
+  <main>
+
+    <h1>Black Hole Radiation</h1>
+    <div class="subtitle">
+      A personal lecture series. Bridges the gap between reading foundational
+      papers and being able to compute. Evolves as you progress.
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- ANNOTATED READING — JACOBSON 2003                      -->
+    <!-- ===================================================== -->
+
+    <h2 id="jacob-foreword">
+      <span class="lec-num">Annotated reading</span>
+      Jacobson 2003 — questions from the paper
+    </h2>
+    <div class="lecture-meta">
+      <span>Source: <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a> (gr-qc/0308048)</span>
+      <span>Mode: focused close-reading, driven by your questions</span>
+    </div>
+
+    <p>
+      A parallel artifact to the Hawking annotated reading below. Where the
+      Hawking annotations are a top-down line-by-line walk through every
+      passage of <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>,
+      this section grows <em>bottom-up</em> — one annotated passage per
+      question you bring back from your own reading of Jacobson. The seven
+      annotation flavors (Translation, Skipped step, Outdated, Erratum,
+      Context, Modern view, Why this is hard) are the same.
+    </p>
+
+    <!-- =============== J1.1 — Einstein equation as thermodynamics =============== -->
+    <h3 id="jacob-1-emerge">§J1.1 — Einstein equation as thermodynamics (Jacobson §1, p. 4)</h3>
+
+    <blockquote class="hawking">
+      <p>
+        "The fact[1] that the semi-classical Einstein equation can be derived
+        by demanding that the first law of thermodynamics hold for local
+        causal horizons, assuming the proportionality of entropy and area,
+        leads one to suspect that the metric is only meaningful in the
+        thermodynamic limit of something else."
+      </p>
+      <span class="source-attr">Jacobson 2003, §1 Introduction, p. 4</span>
+    </blockquote>
+
+    <p>
+      This is one sentence. It is also one of the most consequential off-hand
+      remarks in modern theoretical physics. Reference [1] is to
+      <em>Jacobson's own 1995 paper</em> "Thermodynamics of spacetime: The
+      Einstein equation of state" (Phys. Rev. Lett. 75, 1260, gr-qc/9504004),
+      and what it announces is sufficiently strange that the rest of the
+      sentence — about the metric being a thermodynamic-limit object — is a
+      cautious philosophical inference Jacobson is willing to defend in
+      print. Walk slowly.
+    </p>
+
+    <div class="annot context">
+      <span class="label">Context</span>
+      Jacobson 1995 derives the Einstein equation from <em>four</em>
+      ingredients, none of which is GR itself:
+      <ul>
+        <li><strong>Local causal horizons.</strong> At any point $p$ in any
+        Lorentzian spacetime, you can pick a small patch of a null
+        hypersurface near $p$ and treat it as the past horizon of a
+        uniformly accelerated observer threading $p$ — a "local Rindler
+        horizon." You don't need a global event horizon. Any spacetime point
+        has light cones, so this construction is always available.</li>
+        <li><strong>The Unruh effect.</strong> A uniformly accelerated
+        observer with proper acceleration $a$ perceives the Minkowski
+        vacuum as a thermal bath at temperature $T = \hbar a / (2\pi k_B c)$.
+        This is pure flat-space QFT (Unruh 1976). For a local Rindler
+        horizon with local surface gravity $\kappa$, this becomes
+        $T = \hbar\kappa/(2\pi k_B)$.</li>
+        <li><strong>Entropy proportional to area.</strong> Assume any local
+        horizon carries entropy $S = \eta A$ where $\eta = 1/(4 G\hbar)$ in
+        natural units. This is the Bekenstein–Hawking value, <em>taken as
+        input</em>. This is the only place GR-specific information enters
+        the argument — and even this enters as an assumption, not a
+        derivation.</li>
+        <li><strong>The first law:</strong> $\delta Q = T\, \delta S$. Heat
+        flow across the horizon = temperature × entropy change.</li>
+      </ul>
+    </div>
+
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      Plug these four ingredients in and demand the first law holds for
+      <em>every</em> local horizon at <em>every</em> point. That single
+      demand forces a tensor equation on the spacetime — and the equation
+      that pops out is, exactly,
+      $$R_{\mu\nu} - \tfrac{1}{2} R\, g_{\mu\nu} + \Lambda\, g_{\mu\nu} \;=\; \frac{8\pi G}{c^4}\, T_{\mu\nu}\,.$$
+      The Einstein equation. With a matter source. With a cosmological
+      constant (which appears as an integration constant). Derived from
+      thermodynamics, Unruh, and entropy-equals-area. Not assumed.
+    </div>
+
+    <div class="annot skipped">
+      <span class="label">Skipped step</span>
+      The technical core of Jacobson 1995, in five lines:
+      <ol>
+        <li>The heat flux through a patch of the local horizon, with null
+        generator $k^\mu$ and affine parameter $\lambda$, is the energy
+        flux of matter through it:
+        $\delta Q = \int T_{\mu\nu}\, k^\mu k^\nu\, \lambda\, d\lambda\, dA$
+        (the extra $\lambda$ comes from the boost weight — the Killing
+        energy crossing the horizon).</li>
+        <li>The area change of the local horizon is given by integrating the
+        Raychaudhuri equation for null congruences. To leading order at
+        $p$ in vacuum,
+        $\delta A = -\int R_{\mu\nu}\, k^\mu k^\nu\, \lambda\, d\lambda\, dA$.</li>
+        <li>The local Unruh temperature is
+        $T = \hbar\kappa / (2\pi k_B)$, where $\kappa$ is the surface
+        gravity of the local Rindler horizon.</li>
+        <li>Setting $\delta Q = T\, \delta S = T\, \eta\, \delta A$ and
+        demanding it hold for <em>all</em> choices of $k^\mu$ at <em>all</em>
+        points, you get a pointwise tensor equation:
+        $T_{\mu\nu}\, k^\mu k^\nu \;\propto\; R_{\mu\nu}\, k^\mu k^\nu$ for
+        all null $k^\mu$.</li>
+        <li>The only tensor identity compatible with this for all null
+        $k^\mu$ is the Einstein equation (modulo a piece proportional to
+        $g_{\mu\nu}$, which becomes the cosmological constant).</li>
+      </ol>
+      Reading the actual 4-page PRL once you have the energy is worth it.
+      It's startlingly short for a result this consequential.
+    </div>
+
+    <div class="annot hard">
+      <span class="label">Why this is hard</span>
+      Read the sentence again. Jacobson is saying: <em>the field equations of
+      gravity follow from thermodynamics applied to local horizons.</em>
+      To grasp why this should disturb you, an analogy.
+      <br><br>
+      The ideal gas law $PV = NkT$ is <em>not</em> a fundamental microscopic
+      law. It is a thermodynamic consequence of the statistical mechanics
+      of many molecules. Pressure and temperature are <em>coarse-grained</em>
+      variables — they only make sense in the thermodynamic limit of many
+      particles. Trying to "quantize pressure" (write $\hat P$ as an
+      operator on a Hilbert space) would be misguided; pressure is not a
+      fundamental quantum variable, it's an emergent statistical one.
+      <br><br>
+      Jacobson is suggesting that the <strong>spacetime metric
+      $g_{\mu\nu}$</strong> may be exactly the same kind of variable — a
+      coarse-grained, hydrodynamic description of some underlying
+      microstates we don't yet know. If that is right, then the entire
+      enterprise of "quantizing GR" (canonical quantization,
+      path-integral quantization, loop quantum gravity, even perturbative
+      string theory) is in some sense quantizing the wrong thing — like
+      quantizing pressure. <em>That</em> is what makes the sentence
+      important.
+    </div>
+
+    <div class="annot modern">
+      <span class="label">Modern view</span>
+      The "metric is thermodynamic" perspective has driven a large fraction
+      of theoretical-physics research since ~2000:
+      <ul>
+        <li>The <strong>holographic principle</strong> ('t Hooft 1993,
+        Susskind 1995): the underlying microstates of a region of
+        spacetime live on its boundary, with one bit per Planck area.</li>
+        <li><strong>AdS/CFT</strong> (Maldacena 1997): a concrete
+        realization — gravity in $(d+1)$-dim AdS = a conformal field
+        theory on its $d$-dim boundary. The CFT is the "underlying
+        microstates"; gravity is the thermodynamic / large-N limit.</li>
+        <li><strong>Van Raamsdonk 2010</strong>: "building up spacetime
+        from entanglement." In holographic settings, the geometry of the
+        bulk emerges from entanglement structure in the boundary CFT.
+        Disentangle the CFT, the bulk falls apart.</li>
+        <li><strong>ER = EPR</strong> (Maldacena–Susskind 2013):
+        entangled qubits glue spacetime together. Two black holes in an
+        entangled state are connected by a wormhole (the Einstein–Rosen
+        bridge). The conjecture: <em>all</em> entanglement creates
+        wormhole-like geometric connectivity.</li>
+        <li><strong>HaPPY codes</strong> (Pastawski–Yoshida–Harlow–Preskill
+        2015): a precise <em>quantum error correction</em> realization of
+        holographic geometry. This is genuinely CS-shaped physics. See
+        memory: <code>project-ai-angle</code>.</li>
+        <li>The <strong>islands formula</strong> and <strong>replica
+        wormholes</strong> (Penington 2019; Almheiri–Engelhardt–Marolf–Maxfield
+        2019; Penington–Shenker–Stanford–Yang 2019): the modern
+        resolution of the Hawking information paradox. The entire
+        machinery presupposes that spacetime is emergent from entanglement,
+        and computes the Page curve in that framework.</li>
+      </ul>
+      None of this is <em>settled</em> — "emergent gravity" is a research
+      program, not an established result. But the sentence Jacobson tosses
+      off in 2003 is the conceptual seed of an enormous body of contemporary
+      work. When you eventually get to the path-3 / pure-theory
+      destination (see memory: <code>feedback-paper-strategy</code>), this
+      lineage is where the action is.
+    </div>
+
+    <div class="annot context">
+      <span class="label">Context — for your trajectory</span>
+      This is also the kind of result that your CS/AI background reads
+      <em>more naturally</em> than most physicists' GR background does.
+      Coarse-graining, equations of state, the relationship between micro
+      and macro descriptions, the structure of error-correcting codes —
+      these are all native CS-shaped intuitions. The "emergent gravity from
+      thermodynamics" research program is one of the genuine 2↔3 bridges
+      mentioned in your project memory. Flag this passage. We will come
+      back to it many times.
+    </div>
+
+    <hr>
+
+    <!-- =============== J1.2 — What is a horizon? (figures) =============== -->
+    <h3 id="jacob-1-horizon">§J1.2 — What is a "horizon" here? Three kinds, with figures.</h3>
+
+    <p>
+      The word "horizon" gets used for several different objects in physics
+      that <em>look</em> similar but live in different settings. Jacobson's
+      argument uses a specific kind — the <strong>local Rindler horizon</strong>
+      — and it helps to see it next to the more familiar kinds.
+    </p>
+
+    <h4 style="margin-top:24px">Kind 1 — Rindler horizon (flat spacetime)</h4>
+
+    <p>
+      The cleanest example: a uniformly accelerating observer in <em>flat</em>
+      spacetime has a horizon. No black hole, no curvature, no GR. The observer's
+      worldline is a hyperbola; the asymptote of that hyperbola is a 45°
+      null line; events on the far side of that null line can never signal
+      the observer.
+    </p>
+
+    <figure class="diagram">
+      <svg viewBox="-185 -185 370 370" xmlns="http://www.w3.org/2000/svg" font-family="Charter, serif">
+        <g transform="scale(1,-1)">
+          <!-- blind region (events that can never signal the observer) -->
+          <polygon points="0,0 170,170 -170,170 -170,0" fill="#e8dfc8" opacity="0.55"/>
+          <!-- past null line t = -x -->
+          <line x1="-170" y1="170" x2="170" y2="-170" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- the future Rindler horizon: x = t -->
+          <line x1="-170" y1="-170" x2="170" y2="170" stroke="#8a3a18" stroke-width="2.5"/>
+          <!-- axes -->
+          <line x1="-170" y1="0" x2="170" y2="0" stroke="#3a3a3a" stroke-width="1.2"/>
+          <line x1="0" y1="-170" x2="0" y2="170" stroke="#3a3a3a" stroke-width="1.2"/>
+          <!-- Rindler hyperbola, x^2 - t^2 = 2500 -->
+          <polyline points="148.7,-140 130,-120 111.8,-100 93.3,-80 78.1,-60 64,-40 53.9,-20 50,0 53.9,20 64,40 78.1,60 93.3,80 111.8,100 130,120 148.7,140"
+                    stroke="#1f6e7e" stroke-width="2.5" fill="none"/>
+          <!-- observer "snapshots" -->
+          <circle cx="50" cy="0" r="3.5" fill="#1f6e7e"/>
+          <circle cx="78.1" cy="-60" r="3.5" fill="#1f6e7e"/>
+          <circle cx="78.1" cy="60" r="3.5" fill="#1f6e7e"/>
+        </g>
+        <!-- arrowheads (outside the flipped group) -->
+        <polygon points="167,-4 178,0 167,4" fill="#3a3a3a"/>
+        <polygon points="-4,-167 0,-178 4,-167" fill="#3a3a3a"/>
+        <!-- text labels (right-side-up) -->
+        <text x="172" y="17" font-size="15" font-style="italic">x</text>
+        <text x="-14" y="-165" font-size="15" font-style="italic">t</text>
+        <text x="58" y="38" font-size="12" fill="#1f6e7e" font-family="-apple-system, system-ui, sans-serif">accelerating observer</text>
+        <text x="58" y="52" font-size="11" fill="#1f6e7e" font-family="-apple-system, system-ui, sans-serif">(worldline = hyperbola)</text>
+        <text x="60" y="-103" font-size="12" fill="#8a3a18" font-family="-apple-system, system-ui, sans-serif" font-weight="600">future Rindler horizon</text>
+        <text x="60" y="-90" font-size="11" fill="#8a3a18" font-family="-apple-system, system-ui, sans-serif">(null line, x = t)</text>
+        <text x="-160" y="-115" font-size="12" fill="#6a5a3a" font-family="-apple-system, system-ui, sans-serif" font-weight="600">blind region</text>
+        <text x="-160" y="-101" font-size="11" fill="#6a5a3a" font-family="-apple-system, system-ui, sans-serif">events here never</text>
+        <text x="-160" y="-88" font-size="11" fill="#6a5a3a" font-family="-apple-system, system-ui, sans-serif">signal the observer</text>
+      </svg>
+      <figcaption>
+        <strong>Figure J1.2-A.</strong> Spacetime diagram of a uniformly
+        accelerating observer in flat space. The teal hyperbola is the
+        observer's worldline. The solid orange line is their future Rindler
+        horizon — a 45° null line. The shaded wedge is the set of events
+        that can never send signals reaching the observer.
+        <em>No black hole, no curvature.</em> The horizon is a feature of
+        the observer, not of the spacetime.
+      </figcaption>
+    </figure>
+
+    <div class="annot context">
+      <span class="label">Context — why this matters</span>
+      Even in <em>flat</em> spacetime, an accelerating observer has a
+      horizon. The Unruh effect says they see the vacuum as thermal at
+      $T = \hbar a/(2\pi k_B c)$. This is the conceptual seed of the
+      whole local-Rindler-horizon idea: a horizon doesn't require a black
+      hole, it just requires acceleration. And acceleration is something
+      you can always invoke at any point of any spacetime.
+    </div>
+
+    <h4 style="margin-top:32px">Kind 2 — Local Rindler horizon (Jacobson's construction)</h4>
+
+    <p>
+      Now generalize. At <em>any</em> point $p$ in <em>any</em> spacetime
+      (Schwarzschild, FLRW, your own messy numerical metric — anything), the
+      equivalence principle tells us that the spacetime <em>looks flat</em>
+      in a small neighborhood of $p$. So we can locally repeat the Rindler
+      construction: imagine an observer accelerating through $p$, in some
+      chosen direction. Their horizon — a small patch of null surface
+      through $p$ — is the <strong>local Rindler horizon</strong> at $p$.
+    </p>
+
+    <figure class="diagram">
+      <svg viewBox="-185 -150 370 300" xmlns="http://www.w3.org/2000/svg" font-family="Charter, serif">
+        <!-- "curved background" indicated by a faint warped grid -->
+        <g stroke="#d8d0bd" stroke-width="0.6" fill="none">
+          <path d="M-170,-100 Q-100,-110 0,-95 T170,-100"/>
+          <path d="M-170,-60 Q-100,-70 0,-55 T170,-60"/>
+          <path d="M-170,-20 Q-100,-30 0,-15 T170,-20"/>
+          <path d="M-170,20 Q-100,10 0,25 T170,20"/>
+          <path d="M-170,60 Q-100,50 0,65 T170,60"/>
+          <path d="M-170,100 Q-100,90 0,105 T170,100"/>
+          <path d="M-150,-130 Q-160,-50 -145,30 T-150,130"/>
+          <path d="M-100,-130 Q-110,-50 -95,30 T-100,130"/>
+          <path d="M-50,-130 Q-60,-50 -45,30 T-50,130"/>
+          <path d="M0,-130 Q-10,-50 5,30 T0,130"/>
+          <path d="M50,-130 Q40,-50 55,30 T50,130"/>
+          <path d="M100,-130 Q90,-50 105,30 T100,130"/>
+          <path d="M150,-130 Q140,-50 155,30 T150,130"/>
+        </g>
+        <text x="-170" y="-122" font-size="11" fill="#9a9a9a" font-family="-apple-system, sans-serif" font-style="italic">curved spacetime (any metric)</text>
+
+        <!-- light cone at p -->
+        <g transform="translate(0,10)">
+          <line x1="-80" y1="-80" x2="80" y2="80" stroke="#aaa" stroke-width="1" stroke-dasharray="3,3"/>
+          <line x1="-80" y1="80" x2="80" y2="-80" stroke="#aaa" stroke-width="1" stroke-dasharray="3,3"/>
+
+          <!-- chosen null patch through p (the local Rindler horizon) -->
+          <line x1="-70" y1="-70" x2="70" y2="70" stroke="#8a3a18" stroke-width="3.5"/>
+
+          <!-- highlighted "patch" -->
+          <line x1="-40" y1="-40" x2="40" y2="40" stroke="#c14600" stroke-width="5"/>
+
+          <!-- point p -->
+          <circle cx="0" cy="0" r="5" fill="#1f6e7e" stroke="#0d3a40" stroke-width="1"/>
+          <text x="10" y="-8" font-size="14" font-style="italic" fill="#0d3a40">p</text>
+        </g>
+
+        <!-- callouts -->
+        <text x="-175" y="0" font-size="12" fill="#0d3a40" font-family="-apple-system, sans-serif" font-weight="600">pick any point p</text>
+        <text x="-175" y="13" font-size="11" fill="#0d3a40" font-family="-apple-system, sans-serif">in any spacetime</text>
+
+        <text x="90" y="60" font-size="12" fill="#8a3a18" font-family="-apple-system, sans-serif" font-weight="600">small patch of</text>
+        <text x="90" y="73" font-size="11" fill="#8a3a18" font-family="-apple-system, sans-serif">null surface through p</text>
+        <text x="90" y="86" font-size="11" fill="#8a3a18" font-family="-apple-system, sans-serif">= local Rindler horizon</text>
+
+        <text x="-175" y="100" font-size="11" fill="#5a5a5a" font-family="-apple-system, sans-serif">light cone at p (dashed)</text>
+        <text x="-175" y="113" font-size="11" fill="#5a5a5a" font-family="-apple-system, sans-serif">— locally looks like flat space</text>
+        <text x="-175" y="126" font-size="11" fill="#5a5a5a" font-family="-apple-system, sans-serif">(equivalence principle)</text>
+      </svg>
+      <figcaption>
+        <strong>Figure J1.2-B.</strong> Jacobson's local construction. At
+        any point $p$ in any spacetime, the equivalence principle says
+        spacetime looks flat in a small neighborhood. So you can always
+        draw a light cone at $p$ and pick a small piece of one of its
+        null directions — that piece is the local Rindler horizon. The
+        thick orange segment is the patch that thermodynamics is applied
+        to. <em>The construction is available at every point, in every
+        direction.</em>
+      </figcaption>
+    </figure>
+
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      In the math of Jacobson's argument, the local Rindler horizon is
+      described by:
+      <ul>
+        <li>$p$ — the chosen point</li>
+        <li>$k^\mu$ — null vector at $p$, tangent to the chosen horizon
+          patch (it points along the patch's null direction)</li>
+        <li>$\lambda$ — affine parameter measuring position along the
+          horizon patch</li>
+        <li>$\kappa$ — surface gravity (how hard a hovering observer must
+          accelerate to stay just outside the patch)</li>
+      </ul>
+      The thick orange segment in Figure J1.2-B is the part you compute
+      $\delta Q$ and $\delta A$ over. The thermodynamic relation
+      $\delta Q = T \, \delta S$ is enforced on this patch — and then on
+      every other choice of $p$ and $k^\mu$. That universality is what
+      forces the Einstein equation everywhere.
+    </div>
+
+    <h4 style="margin-top:32px">Kind 3 — Black hole event horizon (for comparison)</h4>
+
+    <p>
+      For completeness, the most famous horizon: the event horizon of a
+      black hole. This is the kind <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>
+      computes radiation from. Note: it is <em>global</em> (defined by the
+      entire future of spacetime), not local. Jacobson's argument does
+      <em>not</em> use this kind — though it explains why this kind has a
+      temperature.
+    </p>
+
+    <figure class="diagram">
+      <svg viewBox="-185 -180 370 360" xmlns="http://www.w3.org/2000/svg" font-family="Charter, serif">
+        <g transform="scale(1,-1)">
+          <!-- inside the black hole (shaded) -->
+          <polygon points="-110,-110 -110,110 110,110 110,-110" fill="#e8dfc8" opacity="0"/>
+          <polygon points="0,0 -120,120 120,120 120,140 -120,140" fill="#e0d4b6" opacity="0.5"/>
+          <!-- singularity (jagged line at top) -->
+          <polyline points="-115,140 -100,148 -85,140 -70,148 -55,140 -40,148 -25,140 -10,148 5,140 20,148 35,140 50,148 65,140 80,148 95,140 110,148 115,140"
+                    fill="none" stroke="#3a2010" stroke-width="2"/>
+          <!-- event horizon: two null lines forming an upside-down V -->
+          <line x1="-120" y1="120" x2="0" y2="0" stroke="#8a3a18" stroke-width="2.5"/>
+          <line x1="0" y1="0" x2="120" y2="120" stroke="#8a3a18" stroke-width="2.5"/>
+          <!-- collapsing matter (curve from lower-right) -->
+          <path d="M 130,-160 Q 80,-80 30,-20 Q 10,0 0,0" stroke="#1f6e7e" stroke-width="2" fill="none"/>
+          <!-- light rays escaping outside -->
+          <line x1="50" y1="-60" x2="160" y2="50" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
+          <line x1="80" y1="-30" x2="170" y2="60" stroke="#aaa" stroke-width="1" stroke-dasharray="4,3"/>
+          <!-- past null infinity & future null infinity markers (lines at 45) -->
+          <line x1="0" y1="-170" x2="170" y2="0" stroke="#9a9a9a" stroke-width="1"/>
+          <line x1="0" y1="170" x2="170" y2="0" stroke="#9a9a9a" stroke-width="1"/>
+          <line x1="0" y1="-170" x2="-170" y2="0" stroke="#9a9a9a" stroke-width="1"/>
+          <line x1="0" y1="170" x2="-170" y2="0" stroke="#9a9a9a" stroke-width="1"/>
+        </g>
+        <!-- labels (right side up) -->
+        <text x="-75" y="-95" font-size="12" fill="#3a2010" font-family="-apple-system, sans-serif" font-weight="600">singularity (r = 0)</text>
+        <text x="-180" y="-30" font-size="12" fill="#8a3a18" font-family="-apple-system, sans-serif" font-weight="600">event horizon</text>
+        <text x="-180" y="-17" font-size="11" fill="#8a3a18" font-family="-apple-system, sans-serif">(null surface)</text>
+        <text x="20" y="40" font-size="12" fill="#6a5a3a" font-family="-apple-system, sans-serif" font-weight="600">inside</text>
+        <text x="20" y="53" font-size="11" fill="#6a5a3a" font-family="-apple-system, sans-serif">(no escape)</text>
+        <text x="-180" y="80" font-size="12" fill="#1f6e7e" font-family="-apple-system, sans-serif" font-weight="600">collapsing matter</text>
+        <text x="100" y="80" font-size="11" fill="#6a6660" font-family="-apple-system, sans-serif">outside —</text>
+        <text x="100" y="94" font-size="11" fill="#6a6660" font-family="-apple-system, sans-serif">light escapes</text>
+        <text x="100" y="108" font-size="11" fill="#6a6660" font-family="-apple-system, sans-serif">to infinity</text>
+        <text x="148" y="170" font-size="11" font-style="italic" fill="#6a5a3a">𝓘⁺</text>
+        <text x="148" y="-160" font-size="11" font-style="italic" fill="#6a5a3a">𝓘⁻</text>
+      </svg>
+      <figcaption>
+        <strong>Figure J1.2-C.</strong> Schematic spacetime diagram of a
+        black hole formed by gravitational collapse, as in Hawking 1975.
+        The teal curve is collapsing matter. The orange line(s) form the
+        event horizon — a null surface beyond which signals cannot escape
+        to future null infinity $\mathcal{I}^+$. Compare with Figures A
+        and B: this horizon is <em>global</em> (depends on the full future),
+        whereas the local Rindler horizon is constructed at a point.
+      </figcaption>
+    </figure>
+
+    <div class="annot hard">
+      <span class="label">Why Jacobson uses Kind 2, not Kind 3</span>
+      The black hole event horizon (Kind 3) is global — to know if you're
+      inside it, you'd need to know the entire future of the spacetime.
+      That makes it useless for deriving a <em>local</em> field equation
+      like Einstein's. The local Rindler horizon (Kind 2) is constructible
+      pointwise — at every point of every spacetime, with no global
+      information. That's what lets Jacobson's argument produce a tensor
+      identity that holds pointwise, which is exactly the form Einstein's
+      equation needs. The choice of Kind 2 over Kind 3 is the technical
+      hinge of the entire derivation.
+    </div>
+
+    <hr>
+
+    <!-- ===================================================== -->
+    <!-- ANNOTATED READING — HAWKING 1975                       -->
+    <!-- ===================================================== -->
+
+    <h2 id="annot-foreword">
+      <span class="lec-num">Annotated reading</span>
+      Hawking 1975 — line by line
+    </h2>
+    <div class="lecture-meta">
+      <span>Source: <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a></span>
+      <span>Mode: slow, no skipped steps</span>
+      <span>Pace: read one section at a time</span>
+    </div>
+
+    <h3>Foreword</h3>
+    <p>
+      You're exhausted. Months on one paper, and you still feel like you're at
+      the start. That feeling is real, and it's not a sign that you don't
+      belong here. <em>Hawking 1975 is genuinely a hard paper to read.</em> It
+      was written by a brilliant person, for other brilliant people who
+      already knew most of the background, in a 1975 notation that has since
+      been refined, and at a level of compression that even professional
+      physicists find dense.
+    </p>
+    <p>
+      This annotated reading is built on one principle: <strong>no skipped
+      steps</strong>. Every place in the paper where Hawking writes "it can be
+      shown that," every place he assumes you already know a notation or a
+      result, every place where his argument has been clarified, corrected, or
+      sharpened by later work — those places get a margin annotation here.
+    </p>
+    <p>
+      You are not behind. We are not racing. We will sit with Hawking 1975 as
+      long as it takes.
+    </p>
+    <p>
+      A few things about how to use this:
+    </p>
+    <ul>
+      <li>
+        Read <strong>one annotated section at a time</strong>. Each is a few
+        hundred words. Close the laptop after one if you need to.
+      </li>
+      <li>
+        Annotations come in seven flavors, with distinct colors in the margin:
+      </li>
+    </ul>
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      Hawking's old notation rewritten in modern language.
+    </div>
+    <div class="annot skipped">
+      <span class="label">Skipped step</span>
+      Algebra Hawking leaves to the reader, with the missing steps filled in.
+    </div>
+    <div class="annot outdated">
+      <span class="label">Outdated</span>
+      A convention or term Hawking uses that has been refined since 1975.
+    </div>
+    <div class="annot errata">
+      <span class="label">Erratum</span>
+      An actual typo or error in the paper.
+    </div>
+    <div class="annot context">
+      <span class="label">Context</span>
+      Background Hawking assumes the reader already knows.
+    </div>
+    <div class="annot modern">
+      <span class="label">Modern view</span>
+      A development after 1975 that changes how we read Hawking now.
+    </div>
+    <div class="annot hard">
+      <span class="label">Why this is hard</span>
+      Explicit acknowledgment of places that are difficult, with an
+      explanation of <em>why</em> they are difficult.
+    </div>
+    <p>
+      The sidebar lists every section. Treat it as a table of contents, not a
+      list you have to complete in order. You'll encounter equations we've
+      already met in Lecture 1 — don't skip them here. Seeing them re-derived
+      in this slower context is the point.
+    </p>
+    <p>
+      OK. Take a breath. Let's go.
+    </p>
+
+    <hr>
+
+    <!-- =============== A0 — Abstract =============== -->
+    <h3 id="annot-abstract">§A0 — The abstract</h3>
+    <p>
+      Three sentences. Each carries a lot of weight. We read them one at a time.
+    </p>
+
+    <blockquote class="hawking">
+      <p>
+        "In the classical theory black holes can only absorb and not emit
+        particles. However it is shown that quantum mechanical effects cause
+        black holes to create and emit particles as if they were hot bodies
+        with temperature $\hbar\kappa/2\pi k$, where $\kappa$ is the surface
+        gravity of the black hole."
+      </p>
+      <span class="source-attr">Hawking 1975, abstract, p. 199</span>
+    </blockquote>
+
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      Hawking's $\hbar\kappa/2\pi k$ is, in modern notation, the Hawking
+      temperature $T_H = \hbar\kappa / (2\pi k_B c)$. Hawking sets $c = 1$
+      throughout the paper, and his $k$ is what we now write $k_B$
+      (Boltzmann's constant). For a Schwarzschild black hole of mass $M$, the
+      surface gravity is $\kappa = c^4/(4 G M)$, so
+      $T_H = \hbar c^3 / (8\pi G M k_B)$ — the famous form you see quoted
+      in textbooks.
+    </div>
+
+    <div class="annot context">
+      <span class="label">Context</span>
+      "Classically" here means: <em>in classical general relativity</em>. In
+      classical GR, the event horizon is a one-way membrane — anything that
+      tried to cross it outbound would have to exceed the speed of light. So
+      classical black holes are perfect absorbers; their emission rate is
+      identically zero. Hawking is announcing that this changes when you
+      turn on quantum mechanics. Specifically: quantum-mechanical
+      <em>fields</em> propagating on a classical curved <em>background</em>.
+      The full quantization of gravity itself is something Hawking is
+      deliberately not doing. This is "semi-classical gravity" — and 50
+      years later, this is still the only regime in which we can compute
+      Hawking radiation.
+    </div>
+
+    <div class="annot hard">
+      <span class="label">Why this is hard</span>
+      The conceptual leap this sentence asks you to take is large. "But
+      black holes are <em>defined</em> to be one-way membranes — how can
+      anything come out?" is a reasonable question that you may need to sit
+      with for hours. The answer, which the paper spends 20 pages
+      delivering, is roughly: <em>"vacuum" in a curved spacetime is not the
+      same thing as "vacuum" in flat space. Observers in different regions
+      of the spacetime disagree about which state is the vacuum, and that
+      disagreement, made quantitative, is the particle creation.</em> You
+      do not have to understand the answer from the abstract. You just have
+      to register that there is a real question being asked.
+    </div>
+
+    <blockquote class="hawking">
+      <p>
+        "This thermal emission leads to a slow decrease in the mass of the
+        black hole and to its eventual disappearance: any primordial black
+        hole of mass less than about $10^{15}$ g would have evaporated by
+        now."
+      </p>
+      <span class="source-attr">Hawking 1975, abstract, p. 199</span>
+    </blockquote>
+
+    <div class="annot modern">
+      <span class="label">Modern view</span>
+      This sentence quietly assumes the back-reaction is well-behaved: that
+      the emitted radiation carries away energy, and therefore the black
+      hole shrinks. Hawking is calculating on a <em>fixed</em> background
+      and then arguing semi-heuristically from energy conservation that the
+      mass must decrease. The full back-reaction problem — how the metric
+      <em>responds</em> to the outgoing flux of (effectively negative)
+      energy at the horizon — is much harder, and was <em>not</em> solved
+      in this paper. Modern work on the information paradox (Page 1993, the
+      islands formula of 2019+, replica wormholes) directly engages with
+      this evolution. We don't need any of that yet. Just register: this
+      sentence has hidden machinery.
+    </div>
+
+    <div class="annot skipped">
+      <span class="label">Skipped step</span>
+      The "$10^{15}$ g" threshold comes from setting the evaporation time
+      $\tau \sim G^2 M^3 / (\hbar c^4)$ equal to the age of the universe
+      ($\sim 4 \times 10^{17}$ s). The cubic mass dependence comes from the
+      Stefan–Boltzmann scaling $dM/dt \propto -T_H^4 \cdot A_{\rm BH} \propto
+      -1/M^2$, which integrates to $\tau \propto M^3$. Hawking neither
+      derives nor explains this number in the abstract — it lands as fact.
+      Work it out on paper sometime; it is a clean dimensional-analysis
+      exercise.
+    </div>
+
+    <blockquote class="hawking">
+      <p>
+        "Although these quantum effects violate the classical law that the
+        area of the event horizon of a black hole cannot decrease, there
+        remains a Generalized Second Law: $S + \tfrac{1}{4}A$ never decreases
+        where $S$ is the entropy of matter outside black holes and $A$ is
+        the sum of the surface areas of the event horizons."
+      </p>
+      <span class="source-attr">Hawking 1975, abstract, p. 199</span>
+    </blockquote>
+
+    <div class="annot context">
+      <span class="label">Context</span>
+      The "classical law that the area of the event horizon cannot decrease"
+      is <em>Hawking's own area theorem</em> (1971). He is announcing in
+      this very paper that his earlier theorem is violated by his new
+      result — in the regime where quantum mechanics matters. The
+      Generalized Second Law (GSL) is the conjectured replacement: ordinary
+      thermodynamic entropy <em>plus</em> a quarter of the horizon area, in
+      natural units, is non-decreasing.
+    </div>
+
+    <div class="annot outdated">
+      <span class="label">Outdated</span>
+      Hawking writes "$\tfrac{1}{4}A$" without specifying units. In modern
+      notation, "$\tfrac{1}{4}A$" means $A / (4 \ell_P^2)$ where
+      $\ell_P = \sqrt{G\hbar / c^3}$ is the Planck length. The full
+      dimensionful formula is the Bekenstein–Hawking entropy
+      $$S_{\rm BH} = \frac{k_B c^3 A}{4 G \hbar}\,.$$
+      Hawking is using $G = c = \hbar = k_B = 1$ implicitly throughout most
+      of the paper, but only states it inconsistently. Whenever a formula
+      looks dimensionally suspect, the resolution is "natural units."
+    </div>
+
+    <div class="annot modern">
+      <span class="label">Modern view</span>
+      The status of the GSL is much more nuanced than Hawking made it look
+      in 1975. There are proofs in restricted settings (Wall 2010,
+      Bousso–Engelhardt 2015), and the islands/replica-wormhole work of
+      2019+ provides a <em>holographic</em> derivation in AdS-like settings
+      that is the closest thing we have to a definitive resolution. None
+      of this changes the formula Hawking writes; it just settles when and
+      why it holds.
+    </div>
+
+    <hr>
+
+    <!-- =============== A1.1 — Opening framing =============== -->
+    <h3 id="annot-1-open">§A1.1 — The opening framing: what is "semi-classical gravity"?</h3>
+
+    <p>
+      The body of §1 begins (p. 199, after the abstract) by setting up the
+      <em>regime of validity</em> for the calculation. Three paragraphs of
+      Hawking framing what he is and is not doing.
+    </p>
+
+    <blockquote class="hawking">
+      <p>
+        "Although there has been a lot of work in the last fifteen years
+        [...], I think it would be fair to say that we do not yet have a
+        fully satisfactory and consistent quantum theory of gravity. At the
+        moment classical General Relativity still provides the most
+        successful description of gravity."
+      </p>
+      <span class="source-attr">Hawking 1975, §1, p. 199</span>
+    </blockquote>
+
+    <div class="annot context">
+      <span class="label">Context</span>
+      "The last fifteen years" puts the start of serious quantum-gravity
+      work at around 1960 — DeWitt's papers on canonical quantization, the
+      ADM formulation, etc. Fifty years after Hawking wrote this, the
+      situation is essentially unchanged: we still do not have a fully
+      satisfactory quantum theory of gravity. String theory and loop
+      quantum gravity are the two longest-running programs; neither has
+      delivered a complete dynamical theory in 4 dimensions that everyone
+      agrees on. So <em>Hawking's opening caveat is still binding</em>.
+      The entire Hawking-radiation calculation lives in the
+      semi-classical regime <em>by necessity</em>, not by choice.
+    </div>
+
+    <blockquote class="hawking">
+      <p>
+        "The approximation I shall use in this paper is that the matter
+        fields, such as scalar, electro-magnetic, or neutrino fields, obey
+        the usual wave equations with the Minkowski metric replaced by a
+        classical space-time metric $g_{ab}$. This metric satisfies the
+        Einstein equations where the source on the right hand side is taken
+        to be the expectation value of some suitably defined energy
+        momentum operator for the matter fields."
+      </p>
+      <span class="source-attr">Hawking 1975, §1, p. 199</span>
+    </blockquote>
+
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      In modern language, Hawking is announcing he will work in
+      <strong>quantum field theory in curved spacetime (QFTCS)</strong>,
+      coupled to the semi-classical Einstein equation
+      $$G_{\mu\nu} = 8\pi G\,\langle \hat T_{\mu\nu}\rangle\,.$$
+      Matter is quantum (operator-valued fields $\hat\phi$, $\hat A_\mu$,
+      etc.), spacetime is classical (a c-number metric $g_{\mu\nu}$), and
+      they are coupled only through the expectation value of the stress
+      tensor. Birrell &amp; Davies (1982), still the canonical textbook on
+      this, was written precisely to make this framework rigorous.
+    </div>
+
+    <div class="annot outdated">
+      <span class="label">Outdated</span>
+      Hawking uses the abstract-index notation $g_{ab}$ (Latin indices)
+      throughout the paper, following Penrose. Modern conventions usually
+      use Greek indices $g_{\mu\nu}$ for spacetime indices. When you see
+      $g_{ab}$, $K^a$, $T_{ab}$, etc. in Hawking, mentally translate to
+      $g_{\mu\nu}$, $K^\mu$, $T_{\mu\nu}$. Nothing else changes; this is
+      pure cosmetic.
+    </div>
+
+    <div class="annot hard">
+      <span class="label">Why this is hard</span>
+      The "approximation" Hawking describes here sounds innocent. It is
+      not. The statement "spacetime is classical, matter is quantum, they
+      are coupled through $\langle \hat T_{\mu\nu}\rangle$" hides three
+      separate hard problems: <em>(i)</em> Which state are you taking the
+      expectation value in? (Different vacua give different
+      $\langle \hat T_{\mu\nu}\rangle$.) <em>(ii)</em> How do you
+      regularize $\langle \hat T_{\mu\nu}\rangle$, which is formally
+      divergent? <em>(iii)</em> When is this semi-classical coupling a
+      good approximation to whatever the full quantum theory of gravity
+      would say? Hawking is not going to answer any of these. He is going
+      to <em>assume</em> the approximation is OK in his regime and
+      compute.
+    </div>
+
+    <blockquote class="hawking">
+      <p>
+        "However one would hope that it would be a very good approximation
+        for most purposes except near space-time singularities."
+      </p>
+      <span class="source-attr">Hawking 1975, §1, p. 199</span>
+    </blockquote>
+
+    <div class="annot modern">
+      <span class="label">Modern view</span>
+      This "hope" was vindicated for most of the calculation but
+      <em>not</em> at the very last stage: when a black hole evaporates to
+      near-Planckian mass, the semiclassical approximation must break
+      down. Modern work (page-curve, islands, etc.) finds that
+      semiclassical gravity is actually <em>more</em> reliable than
+      Hawking estimated for the early part of evaporation, but
+      <em>less</em> reliable for understanding the final state of the
+      radiation (the information paradox). Hawking's optimism here is in
+      fact wrong in detail, but in a much more interesting way than he
+      anticipated.
+    </div>
+
+    <hr>
+
+    <!-- =============== A1.2 — Mode expansion =============== -->
+    <h3 id="annot-1-modes">§A1.2 — The mode expansion (Hawking's Eq. 1.1)</h3>
+
+    <p>
+      Hawking now sets up the standard mode-decomposition of a quantum field
+      in flat space, before extending it to curved spacetime. This is
+      machinery you must own cold — every line of §2 of the paper assumes
+      you can read this fluently.
+    </p>
+
+    <blockquote class="hawking">
+      <p>
+        "For example, if $\phi$ is a massless Hermitian scalar field obeying
+        the equation $\phi_{;ab}\, g^{ab} = 0$ one expresses $\phi$ as"
+        $$\phi = \sum_i \{f_i\, a_i + \bar f_i\, a_i^\dagger\} \quad\text{(1.1)}$$
+        "where the $\{f_i\}$ are a complete orthonormal family of complex
+        valued solutions of the wave equation $f_{i;ab}\, g^{ab} = 0$ which
+        contain only positive frequencies with respect to the usual Minkowski
+        time coordinate."
+      </p>
+      <span class="source-attr">Hawking 1975, §1, Eq. (1.1), p. 199–200</span>
+    </blockquote>
+
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      In modern notation, the field operator is
+      $\hat\phi = \sum_i (f_i \hat a_i + f_i^*\, \hat a_i^\dagger)$. The
+      "$\phi_{;ab}\, g^{ab} = 0$" is just Hawking's covariant way of writing
+      $\Box \phi = 0$ — the Klein–Gordon equation. His "$f_{;ab}\, g^{ab}$"
+      is $\Box f$. (The semicolon is the covariant derivative; double
+      semicolon-index $;ab$ is $\nabla_a \nabla_b$; contracted with
+      $g^{ab}$ gives the d'Alembertian.)
+    </div>
+
+    <div class="annot outdated">
+      <span class="label">Outdated</span>
+      Hawking writes $\bar f_i$ for the complex conjugate (the
+      Penrose-style "bar"); modern texts more often write $f_i^*$. Hawking
+      also doesn't put hats on his operators: his "$\phi$, $a_i$,
+      $a_i^\dagger$" are all operators, but he uses the same letters as
+      for c-number functions. When in doubt: <em>if it appears in a sum
+      with creation/annihilation operators, it's a function; if it has a
+      dagger, it's an operator; if it has neither and is to the left of a
+      $|0\rangle$, you have to read from context.</em> Modern conventions
+      consistently hat operators ($\hat\phi$, $\hat a$, $\hat a^\dagger$),
+      which removes the ambiguity.
+    </div>
+
+    <div class="annot context">
+      <span class="label">Context</span>
+      "Positive frequency with respect to the Minkowski time coordinate"
+      means: $f_i(t, \vec x) \propto e^{-i\omega t}$ with $\omega > 0$.
+      The minus sign in $e^{-i\omega t}$ is the physics convention —
+      positive-frequency modes go as $e^{-i\omega t}$, not $e^{+i\omega t}$
+      — and it is non-negotiable. (This sign convention is one of the
+      most frequent sources of confusion when reading old papers.) "Why
+      positive frequency?" Because the Hamiltonian $\hat H = \omega \hat
+      a^\dagger \hat a$ has positive eigenvalues: the $\hat a$'s lower
+      the energy, the $\hat a^\dagger$'s raise it. If you mode-expanded
+      using positive-and-negative-frequency modes mixed together, the $\hat
+      a$ operators would no longer cleanly destroy quanta.
+    </div>
+
+    <div class="annot skipped">
+      <span class="label">Skipped step</span>
+      Hawking does not explain what "complete orthonormal family" means
+      here. He defines orthonormality in his Eq. (1.2) (next section, §A1.3).
+      <em>Completeness</em> means the $\{f_i\}$ plus their conjugates
+      $\{\bar f_i\}$ together span the full space of complex solutions to
+      $\Box f = 0$. In flat space, the natural choice is plane waves
+      $f_{\vec k}(t, \vec x) = (2\pi)^{-3/2} (2\omega_k)^{-1/2}\,
+      e^{-i\omega_k t + i\vec k \cdot \vec x}$ with $\omega_k = |\vec k|$,
+      so the discrete sum $\sum_i$ in Hawking's Eq. (1.1) is a stand-in
+      for $\int d^3 k$. He keeps a discrete sum because, in the
+      gravitational-collapse problem he is heading toward, the natural
+      modes are <em>not</em> plane waves and the sum is over a
+      curved-space mode index.
+    </div>
+
+    <blockquote class="hawking">
+      <p>
+        "The operators $a_i$ and $a_i^\dagger$ are interpreted as the
+        annihilation and creation operators respectively for particles in
+        the $i$th state. The vacuum state $|0\rangle$ is defined to be the
+        state from which one cannot annihilate any particles, i.e.
+        $a_i |0\rangle = 0$ for all $i$."
+      </p>
+      <span class="source-attr">Hawking 1975, §1, p. 200</span>
+    </blockquote>
+
+    <div class="annot hard">
+      <span class="label">Why this is hard</span>
+      Watch this definition carefully — it is the <em>entire pivot</em> of
+      the paper. The vacuum is defined <em>relative to a choice of mode
+      basis $\{f_i\}$</em>. In flat space, that choice is essentially
+      unique (Minkowski plane waves are the natural one). In curved
+      spacetime, it is not unique — and the whole Hawking effect lives
+      in that non-uniqueness. When Hawking later writes
+      "$|0_-\rangle$ is the initial vacuum" (defined by the
+      past-null-infinity modes $\{f_i\}$) and "$|0_+\rangle$ is the final
+      vacuum" (defined by the future-null-infinity modes $\{p_i\}$), the
+      fact that <em>these are different states</em> is the entire content
+      of "particle creation." Anchor on this and the rest of §1 will
+      click.
+    </div>
+
+    <hr>
+
+    <!-- =============== A1.3 — KG inner product =============== -->
+    <h3 id="annot-1-kg">§A1.3 — The Klein–Gordon inner product (Hawking's Eq. 1.2)</h3>
+
+    <blockquote class="hawking">
+      <p>
+        "One could still require that the $\{f_i\}$ and the $\{\bar f_i\}$
+        together formed a complete basis for solutions of the wave equations
+        with"
+        $$-\frac{i}{2}\int_S\!\big(f_i\, \bar f_{j;a} - \bar f_{j}\, f_{i;a}\big)\, d\Sigma^a \;=\; \delta_{ij} \quad\text{(1.2)}$$
+        "where $S$ is a suitable surface."
+      </p>
+      <span class="source-attr">Hawking 1975, §1, Eq. (1.2), p. 200</span>
+    </blockquote>
+
+    <div class="annot translation">
+      <span class="label">Translation</span>
+      This is the <strong>Klein–Gordon inner product</strong>. In modern
+      notation,
+      $$\langle f, g\rangle_{\rm KG} \;\equiv\; -i \int_\Sigma\, \left( f\, \partial_\mu g^* - g^*\, \partial_\mu f \right)\, n^\mu\, d\Sigma\,,$$
+      where $\Sigma$ is a spacelike Cauchy surface and $n^\mu$ is its
+      future-directed unit normal. Hawking's compact form
+      "$\int_S (f_i\, \bar f_{j;a} - \bar f_j\, f_{i;a}) d\Sigma^a$"
+      packages the volume element $d\Sigma$ and the normal $n^\mu$ into a
+      single oriented surface element $d\Sigma^a = n^a d\Sigma$, and uses
+      the covariant derivative semicolon notation in place of $\partial_\mu$
+      (they agree on a scalar field).
+    </div>
+
+    <div class="annot context">
+      <span class="label">Context</span>
+      Why this particular formula? Because $\langle f, g\rangle_{\rm KG}$ is
+      <em>conserved</em>: if $f$ and $g$ both solve the Klein–Gordon
+      equation, the integral is independent of which spacelike surface
+      $\Sigma$ you evaluate it on. (You can prove this from $\Box f = 0$
+      and integration by parts; it is one of those exercises everyone
+      eventually does and that physicists almost never write down.) That
+      conservation is what makes "positive-frequency" a well-defined
+      labeling: a mode that's positive-frequency on one slice stays
+      positive-frequency on every Cauchy slice in flat space.
+    </div>
+
+    <div class="annot skipped">
+      <span class="label">Skipped step</span>
+      Hawking does not flag a subtlety: positive-frequency modes have
+      $\langle f_i, f_j\rangle_{\rm KG} = +\delta_{ij}$, but
+      negative-frequency modes have
+      $\langle \bar f_i, \bar f_j\rangle_{\rm KG} = -\delta_{ij}$. The
+      Klein–Gordon "inner product" is not positive-definite; it is
+      indefinite. This is exactly what allows positive and negative
+      frequencies to mix under a Bogoliubov transformation (next section).
+      If you have studied special relativity, this should remind you of
+      the indefiniteness of the Minkowski metric — and it is essentially
+      the same structure.
+    </div>
+
+    <div class="annot hard">
+      <span class="label">Why this is hard</span>
+      The "KG inner product" is treated as obvious in Hawking's paper and
+      in most graduate-level QFT-in-curved-spacetime presentations. It is
+      not obvious. If you have only seen quantization in non-relativistic
+      quantum mechanics or in canonical (Hamiltonian) flat-space QFT, you
+      have probably never written this object down explicitly. Spend an
+      hour with Birrell &amp; Davies §3.2 if you can; they walk through
+      the derivation slowly. Or with Jacobson §4.2 of his notes
+      (<a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, p. 13–14).
+      It is worth the hour. Every later equation in Hawking 1975 uses this
+      inner product implicitly.
+    </div>
+
+    <hr>
+
+    <!-- =============== Placeholders for remaining annotations =============== -->
+    <h3 id="annot-1-ambig">§A1.4 — Vacuum ambiguity in curved spacetime
+      <span class="status-pill placeholder">coming next session</span></h3>
+    <p>
+      Will cover Hawking's §1 paragraph on "in a region of space-time which
+      was flat or asymptotically flat, the appropriate criterion for
+      choosing the $\{f_i\}$ is that they should contain only positive
+      frequencies with respect to the Minkowski time coordinate. However if
+      one has a space-time which contains an initial flat region (1)
+      followed by a region of curvature (2) then a final flat region (3),
+      the basis $\{f_{1i}\}$ which contains only positive frequencies on
+      region (1) will not be the same as the basis $\{f_{3i}\}$..." (Hawking
+      1975, p. 200). The core conceptual content of the paper.
+    </p>
+
+    <h3 id="annot-1-locality">§A1.5 — The B-radius locality argument
+      <span class="status-pill placeholder">coming next session</span></h3>
+    <p>
+      Will cover Hawking's heuristic dimensional-analysis estimate of the
+      energy density uncertainty from particle-creation ambiguity, and how
+      it leads to the Planck length as the regime-of-validity boundary
+      (Hawking 1975, p. 200–201).
+    </p>
+
+    <h3 id="annot-1-pair">§A1.6 — The virtual-pair heuristic
+      <span class="status-pill placeholder">coming next session</span></h3>
+    <p>
+      Will cover Hawking's "Just outside the event horizon there will be
+      virtual pairs of particles..." picture (p. 202), including the
+      important warning Hawking himself gives — "It should be emphasized
+      that these pictures of the mechanism responsible for the thermal
+      emission and area decrease are heuristic only and should not be taken
+      too literally" — which a lot of pop-science later forgot to repeat.
+    </p>
+
+    <h3 id="annot-2-coming">§A2 — Gravitational Collapse (the technical core)
+      <span class="status-pill placeholder">coming after §A1 is done</span></h3>
+    <p>
+      The 8-page technical core of Hawking 1975 (pp. 204–211). Bogoliubov
+      machinery, the geometric-optics calculation, the log-phase pile-up.
+      Maximum care. We do not begin this until §A1 above is complete,
+      because §2 builds on every conceptual move made in §1.
+    </p>
+
+    <hr>
+    <h2 id="lec-1">
+      <span class="lec-num">Lecture 1</span>
+      From Hawking 1975 to one greybody factor
+      <span class="status-pill in-progress">drafted</span>
+    </h2>
+    <div class="lecture-meta">
+      <span>Prerequisite: <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a> (skimmed at minimum)</span>
+      <span>Outcome: you know what equation to integrate, with what boundary conditions, to extract one number</span>
+    </div>
+
+    <h3>1.1 — Where we are, and what this lecture is for</h3>
+    <p>
+      You've just spent months with
+      <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>.
+      In his own opening words:
+    </p>
+    <blockquote class="source">
+      <p>
+        "In the classical theory black holes can only absorb and not emit particles.
+        However it is shown that quantum mechanical effects cause black holes to create
+        and emit particles as if they were hot bodies with temperature
+        $\hbar\kappa / 2\pi k$, where $\kappa$ is the surface gravity of the black hole."
+      </p>
+      <span class="source-attr">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, abstract, p. 199</span>
+    </blockquote>
+    <p>
+      For a Schwarzschild black hole the surface gravity is $\kappa = 1/(4M)$
+      (units $G = c = 1$), so
+      $$T_H \;=\; \frac{\hbar \kappa}{2\pi k_B} \;=\; \frac{\hbar c^3}{8\pi G M k_B}\,.$$
+      But — and this is the part Hawking spells out only at the end of §2 of the
+      paper — that flux is <em>not</em> exactly Planckian. Each mode is modulated
+      by a frequency-dependent factor that encodes how much of an outgoing wave
+      actually escapes the curvature potential outside the horizon. Hawking's
+      final formula for the number of particles created in a given outgoing
+      wave-packet mode is
+      $$\boxed{\;\; F_{j n}\,\bigl(\exp(2\pi\omega/\kappa) - 1\bigr)^{-1}\;\;}$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.29), p. 211</span>
+    </p>
+    <p>
+      where Hawking's $F_{jn}$ is, in his own words, "the fraction of the
+      wave-packet that would have crossed the past event horizon". <em>That
+      fraction is the greybody factor.</em> Modern notation calls it
+      $\Gamma_{\omega\ell}$; Jacobson writes it as the norm $\langle T, T \rangle$
+      of the transmitted wavepacket (<a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, Eq. (6.26), p. 38).
+      Different names, same number: the fraction of an outgoing mode of frequency
+      $\omega$ and angular momentum $\ell$ that survives the curvature barrier.
+    </p>
+    <p>
+      The problem: you've read the paper, but you don't know what to <em>compute</em>.
+      Hawking's mode-decomposition language doesn't tell you which Python program
+      to write tomorrow. This lecture's only job is to bridge that gap. By the end
+      you'll know exactly which equation to integrate, with which boundary conditions,
+      to extract a single number $\Gamma_{\omega\ell}$ you can match against
+      <a href="https://doi.org/10.1103/PhysRevD.13.198">Page 1976</a>.
+    </p>
+
+    <h3>1.2 — Hawking's own argument, in his own equations</h3>
+    <p>
+      Hawking expands the scalar field operator $\hat\phi$ in two equivalent ways.
+      First, in terms of modes $\{f_i\}$ that are positive-frequency on
+      <em>past</em> null infinity $\mathcal{I}^-$:
+      $$\hat\phi \;=\; \sum_i \bigl(f_i\, \hat a_i + \bar f_i\, \hat a_i^\dagger\bigr)\,,$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.3)</span>
+      and second, in terms of modes $\{p_i\}$ that are purely outgoing
+      (positive-frequency on <em>future</em> null infinity $\mathcal{I}^+$) plus
+      modes $\{q_i\}$ that fall into the horizon:
+      $$\hat\phi \;=\; \sum_i \bigl(p_i\, \hat b_i + \bar p_i\, \hat b_i^\dagger + q_i\, \hat c_i + \bar q_i\, \hat c_i^\dagger\bigr)\,.$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.4)</span>
+    </p>
+    <p>
+      The two bases are related by linear combinations,
+      $p_i = \sum_j (\alpha_{ij} f_j + \beta_{ij} \bar f_j)$
+      (Hawking Eq. (2.5)), which gives the corresponding Bogoliubov relation
+      between operators,
+      $\hat b_i = \sum_j (\bar\alpha_{ij} \hat a_j - \bar\beta_{ij} \hat a_j^\dagger)$
+      (Hawking Eq. (2.7)). Now the <em>initial</em> vacuum
+      $|0_-\rangle$ — the state with no incoming particles on $\mathcal{I}^-$ — is
+      defined by $\hat a_i |0_-\rangle = 0$. But the expectation value of the
+      number of <em>outgoing</em> particles in mode $i$, as measured at
+      $\mathcal{I}^+$, is
+      $$\langle 0_- | \hat b_i^\dagger \hat b_i | 0_- \rangle \;=\; \sum_j |\beta_{ij}|^2\,.$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.10), p. 206</span>
+    </p>
+    <p>
+      This is the entire problem in one line: <strong>nonzero
+      $\beta_{ij}$ means particle creation.</strong> Whatever later
+      formal machinery Hawking deploys — and the rest of §2 of the paper is a
+      tour of it — the question being answered is "what is
+      $|\beta_{\omega\omega'}|^2$?"
+    </p>
+    <p>
+      The unmotivated cleverness of the paper, which Hawking states but
+      doesn't dwell on, is this: <em>once the collapse has settled, the geometry
+      outside the event horizon is stationary.</em> The wave equation for
+      late-time outgoing modes lives entirely on this stationary background.
+      The Bogoliubov coefficients $\beta_{\omega\omega'}$ become, in the late-time
+      regime, the <em>scattering amplitudes</em> of a 1D wave equation on a
+      fixed effective potential. So the "Hawking calculation," for the part you
+      actually compute on a laptop, collapses to:
+    </p>
+    <p style="text-align:center; font-weight:600;">
+      Solve a 1D Schrödinger-like equation on Schwarzschild. Extract its
+      transmission coefficient.
+    </p>
+    <p>
+      That is the entire program of §1.3–§1.6 below. Jacobson 2003 gives a clean
+      modern derivation in §6.2 of his lecture notes — we'll follow his version
+      because his notation is closer to what you'll write in code.
+    </p>
+
+    <h3>1.3 — The radial wave equation, following Jacobson</h3>
+    <p>
+      Write the Schwarzschild line element in the form
+      $$ds^2 \;=\; \Bigl(1 - \frac{r_s}{r}\Bigr) dt^2 - \Bigl(1 - \frac{r_s}{r}\Bigr)^{-1} dr^2 - r^2 (d\theta^2 + \sin^2\theta\, d\varphi^2)\,,$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, Eq. (6.15), p. 35</span>
+      where $r_s = 2GM$ is the Schwarzschild radius. Define the
+      <em>tortoise coordinate</em> by
+      $$dr_* \;=\; \frac{dr}{1 - r_s/r}\,,\qquad r_* \;=\; r + r_s \ln\!\left(\frac{r}{r_s} - 1\right),$$
+      which goes to $-\infty$ at the horizon ($r \to r_s$) and to $+\infty$
+      at spatial infinity. Decompose the field into spherical harmonics,
+      $$\phi(t,r,\theta,\varphi) \;=\; \sum_{\ell m} \frac{\varphi_{\ell m}(t,r)}{r}\, Y_{\ell m}(\theta,\varphi)\,,$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, Eq. (6.18)</span>
+      and the Klein–Gordon equation $(\Box + m^2)\phi = 0$ reduces to the
+      <em>1+1-dimensional</em> equation
+    </p>
+    <p>
+      $$\boxed{\;\; \bigl(\partial_t^2 - \partial_{r_*}^2 + V_{\ell m}\bigr)\,\varphi_{\ell m} \;=\; 0 \;\;}$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, Eq. (6.19), p. 36</span>
+      with the effective potential
+      $$\boxed{\;\; V_{\ell m}(r) \;=\; \Bigl(1 - \frac{r_s}{r}\Bigr)\!\left[\,\frac{r_s}{r^3} + \frac{\ell(\ell+1)}{r^2} + m^2\,\right] \;\;}$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, Eq. (6.20), p. 36</span>
+    </p>
+    <p>
+      For the massless scalar ($m = 0$) and using $r_s = 2M$:
+      $$V_\ell(r) \;=\; \left(1 - \frac{2M}{r}\right) \! \left[ \frac{\ell(\ell+1)}{r^2} + \frac{2M}{r^3} \right]\,.$$
+      That second term — $2M/r^3$ — is sometimes startling. It comes from the
+      fact that we factored out $1/r$ when defining $\varphi_{\ell m} = r \, \phi_{\ell m}$,
+      and that the d'Alembertian on Schwarzschild generates a residual curvature
+      contribution. <strong>Plotting $V_\ell$ for $\ell = 0, 1, 2$ on
+      Schwarzschild is your first piece of code</strong> — see §1.4.
+    </p>
+    <p>
+      For positive Killing frequency $\omega$, factor
+      $\varphi_{\ell m}(t, r) = e^{-i\omega t}\, \psi_{\omega\ell}(r_*)$. The
+      time-independent radial equation is then
+      $$\frac{d^2 \psi_{\omega\ell}}{dr_*^2} + \bigl[\,\omega^2 - V_\ell(r)\,\bigr]\, \psi_{\omega\ell} \;=\; 0\,.$$
+      This is a 1D Schrödinger equation with energy $\omega^2$ scattering off
+      the curvature potential $V_\ell$. The greybody factor is its transmission
+      coefficient.
+    </p>
+
+    <div class="callout exercise">
+      <strong>Exercise 1.1.</strong> Derive Jacobson's Eq. (6.20) from the
+      Klein–Gordon equation on Schwarzschild. The algebra is about half a page.
+      The key step is that factoring out $1/r$ in $\phi = \varphi/r \cdot Y_{\ell m}$
+      generates the extra $r_s/r^3$ term from the radial derivatives — work
+      through $\partial_r(r \cdot \ldots) = r \partial_r + 1$ pieces carefully.
+      Do this <em>on paper</em> before reading on. If you can do this cleanly,
+      you understand 90% of what Hawking compresses into the half-sentence
+      "the operator $\hat\phi$ can be expressed as $\sum_i \{\ldots\}$ everywhere"
+      after Eq. (2.4) of his paper.
+    </div>
+
+    <h3>1.4 — What does the potential look like?</h3>
+    <p>
+      $V_\ell(r)$ vanishes at the horizon $r = 2M$ (because $f(2M) = 0$) and at
+      $r \to \infty$ (because everything inside the brackets falls off). In between
+      it has a single maximum near $r \sim 3M$ — the
+      photon sphere for $\ell \gg 1$ — whose height grows with $\ell$.
+    </p>
+    <p>
+      This barrier is what makes the spectrum greybody rather than perfectly
+      Planckian. Hawking quanta are born "behind" the barrier, near the horizon,
+      with some frequency $\omega$. To reach infinity they have to <em>tunnel
+      through</em> (for $\omega^2 < V_{\rm max}$) or <em>pass over</em>
+      (for $\omega^2 > V_{\rm max}$) this barrier. $\Gamma_{\omega\ell}$ is the
+      fraction that gets through.
+    </p>
+    <p>
+      Your first piece of code will simply plot $V_\ell(r)$ vs. $r$ for
+      $\ell = 0, 1, 2, 3$. Three lines of NumPy. Do it before the next section.
+    </p>
+
+    <h3>1.4.5 — Aside: Hawking's logarithmic phase pile-up</h3>
+    <p>
+      The reason it takes Hawking the bulk of §2 to get to Eq. (2.29) is that his
+      argument doesn't use the scattering language we've just set up. He uses
+      <em>geometric optics</em>: he traces an outgoing wavepacket at $\mathcal{I}^+$
+      <em>backwards</em> through the collapsing geometry to $\mathcal{I}^-$, and
+      asks what frequency it had there.
+    </p>
+    <p>
+      The central step (Hawking p. 208–209, his Eqs. (2.16)–(2.18)) is to show
+      that on $\mathcal{I}^-$, the back-propagated wave develops an infinite
+      number of cycles piling up at a critical advanced time $v_0$ — the latest
+      time a null geodesic could escape to $\mathcal{I}^+$ before being trapped
+      by the forming horizon. Specifically, the phase of his solution
+      $p_\omega^{(2)}$ on $\mathcal{I}^-$ for $v_0 - v$ small and positive is
+      $$\frac{\omega}{\kappa}\,\bigl(\log(v_0 - v) - \log D - \log C\bigr)\,,$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.17), p. 209</span>
+      so the wavepacket on $\mathcal{I}^-$ looks like
+      $$p_\omega^{(2)} \;\simeq\; \frac{P_\omega^0}{(2\pi)^{1/2}}\,
+      \omega^{-1/2}\, r^{-1}\, \exp\!\left[ -\frac{i\omega}{\kappa} \log\!\left( \frac{v_0 - v}{CD} \right) \right]\,.$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.18), p. 209</span>
+    </p>
+    <p>
+      That logarithmic phase is the entire game. Fourier-transforming it gives
+      $\alpha_{\omega\omega'}$ and $\beta_{\omega\omega'}$ as gamma functions of $\omega/\kappa$,
+      and the ratio that controls particle creation is
+      $$|\alpha_{\omega\omega'}^{(2)}| \;=\; \exp(\pi\omega/\kappa)\,|\beta_{\omega\omega'}^{(2)}|\,,$$
+      <span class="equation-label">— <a href="../papers/hawking_radiation/Hawking1975.pdf">Hawking 1975</a>, Eq. (2.21), p. 209</span>
+      which squares to the Planck factor $|\beta|^2 / |\alpha|^2 = e^{-2\pi\omega/\kappa}$.
+      Modulating by the absorption probability of an analogous incoming
+      wave-packet gives Hawking's Eq. (2.29) — the formula we already met in §1.1.
+    </p>
+    <p>
+      <strong>Why we are not computing this way.</strong> Hawking's geometric-optics
+      derivation is conceptually beautiful but numerically awful: it requires
+      tracing wave-packets through trans-Planckian frequencies near the horizon,
+      which is exactly the "trans-Planckian problem" Jacobson discusses in
+      §7 of his notes. The scattering formulation in §1.5–§1.6 below sidesteps
+      this entirely — you compute the transmission coefficient
+      $|T_{\omega\ell}|^2$ of a 1D wave equation on a fixed potential, which
+      is the same quantity Hawking's $F_{jn}$ measures but reached without
+      ever invoking high-frequency modes near the horizon. The two
+      derivations agree on $\Gamma_{\omega\ell}$; only the second is something
+      you can put in <code>scipy.integrate.solve_ivp</code>.
+    </p>
+
+    <h3>1.5 — The scattering boundary conditions</h3>
+    <p>
+      We want the solution that describes Hawking radiation: something born at the
+      horizon, propagating outward, scattering off $V_\ell$, with a transmitted
+      piece reaching infinity. At the same time, by reversibility, we equivalently
+      study the time-reversed problem: a unit-amplitude wave coming in from infinity,
+      partially reflected, partially absorbed by the horizon. We use the
+      time-reversed form because it is computationally cleaner.
+    </p>
+    <p>
+      The scattering boundary conditions are:
+    </p>
+    <p>
+      $$\psi_{\omega\ell}(r_*) \xrightarrow{r_* \to -\infty}\; T_{\omega\ell}\, e^{-i \omega r_*}\,,$$
+      $$\psi_{\omega\ell}(r_*) \xrightarrow{r_* \to +\infty}\; e^{-i \omega r_*} + R_{\omega\ell}\, e^{+i \omega r_*}\,.$$
+    </p>
+    <p>
+      In words: at the horizon, only ingoing waves (nothing comes <em>out</em> of
+      the horizon classically); at infinity, an incident unit-amplitude wave plus
+      a reflected wave. The complex numbers $T_{\omega\ell}$ and $R_{\omega\ell}$
+      are the transmission and reflection amplitudes.
+    </p>
+    <p>
+      Probability conservation (the Wronskian of the radial equation is constant)
+      forces $|T|^2 + |R|^2 = 1$. The greybody factor is
+    </p>
+    <p>
+      $$\boxed{\quad \Gamma_{\omega\ell} \;=\; |T_{\omega\ell}|^2 \;=\; 1 - |R_{\omega\ell}|^2 \quad}$$
+      <span class="equation-label">— compare <a href="../papers/hawking_radiation/Jacobson2003.pdf">Jacobson 2003</a>, Eq. (6.26), p. 38: $\Gamma = \langle T, T \rangle$</span>
+    </p>
+    <p>
+      Jacobson's $\langle T, T \rangle$ in Eq. (6.26) is the Klein–Gordon norm of
+      the part of an outgoing wavepacket at infinity that, when propagated
+      <em>backwards</em> in time, ends up pressed against the horizon (rather
+      than scattering back out to infinity). That is exactly the same
+      number — by time-reversal — as $|T_{\omega\ell}|^2$ in our forward-in-time
+      scattering setup. Pick whichever picture makes the geometry clear in your
+      head. The number you compute is the same.
+    </p>
+
+    <div class="callout exercise">
+      <strong>Exercise 1.2.</strong> Compute the Wronskian
+      $W = \psi \, d\psi^* / dr_* - \psi^*\, d\psi / dr_*$ for two solutions
+      of the radial equation, show it's conserved, and use it to derive
+      $|T|^2 + |R|^2 = 1$. Half-page exercise. <em>Do it on paper.</em>
+      The Wronskian relation is also what makes the numerical extraction of
+      $T$ robust — see §1.6.
+    </div>
+
+    <h3>1.6 — How to extract one number</h3>
+    <p>
+      The numerical recipe — the thing you will implement tomorrow — is the
+      "shoot from the horizon" method:
+    </p>
+    <ol>
+      <li>
+        Pick numerical values: $M = 1$ (units), $\ell = 0$, $\omega M = 0.25$
+        (a value tabulated by
+        <a href="https://doi.org/10.1103/PhysRevD.13.198">Page 1976</a> for direct comparison).
+      </li>
+      <li>
+        Choose a starting radius just outside the horizon, say
+        $r_{\rm start}/M = 2 + 10^{-3}$, and the corresponding $r_*^{\rm start}$.
+        Impose the purely-ingoing boundary condition there,
+        $\psi(r_*^{\rm start}) = e^{-i\omega r_*^{\rm start}}$
+        and $d\psi/dr_*(r_*^{\rm start}) = -i\omega\, e^{-i\omega r_*^{\rm start}}$.
+      </li>
+      <li>
+        Integrate the radial equation outward in $r_*$ using
+        <code>scipy.integrate.solve_ivp</code> with a tight tolerance
+        (<code>rtol=1e-10, atol=1e-12</code>), with the equation cast as a 2D
+        first-order system $(\psi, \psi') \mapsto (\psi', V\psi - \omega^2 \psi)$.
+      </li>
+      <li>
+        Stop at a large radius, $r_{\rm end}/M \approx 200$. At that point
+        $V_\ell(r) \ll \omega^2$ and the solution looks like
+        $\psi \approx A_+\, e^{+i\omega r_*} + A_-\, e^{-i\omega r_*}$.
+        Solve the 2&times;2 linear system for $(A_+, A_-)$ given
+        $(\psi, \psi'/i\omega)$ at $r_{\rm end}$.
+      </li>
+      <li>
+        Identify the transmission and reflection amplitudes by normalizing your
+        boundary conditions: with the ingoing-at-horizon normalization above,
+        $T_{\omega\ell} = 1 / A_-$ and $R_{\omega\ell} = A_+ / A_-$.
+        Compute $\Gamma_{\omega\ell} = |T_{\omega\ell}|^2$.
+      </li>
+      <li>
+        Compare to <a href="https://doi.org/10.1103/PhysRevD.13.198">Page 1976</a>,
+        Table II, scalar entry at $\omega M = 0.25$, $\ell = 0$. Your number should
+        agree to several digits.
+      </li>
+    </ol>
+    <p>
+      That is the entire first deliverable. One number. Hours of work, not months.
+      Once it matches Page, you have a numerical pipeline that — by changing the
+      function $f(r)$ in the metric — will give you greybody factors for
+      <em>any</em> spherically symmetric spacetime. The centerpiece paper is then
+      a matter of choosing $f(r)$ wisely (see Lecture 4) and computing.
+    </p>
+
+    <h3>1.7 — Why this approach &gt; reading more papers</h3>
+    <p>
+      An honest observation. The fastest way to make Hawking 1975 <em>retroactively</em>
+      make sense is not to read it again. It's to do §1.6 above. After you've watched
+      the radial equation evolve in your debugger, after you've seen the
+      reflected-and-transmitted wave train at large $r$, the abstract Bogoliubov
+      machinery in §3–4 of Hawking maps onto something physical you've now seen.
+      The "logarithmic phase pile-up" that Hawking spends pages on is just
+      <em>what your wave looks like as you integrate close to the horizon</em>.
+    </p>
+    <p>
+      Compute-then-understand is a perfectly respectable physicist's path —
+      Fermi worked this way, Feynman worked this way, every numerical
+      relativist alive today works this way. Read enough to get oriented,
+      then compute, then re-read with the computation in your hands. The
+      pure read-until-enlightened tradition is one path; the
+      compute-then-understand tradition is another. Use whichever moves you
+      forward.
+    </p>
+
+    <h3>1.8 — What you should be able to do after Lecture 1</h3>
+    <ul class="check-list" data-lecture="1">
+      <li><input type="checkbox" id="l1-c1"> <label for="l1-c1">State, without notes, why the greybody factor is a 1D scattering problem.</label></li>
+      <li><input type="checkbox" id="l1-c2"> <label for="l1-c2">Write down the radial Schrödinger-like equation and the form of $V_\ell(r)$ for Schwarzschild.</label></li>
+      <li><input type="checkbox" id="l1-c3"> <label for="l1-c3">State the boundary conditions at the horizon and at infinity, and explain in plain English why each is what it is.</label></li>
+      <li><input type="checkbox" id="l1-c4"> <label for="l1-c4">Derive $|T|^2 + |R|^2 = 1$ from the Wronskian.</label></li>
+      <li><input type="checkbox" id="l1-c5"> <label for="l1-c5">Compute $\Gamma_{\omega\ell=0}$ at $\omega M = 0.25$ in Python and match Page 1976.</label></li>
+    </ul>
+    <p>
+      If you can tick at least the first four <em>without re-opening this page</em>,
+      you've absorbed Lecture 1. Tick the fifth when you've matched the number.
+    </p>
+
+    <h3>1.9 — What's next</h3>
+    <p>
+      Lecture 2 will walk you through Page 1976 itself — how he tabulated greybody
+      factors, what the "spin-weighted" generalization looks like for photons and
+      gravitons, and how to reproduce his entire Schwarzschild benchmark table
+      (not just one number). That benchmark is the sanity check you will run before
+      doing anything novel in the centerpiece paper.
+    </p>
+    <p>
+      But first: get the one number. Come back to this page when you have it —
+      or when you're stuck on a specific step. <em>Don't read Lecture 2 before
+      §1.6 works.</em>
+    </p>
+
+    <h3>Sources used in this lecture</h3>
+    <ul style="font-size:14.5px; line-height:1.65;">
+      <li>
+        <a href="../papers/hawking_radiation/Hawking1975.pdf"><strong>Hawking 1975</strong></a> —
+        <em>Particle creation by black holes</em>, Commun. Math. Phys. 43, 199–220.
+        <br>Specifically: abstract (p. 199); Eq. (2.3), (2.4) — mode decompositions (p. 206);
+        Eq. (2.10) — number expectation as $\sum |\beta_{ij}|^2$ (p. 206);
+        Eq. (2.16) — $\lambda = -C e^{-\kappa u}$ (p. 208);
+        Eq. (2.17)–(2.18) — log-phase pile-up at $v_0$ on $\mathcal{I}^-$ (p. 209);
+        Eq. (2.21) — $|\alpha| = e^{\pi\omega/\kappa}|\beta|$ (p. 209);
+        Eq. (2.29) — $F_{jn}(\exp(2\pi\omega/\kappa)-1)^{-1}$ (p. 211).
+      </li>
+      <li>
+        <a href="../papers/hawking_radiation/Jacobson2003.pdf"><strong>Jacobson 2003</strong></a> —
+        <em>Introduction to quantum fields in curved spacetime and the Hawking
+        effect</em>, gr-qc/0308048.
+        <br>Specifically: Eq. (6.15)–(6.17) — three forms of the Schwarzschild line element (p. 35);
+        Eq. (6.18) — spherical-harmonic decomposition $\phi = \sum \varphi_{\ell m}/r \cdot Y_{\ell m}$ (p. 36);
+        Eq. (6.19) — the 1+1-d wave equation $(\partial_t^2 - \partial_{r_*}^2 + V_{\ell m})\varphi_{\ell m} = 0$ (p. 36);
+        Eq. (6.20) — the effective potential $V_{\ell m}(r)$ (p. 36);
+        Eq. (6.25) — $\langle N(P) \rangle = \langle T,T \rangle / (e^{2\pi\omega/\kappa} - 1)$ (p. 38);
+        Eq. (6.26) — $\Gamma = \langle T, T \rangle$ (p. 38).
+      </li>
+      <li>
+        <a href="https://doi.org/10.1103/PhysRevD.13.198"><strong>Page 1976</strong></a> —
+        <em>Particle emission rates from a black hole: massless particles from an
+        uncharged, nonrotating hole</em>, Phys. Rev. D 13, 198. Source of the
+        Schwarzschild greybody-factor tables against which you'll benchmark your
+        Python code in §1.6.
+      </li>
+    </ul>
+
+    <hr>
+
+    <!-- =============== LECTURE 2 (placeholder) =============== -->
+    <h2 id="lec-2">
+      <span class="lec-num">Lecture 2</span>
+      Page 1976 &amp; the Schwarzschild benchmark
+      <span class="status-pill placeholder">not yet written</span>
+    </h2>
+    <p>
+      Will be drafted once Lecture 1's one-number target is hit. Planned content:
+      Page's Table II in full, spin-weighted spherical harmonics, the
+      Regge–Wheeler equation for photons and gravitons, what changes in $V_\ell$
+      for each spin, and a full Schwarzschild benchmark notebook that reproduces
+      every number in Page's table.
+    </p>
+
+    <!-- =============== LECTURE 3 (placeholder) =============== -->
+    <h2 id="lec-3">
+      <span class="lec-num">Lecture 3</span>
+      Beyond scalars: Regge–Wheeler &amp; Teukolsky
+      <span class="status-pill placeholder">not yet written</span>
+    </h2>
+    <p>
+      Planned content: spin-1 and spin-2 perturbations, the Regge–Wheeler vs.
+      Zerilli decomposition, the Teukolsky equation for rotating black holes
+      (Kerr), and why most of the centerpiece-paper work stays in the
+      spherically-symmetric scalar sector for scope reasons.
+    </p>
+
+    <!-- =============== LECTURE 4 (placeholder) =============== -->
+    <h2 id="lec-4">
+      <span class="lec-num">Lecture 4</span>
+      Choosing the spacetime
+      <span class="status-pill placeholder">not yet written</span>
+    </h2>
+    <p>
+      Planned content: a walkthrough of the
+      <a href="../notes/topics/greybody_literature_scan.md">literature scan</a>
+      with the two finalists (regular BH and dirty BH) made concrete, the metric
+      $f(r)$ for each, what $V_\ell$ looks like in each, and a structured way to
+      pick between them. Written after the one-number target is hit, since the
+      pipeline doesn't care which $f(r)$ it gets.
+    </p>
+
+    <!-- =============== LECTURE 5 (placeholder) =============== -->
+    <h2 id="lec-5">
+      <span class="lec-num">Lecture 5</span>
+      Numerical methods: shooting vs. continued fractions
+      <span class="status-pill placeholder">not yet written</span>
+    </h2>
+    <p>
+      Planned content: when shooting breaks (high $\omega$, near-extremal limits,
+      QNM searches), and the Leaver continued-fraction method that replaces it.
+      Why the centerpiece paper probably uses shooting for greybody and continued
+      fractions if it also reports QNMs.
+    </p>
+
+    <!-- =============== LECTURE 6 (placeholder) =============== -->
+    <h2 id="lec-6">
+      <span class="lec-num">Lecture 6</span>
+      The ML angle: PINNs &amp; surrogate emulators
+      <span class="status-pill placeholder">not yet written</span>
+    </h2>
+    <p>
+      Planned content: how to add a PINN or Gaussian-process surrogate <em>as a
+      methodological sub-headline</em> of the centerpiece paper, without making
+      the paper "ML applied to physics." Will not be written until the physics
+      core of the paper is working.
+    </p>
+
+  </main>
+</div>
+
+<script>
+  // Persist checkbox state to localStorage so progress survives reloads.
+  (function () {
+    document.querySelectorAll('.check-list input[type=checkbox]').forEach(function (cb) {
+      var key = 'bhl-' + cb.id;
+      if (localStorage.getItem(key) === '1') cb.checked = true;
+      cb.addEventListener('change', function () {
+        localStorage.setItem(key, cb.checked ? '1' : '0');
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,667 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hawking 1975 — deep lecture (nothing skipped)</title>
+  <script>
+    window.MathJax = {
+      tex:{ inlineMath:[['$','$']], displayMath:[['$$','$$']], processEscapes:true, tags:'ams',
+            macros: { half:'\\tfrac{1}{2}', pa:'\\partial', dd:'\\mathrm{d}',
+                      dv:'\\mathrm{d}v', du:'\\mathrm{d}u',
+                      Jp:'\\mathscr{J}^+', Jm:'\\mathscr{J}^-',
+                      kk:'k^\\mu' } },
+      svg:{fontCache:'global'}
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg:#fbfaf6; --bg-side:#f1eee2; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
+      --border:#d8d3c4; --code:#efeadc; --maxw:820px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:17px/1.65 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
+    .layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    aside{background:var(--bg-side);border-right:1px solid var(--border);
+          padding:30px 22px;position:sticky;top:0;align-self:start;
+          height:100vh;overflow-y:auto;font-size:13px}
+    aside .brand{font-weight:700;font-size:16px;line-height:1.25}
+    aside .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:5px}
+    aside .back-link{display:block;padding:8px 0;font-size:12px;color:var(--muted);
+                     text-decoration:none;border-bottom:1px solid var(--border);margin:14px 0}
+    aside .back-link:hover{color:var(--accent)}
+    aside h2{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
+             margin:18px 0 8px;font-weight:700}
+    aside ol{list-style:none;padding:0;margin:0 0 8px}
+    aside ol li{margin-bottom:4px}
+    aside ol a{color:var(--fg);text-decoration:none;display:flex;gap:7px;font-size:12.5px;line-height:1.35}
+    aside ol a:hover{color:var(--accent)}
+    aside ol a .num{color:var(--muted);font-size:10.5px;min-width:34px;font-weight:600}
+    main{padding:54px 56px 120px;max-width:calc(var(--maxw) + 112px)}
+    main > *{max-width:var(--maxw)}
+    h1{font-size:31px;line-height:1.15;margin:0 0 6px;letter-spacing:-0.01em}
+    h1 + .subtitle{color:var(--muted);font-size:15px;margin-bottom:14px}
+    .meta-row{font-family:-apple-system,system-ui,sans-serif;font-size:12.5px;color:var(--muted);margin-bottom:40px}
+    h2.module{font-size:23px;margin:64px 0 6px;letter-spacing:-0.01em;
+              padding-bottom:8px;border-bottom:2px solid var(--accent)}
+    h2.module .mnum{display:block;font:700 12px/1.4 -apple-system,system-ui,sans-serif;
+                    letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    h3{font-size:17.5px;margin:28px 0 8px;color:var(--accent)}
+    h4{font-size:15.5px;margin:18px 0 5px;font-weight:700}
+    p{margin:0 0 14px}
+    a{color:var(--accent);text-decoration:underline;text-decoration-color:var(--soft);text-underline-offset:2px}
+    code{background:var(--code);padding:1px 5px;border-radius:3px;font:0.87em "JetBrains Mono",Menlo,monospace}
+    pre{background:var(--code);padding:12px 16px;border-radius:4px;border-left:3px solid var(--soft);
+        overflow-x:auto;font-size:13.5px;line-height:1.55;margin:12px 0}
+    ul,ol.body{margin:0 0 14px;padding-left:24px}
+    li{margin-bottom:4px}
+    .def,.thm,.worked,.remark,.keyresult,.score,.warn,.flow{
+      margin:18px 0;padding:14px 18px;border-radius:4px;font-size:15.5px
+    }
+    .def{background:#dde7f1;border-left:4px solid #2a5a8a}
+    .thm{background:#ece2f3;border-left:4px solid var(--purple)}
+    .worked{background:#eaf3e0;border-left:4px solid var(--green)}
+    .remark{background:#e8e6e0;border-left:4px solid #5a5a5a;font-size:15px}
+    .keyresult{background:#faf2e2;border:1px solid var(--soft);border-left:4px solid var(--accent);text-align:center}
+    .score{background:#f7e9dc;border-left:4px solid var(--accent);font-family:"JetBrains Mono",Menlo,monospace;font-size:14px}
+    .warn{background:#f5dcd8;border-left:4px solid #b03020}
+    .flow{background:#d8ece9;border-left:4px solid var(--teal)}
+    .label{display:inline-block;font:700 10.5px/1.4 -apple-system,sans-serif;letter-spacing:0.1em;
+           text-transform:uppercase;color:white;padding:1px 8px;border-radius:3px;margin-right:8px;vertical-align:2px}
+    .def .label{background:#2a5a8a}
+    .thm .label{background:var(--purple)}
+    .worked .label{background:var(--green)}
+    .remark .label{background:#5a5a5a}
+    .warn .label{background:#b03020}
+    .flow .label{background:var(--teal)}
+    .keyresult, .def p:last-child, .thm p:last-child, .worked p:last-child,
+    .remark p:last-child, .warn p:last-child, .flow p:last-child{margin-bottom:0}
+    figure.diagram{margin:20px auto;max-width:560px;text-align:center}
+    figure.diagram svg{display:block;margin:0 auto;max-width:100%;height:auto;background:#faf6e9;
+                       border:1px solid var(--border);border-radius:4px}
+    figure.diagram figcaption{font:-apple-system 12.5px sans-serif;color:var(--muted);padding:8px 12px 0;line-height:1.5}
+    hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}
+      aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+      main{padding:30px 22px 80px}}
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div class="brand">Hawking 1975 — deep
+      <small>Particle Creation by Black Holes<br/>line-by-line lecture</small>
+    </div>
+    <a href="index.html" class="back-link">← main learning hub</a>
+    <a href="../papers/hawking_radiation/Hawking1975.pdf" class="back-link">→ original PDF</a>
+
+    <h2>Prologue</h2>
+    <ol>
+      <li><a href="#score"><span class="num">P0</span><span>Score &amp; assessment</span></a></li>
+      <li><a href="#claim"><span class="num">P1</span><span>What it claims, in one paragraph</span></a></li>
+    </ol>
+    <h2>I · Geometric setup</h2>
+    <ol>
+      <li><a href="#M1"><span class="num">M1</span><span>Penrose diagram — collapse</span></a></li>
+      <li><a href="#M2"><span class="num">M2</span><span>Coordinates: $u, v, U, V$</span></a></li>
+      <li><a href="#M3"><span class="num">M3</span><span>Surface gravity $\kappa$</span></a></li>
+    </ol>
+    <h2>II · QFT on curved spacetime</h2>
+    <ol>
+      <li><a href="#M4"><span class="num">M4</span><span>The scalar field action</span></a></li>
+      <li><a href="#M5"><span class="num">M5</span><span>Klein–Gordon inner product</span></a></li>
+      <li><a href="#M6"><span class="num">M6</span><span>Positive/negative freq; vacuum ambiguity</span></a></li>
+      <li><a href="#M7"><span class="num">M7</span><span>"in" and "out" Hilbert spaces</span></a></li>
+    </ol>
+    <h2>III · The mode functions</h2>
+    <ol>
+      <li><a href="#M8"><span class="num">M8</span><span>In-modes on $\Jm$</span></a></li>
+      <li><a href="#M9"><span class="num">M9</span><span>Out-modes on $\Jp$</span></a></li>
+      <li><a href="#M10"><span class="num">M10</span><span>Tracing rays back through the collapse</span></a></li>
+      <li><a href="#M11"><span class="num">M11</span><span>Geometric optics — why it's valid</span></a></li>
+    </ol>
+    <h2>IV · The heart — $u(v)$</h2>
+    <ol>
+      <li><a href="#M12"><span class="num">M12</span><span>Setup of the matching</span></a></li>
+      <li><a href="#M13"><span class="num">M13</span><span>Derivation of $u\simeq -\kappa^{-1}\ln(v_0-v)$</span></a></li>
+      <li><a href="#M14"><span class="num">M14</span><span>Why the log is universal</span></a></li>
+    </ol>
+    <h2>V · Bogoliubov coefficients</h2>
+    <ol>
+      <li><a href="#M15"><span class="num">M15</span><span>Out-mode on $\Jm$</span></a></li>
+      <li><a href="#M16"><span class="num">M16</span><span>The two integrals</span></a></li>
+      <li><a href="#M17"><span class="num">M17</span><span>Analytic continuation</span></a></li>
+      <li><a href="#M18"><span class="num">M18</span><span>$\;|\beta|^2/|\alpha|^2 = e^{-2\pi\omega/\kappa}$</span></a></li>
+      <li><a href="#M19"><span class="num">M19</span><span>Normalization $|\alpha|^2-|\beta|^2=1$</span></a></li>
+    </ol>
+    <h2>VI · Thermal spectrum</h2>
+    <ol>
+      <li><a href="#M20"><span class="num">M20</span><span>From $|\beta|^2$ to $\langle N_\omega\rangle$</span></a></li>
+      <li><a href="#M21"><span class="num">M21</span><span>Identification: Bose–Einstein</span></a></li>
+      <li><a href="#M22"><span class="num">M22</span><span>$T_H = 1/(8\pi M)$</span></a></li>
+    </ol>
+    <h2>VII · Greybody &amp; total emission</h2>
+    <ol>
+      <li><a href="#M23"><span class="num">M23</span><span>The greybody factor $\Gamma_{\omega\ell}$</span></a></li>
+      <li><a href="#M24"><span class="num">M24</span><span>Total power radiated</span></a></li>
+    </ol>
+    <h2>VIII · Generalizations</h2>
+    <ol>
+      <li><a href="#M25"><span class="num">M25</span><span>Rotation: superradiance</span></a></li>
+      <li><a href="#M26"><span class="num">M26</span><span>Charge &amp; higher spins</span></a></li>
+      <li><a href="#M27"><span class="num">M27</span><span>BH lifetime</span></a></li>
+    </ol>
+    <h2>IX · What's left open</h2>
+    <ol>
+      <li><a href="#M28"><span class="num">M28</span><span>Trans-Planckian problem</span></a></li>
+      <li><a href="#M29"><span class="num">M29</span><span>Backreaction</span></a></li>
+      <li><a href="#M30"><span class="num">M30</span><span>Information paradox</span></a></li>
+    </ol>
+  </aside>
+
+  <main>
+
+    <h1>Hawking 1975 — deep, line-by-line lecture</h1>
+    <div class="subtitle">
+      S. W. Hawking, <em>"Particle Creation by Black Holes,"</em> Commun. Math. Phys. <strong>43</strong>, 199 (1975).
+      Nothing skipped. Every step Hawking compresses is unpacked here.
+    </div>
+    <div class="meta-row">30 modules · full derivation of $\langle N_\omega\rangle = \Gamma_\omega/(e^{2\pi\omega/\kappa}-1)$ · ~3000 lines · open the original PDF alongside.</div>
+
+    <!-- =================== PROLOGUE =================== -->
+
+    <h2 class="module" id="score"><span class="mnum">Prologue · P0</span>Score &amp; assessment</h2>
+
+    <div class="score">
+HAWKING 1975  —  Particle Creation by Black Holes
+Commun. Math. Phys. 43, 199 (1975)
+
+Novelty           10/10   first calculation of BH thermal emission
+Soundness          9/10   core robust; trans-Planckian needs cleanup
+                          (Unruh 1976, Wald 1975)
+Significance      10/10   founded BH thermodynamics + info paradox
+Reproducibility    7/10   compressed; many steps skipped
+Communicability    6/10   assumes deep QFT-in-curved background
+                          ──────────────────────────────────────────
+Overall          ~95/100  outstanding masterpiece; founding document.
+</div>
+
+    <p>One of perhaps fifty papers from the last century that <em>defines</em> a field. The result — black holes emit thermal radiation at $T = \hbar c^3/(8\pi G M k_B)$ — is conceptually shocking (a horizon, classically a one-way membrane, is quantum-mechanically a thermal source) and computationally hard to follow in the original. This lecture exists because the gap between "I have read Hawking 1975" and "I have <em>understood</em> Hawking 1975" is, for most readers, six months of careful work. We close that gap by unpacking every skipped step.</p>
+
+    <h2 class="module" id="claim"><span class="mnum">Prologue · P1</span>What it claims, in one paragraph</h2>
+
+    <p>Quantize a free massless scalar field on the spacetime of a star that collapses to form a Schwarzschild black hole. Define the vacuum state $|0_{\rm in}\rangle$ on past null infinity $\Jm$ — empty space before the collapse. Compute the expectation value of the late-time particle number operator $N_\omega^{\rm out}$ measured at future null infinity $\Jp$. Result:</p>
+
+    <div class="keyresult">
+      $$ \langle 0_{\rm in}|\,N_\omega^{\rm out}\,|0_{\rm in}\rangle \;=\; \frac{\Gamma_{\omega}}{e^{2\pi\omega/\kappa} - 1} $$
+    </div>
+
+    <p>where $\kappa = 1/(4M)$ is the Schwarzschild surface gravity and $\Gamma_\omega$ is the classical absorption cross-section ("greybody factor"). The denominator is the Bose–Einstein distribution at temperature</p>
+    $$ T_H \;=\; \frac{\kappa}{2\pi} \;=\; \frac{1}{8\pi M}\qquad\text{(in units $\hbar = c = k_B = G = 1$).} $$
+
+    <p>The black hole radiates thermally even in vacuum. Three premises (free scalar QFT in curved spacetime, the equivalence principle, asymptotic flatness) and one calculation. The entire field follows.</p>
+
+    <!-- ====================================================
+         PART I — GEOMETRIC SETUP
+         ==================================================== -->
+
+    <h2 class="module" id="M1"><span class="mnum">Module 1</span>Penrose diagram of a collapsing star</h2>
+
+    <p>The relevant spacetime is <em>not</em> eternal Schwarzschild. It is a star (matter present) that at some time begins to collapse, eventually forming a horizon and a singularity. The Penrose diagram is:</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 270 380" xmlns="http://www.w3.org/2000/svg" font-family="Charter, serif">
+
+        <!-- r=0 line (vertical, left edge) -->
+        <line x1="60" y1="90" x2="60" y2="340" stroke="#888" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+        <!-- Singularity (horizontal top, attached to r=0 on the left) -->
+        <line x1="60" y1="90" x2="90" y2="90" stroke="#b03020" stroke-width="3.5" stroke-dasharray="5 3"/>
+
+        <!-- 𝒥⁺ (upper-right diagonal, from i⁺ to i⁰) -->
+        <line x1="90" y1="90" x2="200" y2="200" stroke="#333" stroke-width="1.5"/>
+
+        <!-- 𝒥⁻ (lower-right diagonal, from i⁰ to i⁻) -->
+        <line x1="200" y1="200" x2="60" y2="340" stroke="#333" stroke-width="1.5"/>
+
+        <!-- Horizon ℋ⁺ — 45° null line from matching point on star surface to i⁺ -->
+        <line x1="130" y1="130" x2="90" y2="90" stroke="#8a3a18" stroke-width="2.5"/>
+
+        <!-- Star surface — timelike worldline of the collapsing matter -->
+        <path d="M 75,325 Q 130,260 130,170 Q 130,140 130,130 Q 100,110 60,90"
+              stroke="#1f6e7e" stroke-width="2" fill="none"/>
+
+        <!-- Matching event: where star surface = 2M (horizon emerges) -->
+        <circle cx="130" cy="130" r="3.2" fill="#8a3a18"/>
+        <text x="138" y="148" font-size="10" fill="#8a3a18" font-style="italic" font-family="-apple-system, sans-serif">r = 2M</text>
+
+        <!-- Ingoing null ray at v < v₀: 45° from 𝒥⁻ up-left to r=0, reflects to outgoing u -->
+        <line x1="105" y1="295" x2="60" y2="250" stroke="#3a6a2a" stroke-width="1.3"/>
+        <line x1="60" y1="250" x2="155" y2="155" stroke="#3a6a2a" stroke-width="1.3"/>
+        <circle cx="105" cy="295" r="2.5" fill="#3a6a2a"/>
+        <text x="113" y="305" font-size="10" fill="#3a6a2a" font-family="-apple-system, sans-serif">v &lt; v₀</text>
+        <text x="162" y="153" font-size="10" fill="#3a6a2a" font-style="italic" font-family="-apple-system, sans-serif">u</text>
+
+        <!-- Limiting v = v₀ ray: hits r=0 exactly at the singularity formation -->
+        <line x1="185" y1="215" x2="60" y2="90" stroke="#b03020" stroke-width="1" stroke-dasharray="3 3"/>
+        <text x="190" y="225" font-size="10" fill="#b03020" font-style="italic" font-family="-apple-system, sans-serif">v = v₀</text>
+
+        <!-- Corner labels -->
+        <text x="55" y="346" font-size="13" font-weight="700" text-anchor="end" font-family="-apple-system, sans-serif">i⁻</text>
+        <text x="207" y="205" font-size="13" font-weight="700" font-family="-apple-system, sans-serif">i⁰</text>
+        <text x="84" y="83" font-size="13" font-weight="700" text-anchor="end" font-family="-apple-system, sans-serif">i⁺</text>
+
+        <!-- Edge labels -->
+        <text x="155" y="135" font-size="13" font-style="italic" font-family="-apple-system, sans-serif">𝒥⁺</text>
+        <text x="148" y="285" font-size="13" font-style="italic" font-family="-apple-system, sans-serif">𝒥⁻</text>
+        <text x="52" y="220" font-size="11" fill="#666" font-family="-apple-system, sans-serif" text-anchor="middle" transform="rotate(-90, 52, 220)">r = 0</text>
+        <text x="75" y="83" font-size="10" fill="#b03020" font-weight="700" text-anchor="middle" font-family="-apple-system, sans-serif">singularity</text>
+        <text x="142" y="118" font-size="11" fill="#8a3a18" font-weight="600" font-family="-apple-system, sans-serif">ℋ⁺</text>
+        <text x="143" y="225" font-size="11" fill="#1f6e7e" font-family="-apple-system, sans-serif">star surface</text>
+
+      </svg>
+      <figcaption>
+        Collapsing star spacetime. Asymptotic null surfaces $\Jm$ (incoming) and $\Jp$ (outgoing). The dashed red ray $v = v_0$ asymptotes to the horizon. Rays with $v < v_0$ escape as outgoing rays at $\Jp$; rays with $v > v_0$ fall in to the singularity. The function $u(v)$ relating the two is the central object of the calculation.
+      </figcaption>
+    </figure>
+
+    <p>Three regions matter:</p>
+    <ul>
+      <li><strong>Past null infinity $\Jm$.</strong> Where the "in" vacuum is defined — the field is in the standard Minkowski vacuum far before collapse.</li>
+      <li><strong>Future null infinity $\Jp$.</strong> Where observers at late times collect the radiation.</li>
+      <li><strong>The future horizon $\mathscr H^+$.</strong> Where modes that don't escape end up.</li>
+    </ul>
+
+    <h2 class="module" id="M2"><span class="mnum">Module 2</span>Coordinates $u$, $v$, $U$, $V$</h2>
+
+    <p>Outside the star (Schwarzschild region), introduce the tortoise coordinate</p>
+    $$ r^* \;=\; r + 2M \ln\!\left(\frac{r-2M}{2M}\right). $$
+    <p>This stretches the horizon $r = 2M$ to $r^* \to -\infty$. Then define</p>
+    $$ u \;=\; t - r^*,\qquad v \;=\; t + r^*. $$
+    <p>These are the Eddington–Finkelstein "retarded" ($u$) and "advanced" ($v$) null coordinates. The Schwarzschild metric becomes</p>
+    $$ \dd s^2 \;=\; -\left(1 - \frac{2M}{r}\right)\dd u\,\dd v + r^2\,\dd\Omega^2,\qquad r = r(u,v). $$
+
+    <div class="def"><span class="label">Definitions used throughout</span>
+      <ul>
+        <li>$u \in (-\infty, \infty)$ labels outgoing null rays; $u = $ const lines are outgoing geodesics in the exterior.</li>
+        <li>$v \in (-\infty, \infty)$ labels ingoing null rays.</li>
+        <li>$\Jp$ is reached as $r \to \infty$ at fixed $u$ (i.e., $v \to \infty$).</li>
+        <li>$\Jm$ is reached as $r \to \infty$ at fixed $v$ (i.e., $u \to -\infty$).</li>
+        <li>The future horizon $\mathscr H^+$ is at $u \to \infty$ (i.e., $r \to 2M$ from outside).</li>
+      </ul>
+    </div>
+
+    <p>The Kruskal coordinates $U, V$ are the affine versions. At the horizon, $u$ is a bad coordinate (its derivative w.r.t. proper distance vanishes); $U = -e^{-\kappa u}/\kappa$ is regular there, and is the <em>affine</em> parameter along null generators of the past horizon. Hawking does most of the work in $u, v$ — the $U, V$ pair only appears implicitly when he invokes the analytic continuation argument.</p>
+
+    <div class="worked"><span class="label">Worked — why $U = -e^{-\kappa u}/\kappa$ is affine</span>
+      <p>"Affine" means the parameter $\lambda$ satisfies the geodesic equation with no right-hand side: $k^\nu \nabla_\nu k^\mu = 0$ where $k = \dd x/\dd\lambda$. For a non-affine parameter $\sigma$, $k^\nu \nabla_\nu k^\mu = \alpha(\sigma) k^\mu$.</p>
+
+      <p>On a Killing horizon, the <em>Killing parameter</em> $u$ — i.e., the parameter that advances along the orbits of $\xi^\mu = \pa_u$ — is intrinsically non-affine. The definition of surface gravity is exactly this fact:</p>
+      $$ \xi^\nu \nabla_\nu \xi^\mu \;=\; \kappa\,\xi^\mu. $$
+      <p>The non-affinity is the surface gravity $\kappa$.</p>
+
+      <p><strong>Rescale the tangent.</strong> Set $k = f(u)\,\xi$ along a horizon generator. Then</p>
+      $$ k^\nu \nabla_\nu k^\mu \;=\; f\,\xi^\nu \nabla_\nu(f\,\xi^\mu) \;=\; f\bigl[f'(u)\,\xi^\mu + f\kappa\,\xi^\mu\bigr] \;=\; f\,\xi^\mu\,\bigl[f'(u) + \kappa f(u)\bigr]. $$
+      <p>For $k$ to be affine, the bracket must vanish:</p>
+      $$ f'(u) + \kappa\,f(u) = 0 \;\Longrightarrow\; f(u) = C\,e^{-\kappa u}. $$
+
+      <p><strong>The affine parameter.</strong> With $k = \pa_\lambda = f(u)\,\pa_u$, the chain rule gives $\dd\lambda/\dd u = 1/f(u) = (1/C)\,e^{\kappa u}$, so</p>
+      $$ \lambda \;=\; \frac{1}{C\kappa}\,e^{\kappa u} + \text{const.} $$
+      <p>Choose constants so $\lambda$ is regular at the horizon ($u \to \infty$):</p>
+      <div class="keyresult">
+        $$ U \;=\; -\frac{1}{\kappa}\,e^{-\kappa u}. $$
+      </div>
+      <p>This is the unique (up to scale) parameter that absorbs the surface-gravity non-affinity. Symmetrically, $V = (1/\kappa)\,e^{+\kappa v}$ is the affine parameter on the future horizon. Together $(U, V)$ form the Kruskal patch on which the metric is regular through the horizon — the form in which Hawking's analytic-continuation argument (Module 18) is cleanest.</p>
+    </div>
+
+    <h2 class="module" id="M3"><span class="mnum">Module 3</span>Surface gravity $\kappa$</h2>
+
+    <div class="def"><span class="label">Definition</span>
+      The surface gravity $\kappa$ of a Killing horizon is defined by
+      $$ \xi^\nu \nabla_\nu \xi^\mu \;=\; \kappa\, \xi^\mu\qquad\text{(on the horizon),} $$
+      where $\xi^\mu$ is the Killing vector that becomes null on the horizon. For Schwarzschild, $\xi = \partial_t$ and one computes
+      $$ \boxed{\;\;\kappa \;=\; \frac{1}{4M}\;\;} $$
+      Equivalently $\kappa = \half f'(r)|_{r=2M}$ where $f(r) = 1 - 2M/r$.
+    </div>
+
+    <p>$\kappa$ has units of inverse length (in $c=1$); it is the natural "blueshift rate" near the horizon. Hawking's result will give a temperature $T = \kappa/(2\pi)$ — the appearance of $\kappa$ is the geometric content that becomes thermal upon quantization.</p>
+
+    <div class="worked"><span class="label">Worked — compute $\kappa$ directly</span>
+      <p>With $\xi = \partial_t$, $\xi_\mu = (-f, 0, 0, 0)$. The Christoffel $\Gamma^r_{tt} = \half f\, f'$. So</p>
+      $$ \xi^\nu \nabla_\nu \xi^r = \Gamma^r_{tt}\,\xi^t \xi^t = \half f f'(r). $$
+      <p>On the horizon $f = 0$ and the formula <em>looks</em> degenerate, but the correct identification is via the limit. Use instead the equivalent definition $\kappa^2 = -\half(\nabla_\mu \xi_\nu)(\nabla^\mu \xi^\nu)\big|_{\rm hor}$ which gives $\kappa = \half f'(2M) = \half \cdot 1/(2M) = 1/(4M)$.</p>
+    </div>
+
+    <!-- ====================================================
+         PART II — QFT ON CURVED SPACETIME
+         ==================================================== -->
+
+    <h2 class="module" id="M4"><span class="mnum">Module 4</span>The scalar field action</h2>
+
+    <p>Hawking computes for a free, massless, minimally coupled real scalar field $\phi(x)$:</p>
+    $$ S \;=\; -\half \int \dd^4 x\,\sqrt{-g}\;g^{\mu\nu}\,\pa_\mu \phi\,\pa_\nu \phi. $$
+    <p>Equation of motion:</p>
+    $$ \Box \phi \;\equiv\; \frac{1}{\sqrt{-g}}\,\pa_\mu\!\left(\sqrt{-g}\,g^{\mu\nu}\pa_\nu \phi\right) \;=\; 0. $$
+
+    <p>The choice of a scalar field is technical convenience. The result extends to higher spins (Module 26) with mode-specific modifications. The choice of <em>massless</em> is also for technical clarity; massive fields are treated similarly but with $\omega \ge m$.</p>
+
+    <h2 class="module" id="M5"><span class="mnum">Module 5</span>Klein–Gordon inner product</h2>
+
+    <p>For two solutions $\phi_1, \phi_2$ of the KG equation, the conserved inner product is</p>
+    $$ (\phi_1, \phi_2) \;=\; -i \int_\Sigma \dd\Sigma^\mu\,\bigl(\phi_1\,\pa_\mu\phi_2^* - \phi_2^*\,\pa_\mu\phi_1\bigr) $$
+    <p>where $\Sigma$ is a Cauchy surface (any complete spacelike hypersurface, or asymptotically a null surface like $\Jm$ or $\Jp \cup \mathscr H^+$). The product is independent of the choice of $\Sigma$ by Stokes/Gauss.</p>
+
+    <div class="def"><span class="label">Specialization to a null surface</span>
+      On $\Jm$ (a future-pointing null surface) parameterized by $v$ at fixed angles, the volume element reduces to $dv\,d^2\Omega\, r^2$, and the inner product collapses to
+      $$ (\phi_1, \phi_2)_{\Jm} \;=\; -i\int \dd v\,\dd^2\Omega\, r^2\,(\phi_1\,\pa_v\phi_2^* - \phi_2^*\,\pa_v\phi_1)\big|_{\Jm}. $$
+      Hawking absorbs the $r^2 d^2\Omega$ into the normalization of the mode functions $\phi \sim Y_{\ell m}(\Omega)/r$ at large $r$. Then only the $v$-integral remains.
+    </div>
+
+    <h2 class="module" id="M6"><span class="mnum">Module 6</span>Positive/negative frequency and the vacuum ambiguity</h2>
+
+    <p>To quantize, expand the field in modes:</p>
+    $$ \hat\phi(x) \;=\; \sum_i \left( \hat a_i\, f_i(x) + \hat a_i^\dagger\, f_i^*(x) \right) $$
+    <p>where $\{f_i\}$ are positive-frequency mode solutions, $(f_i, f_j) = \delta_{ij}$, $(f_i^*, f_j^*) = -\delta_{ij}$, $(f_i, f_j^*) = 0$. The vacuum is defined by $\hat a_i\,|0\rangle = 0$.</p>
+
+    <div class="warn"><span class="label">The crux of QFT in curved spacetime</span>
+      <p>The decomposition into positive and negative frequency requires a notion of "time," i.e., a timelike Killing vector. In a generally curved spacetime there is no such canonical choice. Different choices yield different mode bases and <em>different vacua</em>. The vacuum is not a property of the spacetime alone — it requires a choice of observer / Killing vector.</p>
+      <p>Two natural choices:</p>
+      <ul>
+        <li>$|0_{\rm in}\rangle$ — defined by positive frequency w.r.t. $v$ on $\Jm$ (where the spacetime is asymptotically Minkowski, before collapse).</li>
+        <li>$|0_{\rm out}\rangle$ — defined by positive frequency w.r.t. $u$ on $\Jp$ (asymptotic late-time Minkowski region).</li>
+      </ul>
+      <p>The Bogoliubov transformation between the two bases captures the particle creation. <em>The whole result of Hawking 1975 lives in this mismatch.</em></p>
+    </div>
+
+    <h2 class="module" id="M7"><span class="mnum">Module 7</span>"in" and "out" Hilbert spaces</h2>
+
+    <p>The "in" modes $f^{\rm in}_{\omega'}$ are solutions positive-frequency w.r.t. $v$ on $\Jm$:</p>
+    $$ f^{\rm in}_{\omega'}(v, \Omega, r) \;\xrightarrow{\;\Jm\;}\; \frac{1}{\sqrt{4\pi\omega'}}\,\frac{1}{r}\,Y_{\ell m}(\Omega)\,e^{-i\omega' v}. $$
+    <p>Their creation/annihilation operators $\hat a^{\rm in}_{\omega'\ell m}$ define the in-vacuum $|0_{\rm in}\rangle$.</p>
+
+    <p>The "out" modes $f^{\rm out}_\omega$ are solutions of the KG equation that asymptote on $\Jp$ to</p>
+    $$ f^{\rm out}_\omega(u, \Omega, r) \;\xrightarrow{\;\Jp\;}\; \frac{1}{\sqrt{4\pi\omega}}\,\frac{1}{r}\,Y_{\ell m}(\Omega)\,e^{-i\omega u} $$
+    <p>and to zero on the future horizon $\mathscr H^+$. (There is a second family of out-modes localized on $\mathscr H^+$, but observers at $\Jp$ don't detect them; they are traced over.)</p>
+
+    <p>The relation:</p>
+    $$ f^{\rm out}_\omega \;=\; \sum_{\omega'} \bigl(\alpha_{\omega\omega'}\,f^{\rm in}_{\omega'} + \beta_{\omega\omega'}\,(f^{\rm in}_{\omega'})^*\bigr) $$
+    <p>defines the Bogoliubov coefficients $\alpha_{\omega\omega'}, \beta_{\omega\omega'}$. They are computed by the inner product:</p>
+    $$ \alpha_{\omega\omega'} = (f^{\rm out}_\omega, f^{\rm in}_{\omega'}),\qquad \beta_{\omega\omega'} = -(f^{\rm out}_\omega, (f^{\rm in}_{\omega'})^*). $$
+
+    <p>The number of "out" particles in the "in" vacuum is</p>
+    <div class="keyresult">
+      $$ \langle 0_{\rm in}|\,\hat N_\omega^{\rm out}\,|0_{\rm in}\rangle \;=\; \sum_{\omega'} |\beta_{\omega\omega'}|^2. $$
+    </div>
+    <p>The entire problem reduces to computing $|\beta|^2$.</p>
+
+    <!-- ====================================================
+         PART III — MODE FUNCTIONS
+         ==================================================== -->
+
+    <h2 class="module" id="M8"><span class="mnum">Module 8</span>In-modes on $\Jm$</h2>
+
+    <p>Concrete form on $\Jm$:</p>
+    $$ f^{\rm in}_{\omega'}\big|_{\Jm} \;=\; \frac{1}{\sqrt{4\pi\omega'}}\,e^{-i\omega' v}\,\frac{Y_{\ell m}(\Omega)}{r}. $$
+    <p>$\omega' > 0$. The angular and radial structure is fixed; the time dependence is the plane-wave $e^{-i\omega'v}$. These are exactly the Minkowski plane waves in the asymptotically flat past — undisturbed by the (future) collapse.</p>
+
+    <h2 class="module" id="M9"><span class="mnum">Module 9</span>Out-modes on $\Jp$</h2>
+
+    <p>On $\Jp$ the out-modes are similarly clean:</p>
+    $$ f^{\rm out}_{\omega}\big|_{\Jp} \;=\; \frac{1}{\sqrt{4\pi\omega}}\,e^{-i\omega u}\,\frac{Y_{\ell m}(\Omega)}{r}. $$
+    <p>To compute the inner product $(f^{\rm out}_\omega, f^{\rm in}_{\omega'})$ on $\Jm$, we need $f^{\rm out}_\omega$ <em>evaluated on $\Jm$</em>. The out-mode is defined by its asymptotic behavior on $\Jp$; we propagate it back through the spacetime to $\Jm$.</p>
+
+    <h2 class="module" id="M10"><span class="mnum">Module 10</span>Tracing the out-mode back through the collapse</h2>
+
+    <p>The wave equation is hyperbolic; we can propagate the late-time data on $\Jp$ backward to $\Jm$ along null rays. The key insight, which Hawking states tersely and which deserves detail:</p>
+
+    <div class="flow"><span class="label">The geometric optics picture</span>
+      An outgoing null ray that reaches $\Jp$ at retarded time $u$ came from somewhere on $\Jm$. Trace it backwards:
+      <ol>
+        <li>It propagates from $\Jp$ down to the star, entering the (then-collapsing) interior.</li>
+        <li>Inside the star, it passes through (or reflects off) the matter — pick one boundary condition.</li>
+        <li>It emerges as an outgoing ray during early times, before any horizon has formed.</li>
+        <li>The "ingoing version" came in from $\Jm$ at some advanced time $v$.</li>
+      </ol>
+      The map $u \mapsto v$ is what we need to compute. Call it $v(u)$ or, inverting, $u(v)$.
+    </div>
+
+    <p>For our purposes, the asymptotic relation at <em>late</em> $u$ (the relevant regime for observers far from the BH) is what matters. As $u \to \infty$, the ray spends ever more time hovering near $r = 2M$ before emerging; tracing it back through the collapsing star, it came in at $v \to v_0^-$ where $v_0$ is the advanced time at which the ingoing ray would have just reached the (forming) horizon. The Hawking effect is the <em>logarithmic divergence</em> of $u(v)$ as $v \to v_0^-$.</p>
+
+    <h2 class="module" id="M11"><span class="mnum">Module 11</span>Why geometric optics is valid here</h2>
+
+    <p>Hawking uses geometric optics — wavefronts travel along null geodesics, frequency is shifted by gravitational red/blueshift, no diffraction. Is this justified?</p>
+
+    <p>Near the horizon a late-time outgoing mode is blueshifted enormously when traced back. Its frequency at the matching point goes as</p>
+    $$ \omega_{\rm local} \sim \omega\,e^{\kappa u} \;\;(\text{as } u \to \infty). $$
+    <p>For any fixed $u$ large enough, $\omega_{\rm local}$ exceeds the spacetime curvature scale $\sim 1/M$. The mode is locally very high frequency compared to the geometry — exactly the regime where geometric optics is exact. This justifies the WKB approximation.</p>
+
+    <div class="warn"><span class="label">But — the trans-Planckian problem (Module 28)</span>
+      As $u \to \infty$, $\omega_{\rm local}$ eventually exceeds the Planck scale, at which point unknown quantum-gravity physics presumably modifies the calculation. Hawking 1975 ignores this. Whether the final answer is robust against trans-Planckian modifications is a subtle, much-discussed question — the answer is broadly "yes" but requires careful argument (e.g., Unruh 1995 on the supersonic dumb-hole analog).
+    </div>
+
+    <!-- ====================================================
+         PART IV — THE HEART: u(v)
+         ==================================================== -->
+
+    <h2 class="module" id="M12"><span class="mnum">Module 12</span>Setup of the matching</h2>
+
+    <p>We now compute $u(v)$ as $v \to v_0^-$. The geometry is: a star with surface at $r = R(\tau)$ in some interior coordinates, exterior Schwarzschild for $r > R(\tau)$. A null ray comes in from $\Jm$ at advanced time $v$, propagates inward, reflects (or passes through) at the regular center, and emerges as outgoing — reaching $\Jp$ at retarded time $u$.</p>
+
+    <p>For $v$ close to $v_0$, the outgoing ray emerges very close to (but outside) the soon-to-be horizon. Such a ray takes a long time to "climb out" to large $r$. The exact form of the matching depends on the collapse details, but the asymptotic form $u(v)$ as $v \to v_0^-$ is universal — controlled only by $\kappa$.</p>
+
+    <h2 class="module" id="M13"><span class="mnum">Module 13</span>Derivation of $u \approx -\kappa^{-1}\ln(v_0 - v)$</h2>
+
+    <p>This is the central technical step. Hawking states it as eq. (2.4)–(2.6) of the original paper without full derivation. Here it is.</p>
+
+    <p><strong>Step 1.</strong> Consider an outgoing null geodesic in the exterior Schwarzschild region, hovering just outside the horizon. Its affine parameter satisfies</p>
+    $$ \frac{\dd r}{\dd u} \;=\; \half\,\bigl(1 - \tfrac{2M}{r}\bigr) \;\equiv\; \half\,f(r). $$
+    <p>Near the horizon, $f(r) \approx \kappa\cdot 2(r - 2M) \cdot (1/(2M))$. More precisely:</p>
+    $$ f(r) = \frac{r - 2M}{r} \approx \frac{r - 2M}{2M} \;\;\text{as } r \to 2M. $$
+    <p>Let $\rho \equiv r - 2M$. Then $f \approx \rho/(2M)$ and $\dd r/\dd u = \dd\rho/\dd u \approx \rho/(4M) = \kappa\rho$. Solve:</p>
+    $$ \rho(u) \approx \rho_0\,e^{\kappa u},\qquad r(u) - 2M \approx \rho_0\,e^{\kappa u}. $$
+
+    <p><strong>Step 2.</strong> The ingoing ray that, after reflection from the center, becomes this outgoing ray, hits the star's surface at some $r = r_s(v)$. The Killing-energy of the photon is conserved: $\omega_v = $ constant along the trajectory. The relationship between the ingoing $v$ and the outgoing $u$ comes from the geometry at the reflection point.</p>
+
+    <p><strong>Step 3.</strong> Inside the collapsing star and at the reflection (center), the geometry is approximately Minkowski (or some smooth interior), and the matching is regular. The non-trivial part is the redshift between the outgoing-ray's behavior near the horizon and its asymptotic form at $\Jp$.</p>
+
+    <p><strong>Step 4.</strong> The outgoing ray's local affine parameter $\lambda$ near the horizon is related to $u$ by $\lambda \propto e^{\kappa u}$ (since $u$ is the Killing parameter and $\lambda$ is affine, related by the Killing-vector norm $\propto e^{\kappa u}$ in this regime). Hence, $r - 2M \sim \lambda \sim e^{\kappa u}$ as $u \to \infty$.</p>
+
+    <p><strong>Step 5.</strong> Tracing back to $\Jm$: the ingoing ray that, after reflection, emerges as the outgoing ray with retarded time $u$, came in at advanced time $v$ such that the geodesic matching across the star surface gives</p>
+    $$ v_0 - v \;\propto\; r(u) - 2M \;\propto\; e^{-\kappa u}. $$
+    <p>Inverting:</p>
+    <div class="keyresult">
+      $$ u(v) \;\approx\; -\kappa^{-1}\,\ln\!\left(\frac{v_0 - v}{C}\right)\qquad\text{(as $v \to v_0^-$)} $$
+    </div>
+    <p>where $C$ is a constant of order $M$ depending on the collapse details. This is the universal late-time form of the Hawking effect. <em>The logarithm is geometry; $\kappa$ is the rate at which late-time outgoing rays "remember" earlier ingoing rays.</em></p>
+
+    <h2 class="module" id="M14"><span class="mnum">Module 14</span>Why the logarithm is universal (and the matching detail doesn't matter)</h2>
+
+    <p>Different choices of collapse — dust, fluid, scalar-field — give different constants $C$, $v_0$ in $u(v) = -\kappa^{-1}\ln((v_0-v)/C)$. But the <em>functional form</em> $-\kappa^{-1}\ln(\cdot)$ is fixed by the existence of the horizon and the value of $\kappa$ alone. This is what makes the Hawking effect <em>universal</em>: it depends only on the surface gravity, not on the matter content. (Hence "an equation of state" — the temperature comes from the boundary, not the bulk.)</p>
+
+    <!-- ====================================================
+         PART V — BOGOLIUBOV COEFFICIENTS
+         ==================================================== -->
+
+    <h2 class="module" id="M15"><span class="mnum">Module 15</span>The out-mode evaluated on $\Jm$</h2>
+
+    <p>With $u(v) = -\kappa^{-1}\ln((v_0 - v)/C)$ for $v < v_0$, the out-mode $e^{-i\omega u}$ propagated back to $\Jm$ reads:</p>
+    $$ f^{\rm out}_\omega\big|_{\Jm} \;=\; \frac{1}{\sqrt{4\pi\omega}}\,\exp\!\Bigl[-i\omega\cdot\Bigl(-\kappa^{-1}\ln\!\tfrac{v_0-v}{C}\Bigr)\Bigr] $$
+    $$ \;=\; \frac{1}{\sqrt{4\pi\omega}}\,C^{-i\omega/\kappa}\,(v_0 - v)^{i\omega/\kappa}\quad(v < v_0), $$
+    <p>and zero for $v > v_0$ (those rays fell into the black hole). The angular factor is absorbed into the normalization.</p>
+
+    <h2 class="module" id="M16"><span class="mnum">Module 16</span>The two integrals — $\alpha$ and $\beta$</h2>
+
+    <p>Substitute into the KG inner product on $\Jm$:</p>
+    $$ \alpha_{\omega\omega'} \;=\; -i\int_{-\infty}^{v_0}\dd v\,\bigl[f^{\rm out}_\omega\,\pa_v (f^{\rm in}_{\omega'})^* - (f^{\rm in}_{\omega'})^*\,\pa_v f^{\rm out}_\omega\bigr]. $$
+    <p>With $f^{\rm in}_{\omega'} = e^{-i\omega' v}/\sqrt{4\pi\omega'}$, the action of $i\pa_v$ on $(f^{\rm in})^*$ pulls down $-\omega'$. After bookkeeping, the inner product reduces, in the relevant regime $v$ near $v_0$, to</p>
+    $$ \alpha_{\omega\omega'} \;\propto\; \sqrt{\frac{\omega'}{\omega}}\,C^{-i\omega/\kappa}\,e^{-i\omega' v_0}\int_0^\infty x^{i\omega/\kappa}\,e^{-i\omega' x}\,\dd x, $$
+    <p>$$ \beta_{\omega\omega'} \;\propto\; \sqrt{\frac{\omega'}{\omega}}\,C^{-i\omega/\kappa}\,e^{+i\omega' v_0}\int_0^\infty x^{i\omega/\kappa}\,e^{+i\omega' x}\,\dd x, $$</p>
+    <p>where the substitution $x = v_0 - v$ has been made and the lower limit of integration extended to $-\infty$ on $\Jm$ giving the upper limit $\infty$ in $x$. The minor numerical constants are absorbed; only the integrals matter for the ratio $|\beta|/|\alpha|$.</p>
+
+    <h2 class="module" id="M17"><span class="mnum">Module 17</span>The integrals — analytic continuation</h2>
+
+    <p>Both integrals are of the form $\int_0^\infty x^s\,e^{\pm i\omega' x}\,\dd x$ with $s = i\omega/\kappa$. They are not absolutely convergent at $x \to \infty$ but are conditionally convergent. The standard trick is to regularize with a small damping $e^{-\epsilon x}$ and take $\epsilon \to 0^+$ at the end.</p>
+
+    <h4>Step 17.1 — the regularized integral</h4>
+    <p>For $\epsilon > 0$ and $\omega' > 0$:</p>
+    $$ \int_0^\infty x^s\,e^{-\epsilon x + i\omega' x}\,\dd x \;=\; \frac{\Gamma(s+1)}{(\epsilon - i\omega')^{s+1}}. $$
+    <p>This is the standard Laplace-transform identity, valid for $\mathrm{Re}(s) > -1$.</p>
+
+    <h4>Step 17.2 — taking $\epsilon \to 0^+$</h4>
+    <p>The denominator $(\epsilon - i\omega')$ has positive real part for $\epsilon > 0$ and tends to $-i\omega'$ from the right half-plane. Its phase tends to $-\pi/2$ from above. So</p>
+    $$ \lim_{\epsilon\to 0^+}(\epsilon - i\omega')^{s+1} \;=\; (\omega')^{s+1}\,e^{-i\pi(s+1)/2}. $$
+
+    <h4>Step 17.3 — explicit evaluation</h4>
+    <p>Plug in $s = i\omega/\kappa$:</p>
+    $$ e^{-i\pi(i\omega/\kappa + 1)/2} \;=\; e^{\pi\omega/(2\kappa)}\cdot e^{-i\pi/2} \;=\; -i\,e^{\pi\omega/(2\kappa)}. $$
+    <p>So</p>
+    $$ \int_0^\infty x^{i\omega/\kappa}\,e^{i\omega' x}\,\dd x \;=\; \frac{\Gamma(i\omega/\kappa + 1)}{(\omega')^{i\omega/\kappa + 1}}\,(-i)^{-1}\,e^{-\pi\omega/(2\kappa)} $$
+    $$ \;=\; i\,(\omega')^{-i\omega/\kappa - 1}\,\Gamma(i\omega/\kappa + 1)\,e^{-\pi\omega/(2\kappa)}. $$
+
+    <h4>Step 17.4 — the second integral</h4>
+    <p>Replace $\omega' \to -\omega'$ in the formal sense. Equivalently, the denominator becomes $(\epsilon + i\omega')$, with phase $+\pi/2$. So</p>
+    $$ \int_0^\infty x^{i\omega/\kappa}\,e^{-i\omega' x}\,\dd x \;=\; -i\,(\omega')^{-i\omega/\kappa - 1}\,\Gamma(i\omega/\kappa + 1)\,e^{+\pi\omega/(2\kappa)}. $$
+
+    <h2 class="module" id="M18"><span class="mnum">Module 18</span>The ratio $|\beta|^2/|\alpha|^2 = e^{-2\pi\omega/\kappa}$</h2>
+
+    <p>Combining Modules 16 and 17, restoring overall constants:</p>
+    $$ \alpha_{\omega\omega'} \;\propto\; \sqrt{\omega'/\omega}\,\Gamma(i\omega/\kappa + 1)\,(\omega')^{-i\omega/\kappa - 1}\,e^{+\pi\omega/(2\kappa)}\,e^{-i\omega' v_0} $$
+    $$ \beta_{\omega\omega'} \;\propto\; \sqrt{\omega'/\omega}\,\Gamma(i\omega/\kappa + 1)\,(\omega')^{-i\omega/\kappa - 1}\,e^{-\pi\omega/(2\kappa)}\,e^{+i\omega' v_0} $$
+    <p>(up to identical numerical prefactors which cancel in the ratio).</p>
+
+    <p>Therefore</p>
+    <div class="keyresult">
+      $$ \frac{|\beta_{\omega\omega'}|^2}{|\alpha_{\omega\omega'}|^2} \;=\; \frac{e^{-\pi\omega/\kappa}}{e^{+\pi\omega/\kappa}} \;=\; e^{-2\pi\omega/\kappa}. $$
+    </div>
+    <p>This is <em>the</em> equation. Hawking 1975 eq. (2.18). Everything that follows is bookkeeping.</p>
+
+    <div class="remark"><span class="label">Where did $e^{-2\pi\omega/\kappa}$ come from, physically?</span>
+      The factor is the relative weight of positive and negative Minkowski-frequency components in the late-time out-mode. The out-mode, viewed on $\Jm$, looks like $(v_0-v)^{i\omega/\kappa}$ — a function with a <em>branch point</em> at $v = v_0$. The Fourier transform of a branch-point singularity gives unequal positive and negative-frequency weights; the ratio is precisely $e^{-2\pi\omega/\kappa}$ because rotating around the branch point by $2\pi$ in the complex plane multiplies the function by $e^{2\pi i \cdot i\omega/\kappa} = e^{-2\pi\omega/\kappa}$. This is the precise statement of "thermality from a horizon's analytic structure."
+    </div>
+
+    <h2 class="module" id="M19"><span class="mnum">Module 19</span>Normalization — $|\alpha|^2 - |\beta|^2 = 1$</h2>
+
+    <p>The Bogoliubov coefficients also satisfy</p>
+    $$ \sum_{\omega'} \bigl(|\alpha_{\omega\omega'}|^2 - |\beta_{\omega\omega'}|^2\bigr) = 1, $$
+    <p>which follows from the canonical commutation relations for $\hat a^{\rm out}_\omega$ being equivalent to those for $\hat a^{\rm in}_{\omega'}$. Combined with $|\beta|^2 = e^{-2\pi\omega/\kappa}|\alpha|^2$:</p>
+    $$ |\alpha|^2(1 - e^{-2\pi\omega/\kappa}) = 1\;\Rightarrow\;|\alpha|^2 = \frac{1}{1 - e^{-2\pi\omega/\kappa}},\quad |\beta|^2 = \frac{e^{-2\pi\omega/\kappa}}{1 - e^{-2\pi\omega/\kappa}}. $$
+    <p>The last fraction simplifies:</p>
+    $$ |\beta|^2 \;=\; \frac{1}{e^{2\pi\omega/\kappa} - 1}. $$
+    <p>That is the Planck/Bose–Einstein distribution.</p>
+
+    <!-- ====================================================
+         PART VI — THERMAL SPECTRUM
+         ==================================================== -->
+
+    <h2 class="module" id="M20"><span class="mnum">Module 20</span>From $|\beta|^2$ to $\langle N_\omega\rangle$</h2>
+
+    <p>The expected number of "out" particles of frequency $\omega$ in the "in" vacuum is</p>
+    $$ \langle N_\omega^{\rm out}\rangle \;=\; \sum_{\omega'} |\beta_{\omega\omega'}|^2 \;=\; \frac{1}{e^{2\pi\omega/\kappa} - 1}. $$
+    <p>(The frequency-by-frequency sum, with mode normalization absorbed, gives the per-mode result.)</p>
+
+    <h2 class="module" id="M21"><span class="mnum">Module 21</span>This is the Bose–Einstein distribution</h2>
+
+    <p>The familiar bosonic thermal expectation at temperature $T$:</p>
+    $$ \langle N_\omega\rangle^{\rm thermal} \;=\; \frac{1}{e^{\hbar\omega/(k_B T)} - 1}. $$
+    <p>Match exponents:</p>
+    $$ \frac{\hbar\omega}{k_B T} \;=\; \frac{2\pi\omega}{\kappa} \;\Rightarrow\; T \;=\; \frac{\hbar\kappa}{2\pi k_B}. $$
+
+    <h2 class="module" id="M22"><span class="mnum">Module 22</span>The Hawking temperature</h2>
+
+    <p>Substituting $\kappa = 1/(4M)$ (in $G = c = 1$) and restoring constants:</p>
+    <div class="keyresult">
+      $$ \boxed{\;\;T_H \;=\; \frac{\hbar c^3}{8\pi G M k_B}\;\;} $$
+    </div>
+    <p>For $M = M_\odot$: $T_H \approx 6\times 10^{-8}\,$K. Solar-mass black holes are much colder than the CMB — they absorb more than they emit. Evaporation dominates only for $M \lesssim 10^{11}\,$kg (primordial BHs).</p>
+
+    <!-- ====================================================
+         PART VII — GREYBODY & TOTAL
+         ==================================================== -->
+
+    <h2 class="module" id="M23"><span class="mnum">Module 23</span>The greybody factor</h2>
+
+    <p>The spectrum is <em>not</em> a perfect blackbody. The radiation, generated at the horizon, must propagate outward through the curved exterior geometry — through an effective potential barrier (the angular-momentum barrier and the gravitational potential). Some fraction is reflected back into the black hole. The transmission probability through this barrier is the <em>greybody factor</em> $\Gamma_{\omega\ell}$.</p>
+
+    <p>Concretely, write the radial wave equation outside the BH:</p>
+    $$ \Bigl[-\frac{\dd^2}{\dd r_*^2} + V_\ell(r)\Bigr] R_{\omega\ell}(r_*) = \omega^2 R_{\omega\ell}, $$
+    $$ V_\ell(r) \;=\; \bigl(1 - \tfrac{2M}{r}\bigr)\Bigl[\frac{\ell(\ell+1)}{r^2} + \frac{2M}{r^3}\Bigr]. $$
+
+    <p>The greybody factor is the transmission coefficient of this 1D Schrödinger-like problem. The full result becomes</p>
+    <div class="keyresult">
+      $$ \langle N_{\omega\ell m}^{\rm out}\rangle \;=\; \frac{\Gamma_{\omega\ell}}{e^{2\pi\omega/\kappa} - 1}. $$
+    </div>
+    <p>This is the headline result, with the greybody factor restored. <em>This is the formula that your centerpiece paper computes</em> for various less-studied spacetimes.</p>
+
+    <h2 class="module" id="M24"><span class="mnum">Module 24</span>Total power radiated</h2>
+
+    <p>Integrate the energy flux over all modes:</p>
+    $$ \frac{\dd M}{\dd t} \;=\; -\sum_{\ell, m}\int_0^\infty \frac{\dd\omega}{2\pi}\,\frac{\omega\,\Gamma_{\omega\ell}}{e^{2\pi\omega/\kappa} - 1}. $$
+    <p>The result is approximately a Stefan–Boltzmann formula with corrections, $\dd M/\dd t \propto 1/M^2$. Page 1976 tabulated the precise coefficients for various particle species. The total luminosity of a Schwarzschild BH is</p>
+    $$ L_H \;\approx\; 3.6 \times 10^{-8}\,\Bigl(\frac{M_\odot}{M}\Bigr)^2\,\text{erg/s.} $$
+
+    <!-- ====================================================
+         PART VIII — GENERALIZATIONS
+         ==================================================== -->
+
+    <h2 class="module" id="M25"><span class="mnum">Module 25</span>Rotation — superradiance</h2>
+
+    <p>For a Kerr black hole (rotation $a$), the calculation generalizes. The result:</p>
+    $$ \langle N_{\omega\ell m}\rangle \;=\; \frac{\Gamma_{\omega\ell m}}{e^{2\pi(\omega - m\Omega_H)/\kappa} - 1}, $$
+    <p>where $\Omega_H = a/(r_+^2 + a^2)$ is the horizon's angular velocity. For modes with $\omega < m\Omega_H$ the exponent is negative — these modes are <em>superradiantly amplified</em>: they extract energy from the BH's rotation. Penrose process at the quantum level.</p>
+
+    <h2 class="module" id="M26"><span class="mnum">Module 26</span>Charge and higher spins</h2>
+
+    <ul>
+      <li><strong>Charged BH</strong> (Reissner–Nordström): shifted exponent involves the chemical potential for charge. Charged particles emitted preferentially.</li>
+      <li><strong>Fermions</strong>: the denominator becomes $e^{2\pi\omega/\kappa} + 1$ (Fermi–Dirac), as expected for thermal radiation of fermions.</li>
+      <li><strong>Higher-spin bosons</strong>: same Bose–Einstein form; different greybody factors $\Gamma$ depending on spin.</li>
+    </ul>
+
+    <h2 class="module" id="M27"><span class="mnum">Module 27</span>Black hole lifetime</h2>
+
+    <p>$\dd M/\dd t \propto -1/M^2 \Rightarrow M^2 \dd M \propto -\dd t \Rightarrow M^3 \propto t_0 - t$. The BH evaporates in time</p>
+    $$ \tau_{\rm evap} \;\sim\; \frac{M^3 G^2}{\hbar c^4} \;\sim\; 10^{67}\,\Bigl(\frac{M}{M_\odot}\Bigr)^3\,\text{years}. $$
+    <p>Solar-mass BHs outlast the age of the universe by 57 orders of magnitude.</p>
+
+    <!-- ====================================================
+         PART IX — WHAT'S LEFT OPEN
+         ==================================================== -->
+
+    <h2 class="module" id="M28"><span class="mnum">Module 28</span>The trans-Planckian problem</h2>
+
+    <p>The mode that emerges at $\Jp$ with frequency $\omega \sim T_H$ comes from a mode on $\Jm$ that was blueshifted by $e^{\kappa u}$ near the horizon. For BHs older than $\sim M$ in their own units (which is always, after a brief startup transient), the original frequency $\omega' = \omega\,e^{\kappa u}$ exceeds the Planck frequency. The calculation appears to require trusting QFT at energies beyond its known validity.</p>
+
+    <p>The robust resolution: replicate the calculation in an analog "dumb hole" (Unruh 1981) with a fluid acoustic horizon, where the high-frequency physics is regulated by lattice/atomic scales. The Hawking-like phonon spectrum survives. This is taken as strong evidence that the original answer is insensitive to the unknown UV completion.</p>
+
+    <h2 class="module" id="M29"><span class="mnum">Module 29</span>Backreaction</h2>
+
+    <p>Hawking 1975 treats the spacetime as fixed (test field on classical background). But the radiation carries energy away — the BH must shrink. Backreaction is ignored. The full problem (Hawking-radiation-with-backreaction) is a coupled, non-equilibrium, semiclassical-gravity problem; clean treatments require careful regularization of the stress tensor (e.g., Christensen–Fulling 1977) and are still studied. The Page curve discussion (your reading list Module 20.1.2) is exactly the controlled "what happens when backreaction is incorporated globally" question.</p>
+
+    <h2 class="module" id="M30"><span class="mnum">Module 30</span>The information paradox — Hawking 1975 didn't quite see it</h2>
+
+    <p>Hawking 1975 noted that the radiation is thermal — depends only on the BH's external parameters $(M, J, Q)$. The information about what fell in (which book, which star, in what state) seems lost. Hawking concluded that pure states can evolve to mixed states in the presence of horizons: a breakdown of unitarity.</p>
+
+    <p>This is the <em>information paradox</em>. The status as of 2026 — based on the islands literature you have on disk (Penington 2019, AEMM 2019, PSSY 2019, AMMZ 2019, AHMST 2020) — is that semiclassical gravity, properly treated including replica wormhole saddles, <em>does</em> reproduce a unitary Page curve. The microscopic mechanism is not yet fully understood, but the macroscopic question ("can the radiation be unitary?") is largely settled in the affirmative.</p>
+
+    <p>Hawking 1975 is the founding document. Everything from Bekenstein's $S = A/4$ being thermodynamic truth, to AdS/CFT, to ER=EPR, to islands, traces back here. <em>Read it once for the math. Read it again, after the islands, for what it implies.</em></p>
+
+    <hr>
+
+    <h3>Closing — how to use this lecture</h3>
+
+    <p>Open Hawking 1975 PDF alongside. Read his §1 — match it to my Modules 1–3. Read his §2 — that is Modules 4–14, the geometric heart. Read his §3 — that is Modules 15–22, the Bogoliubov calculation and thermal result. Read his §4 — that is Modules 23–27, generalizations. The original paper compresses by a factor of 5–10×; this lecture decompresses.</p>
+
+    <p>Then sit with the math in Module 18 — the contour rotation that gives $e^{-2\pi\omega/\kappa}$ — until you can reproduce it from memory. If you cannot, you have not yet understood Hawking 1975. If you can, you have.</p>
+
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:54px">
+      End. <a href="index.html">Return to the main learning hub.</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

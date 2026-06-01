@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>String Theory — graduate course</title>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$','$']], displayMath: [['$$','$$']], processEscapes: true, tags: 'ams',
+             macros: { half:'\\tfrac{1}{2}', pa:'\\partial', alp:"\\alpha'" } },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root {
+      --bg:#fbfaf6; --bg-side:#f1eee2; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
+      --border:#d8d3c4; --code:#efeadc; --maxw:800px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:17px/1.65 "Charter","Iowan Old Style","Palatino Linotype",Georgia,serif;
+         -webkit-font-smoothing:antialiased}
+    .layout{display:grid;grid-template-columns:280px 1fr;min-height:100vh}
+    aside{background:var(--bg-side);border-right:1px solid var(--border);
+          padding:30px 22px;position:sticky;top:0;align-self:start;
+          height:100vh;overflow-y:auto;font-size:13px}
+    aside .brand{font-weight:700;font-size:16px;line-height:1.25}
+    aside .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:5px}
+    aside .back-link{display:block;padding:8px 0;font-size:12px;color:var(--muted);
+                     text-decoration:none;border-bottom:1px solid var(--border);margin:14px 0}
+    aside .back-link:hover{color:var(--accent)}
+    aside h2{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);
+             margin:18px 0 8px;font-weight:700}
+    aside ol{list-style:none;padding:0;margin:0 0 8px}
+    aside ol li{margin-bottom:4px}
+    aside ol a{color:var(--fg);text-decoration:none;display:flex;gap:7px;font-size:12.5px;line-height:1.35}
+    aside ol a:hover{color:var(--accent)}
+    aside ol a .num{color:var(--muted);font-size:10.5px;min-width:30px;font-weight:600}
+    main{padding:54px 56px 120px;max-width:calc(var(--maxw) + 112px)}
+    main > *{max-width:var(--maxw)}
+    h1{font-size:31px;line-height:1.15;margin:0 0 6px;letter-spacing:-0.01em}
+    h1 + .subtitle{color:var(--muted);font-size:15px;margin-bottom:14px}
+    .meta-row{font-family:-apple-system,system-ui,sans-serif;font-size:12.5px;color:var(--muted);margin-bottom:40px}
+    h2.module{font-size:24px;margin:72px 0 6px;letter-spacing:-0.01em;
+              padding-bottom:8px;border-bottom:2px solid var(--accent)}
+    h2.module .mnum{display:block;font:700 12px/1.4 -apple-system,system-ui,sans-serif;
+                    letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+    h3{font-size:18px;margin:30px 0 8px;color:var(--accent)}
+    h4{font-size:15.5px;margin:18px 0 5px;font-weight:700}
+    p{margin:0 0 14px}
+    a{color:var(--accent);text-decoration:underline;text-decoration-color:var(--soft);text-underline-offset:2px}
+    code{background:var(--code);padding:1px 5px;border-radius:3px;font:0.87em "JetBrains Mono","SF Mono",Menlo,monospace}
+    pre{background:var(--code);padding:12px 16px;border-radius:4px;border-left:3px solid var(--soft);
+        overflow-x:auto;font-size:13.5px;line-height:1.55;margin:12px 0}
+    pre code{background:none;padding:0}
+    ul,ol.body{margin:0 0 14px;padding-left:24px}
+    li{margin-bottom:4px}
+    .reading,.def,.thm,.worked,.exercise,.keyresult,.remark,.why{
+      margin:16px 0;padding:13px 17px;border-radius:4px;font-size:15.5px
+    }
+    .reading{background:#f0e6cf;border-left:4px solid #7a5b1a}
+    .def{background:#dde7f1;border-left:4px solid #2a5a8a}
+    .thm{background:#ece2f3;border-left:4px solid var(--purple)}
+    .worked{background:#eaf3e0;border-left:4px solid var(--green)}
+    .exercise{background:#f7e9dc;border-left:4px solid var(--accent)}
+    .why{background:#d8ece9;border-left:4px solid var(--teal)}
+    .remark{background:#e8e6e0;border-left:4px solid #5a5a5a;font-size:15px}
+    .keyresult{background:#faf2e2;border:1px solid var(--soft);border-left:4px solid var(--accent);text-align:center}
+    .label{display:inline-block;font:700 10.5px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:0.1em;
+           text-transform:uppercase;color:white;padding:1px 8px;border-radius:3px;margin-right:8px;vertical-align:2px}
+    .reading .label{background:#7a5b1a}
+    .def .label{background:#2a5a8a}
+    .thm .label{background:var(--purple)}
+    .worked .label{background:var(--green)}
+    .exercise .label{background:var(--accent)}
+    .why .label{background:var(--teal)}
+    .remark .label{background:#5a5a5a}
+    .keyresult, .reading p:last-child, .def p:last-child, .thm p:last-child,
+    .worked p:last-child, .exercise p:last-child, .why p:last-child, .remark p:last-child{margin-bottom:0}
+    details{margin-top:10px}
+    details summary{cursor:pointer;color:var(--accent);font:600 13px/1.4 -apple-system,sans-serif;padding:3px 0}
+    details[open] summary{margin-bottom:6px}
+    .diff{font:700 12px/1.4 -apple-system,sans-serif;padding:1px 7px;border-radius:3px;margin-left:8px;vertical-align:2px}
+    .diff.std{background:#d6e9d0;color:#2f5a1b}
+    .diff.hard{background:#f5dcd8;color:#b03020}
+    .diff.research{background:#e3dfb0;color:#6a5e10}
+    hr{border:none;border-top:1px solid var(--border);margin:36px 0}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}
+      aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+      main{padding:30px 22px 80px}}
+  </style>
+</head>
+<body>
+<div class="layout">
+
+  <aside>
+    <div class="brand">String Theory
+      <small>A graduate mini-course</small>
+    </div>
+    <a href="index.html" class="back-link">← main learning hub</a>
+    <a href="jacobson-1995-course.html" class="back-link">← Jacobson 1995 course</a>
+
+    <h2>Front matter</h2>
+    <ol>
+      <li><a href="#how"><span class="num">0.0</span><span>How to use this course</span></a></li>
+      <li><a href="#prereqs"><span class="num">0.1</span><span>Prerequisites &amp; corpus</span></a></li>
+    </ol>
+    <h2>Part I · Foundations</h2>
+    <ol>
+      <li><a href="#M1"><span class="num">M1</span><span>Why string theory?</span></a></li>
+      <li><a href="#M2"><span class="num">M2</span><span>The classical relativistic string</span></a></li>
+      <li><a href="#M3"><span class="num">M3</span><span>Conformal field theory I</span></a></li>
+      <li><a href="#M4"><span class="num">M4</span><span>CFT II — Virasoro &amp; OPEs</span></a></li>
+    </ol>
+    <h2>Part II · The string</h2>
+    <ol>
+      <li><a href="#M5"><span class="num">M5</span><span>Bosonic string quantization</span></a></li>
+      <li><a href="#M6"><span class="num">M6</span><span>Critical dimension &amp; spectrum</span></a></li>
+      <li><a href="#M7"><span class="num">M7</span><span>Vertex operators &amp; scattering</span></a></li>
+      <li><a href="#M8"><span class="num">M8</span><span>Superstrings</span></a></li>
+    </ol>
+    <h2>Part III · Geometry</h2>
+    <ol>
+      <li><a href="#M9"><span class="num">M9</span><span>T-duality &amp; compactification</span></a></li>
+      <li><a href="#M10"><span class="num">M10</span><span>D-branes</span></a></li>
+    </ol>
+    <h2>Part IV · Connections</h2>
+    <ol>
+      <li><a href="#M11"><span class="num">M11</span><span>Black hole entropy (Strominger–Vafa)</span></a></li>
+      <li><a href="#M12"><span class="num">M12</span><span>AdS/CFT (Maldacena)</span></a></li>
+      <li><a href="#M13"><span class="num">M13</span><span>Open frontier</span></a></li>
+    </ol>
+    <h2>Back matter</h2>
+    <ol>
+      <li><a href="#finalset"><span class="num">PS</span><span>Final problem set</span></a></li>
+      <li><a href="#refs"><span class="num">R</span><span>References &amp; corpus</span></a></li>
+    </ol>
+  </aside>
+
+  <main>
+
+    <h1>String Theory — a graduate course</h1>
+    <div class="subtitle">A self-paced graduate curriculum compiled from David Tong's Cambridge lecture notes, Ginsparg's CFT lectures, Polchinski's TASI lectures, the Kiritsis superstring review, and the landmark papers of Strominger–Vafa and Maldacena.</div>
+    <div class="meta-row">13 modules · ~1,044 pages of source material · theory + worked examples + exercises (collapsible solutions) + final problem set. Difficulty: <span class="diff std">standard</span> <span class="diff hard">hard</span> <span class="diff research">research</span></div>
+
+    <!-- =============== HOW TO USE =============== -->
+    <h2 class="module" id="how"><span class="mnum">0.0</span>How to use this course</h2>
+    <p>This file is a curriculum and study scaffold, not a textbook. The textbook content lives in the PDFs already on your disk under <code>papers/string_theory/</code>. Each module here lists which sections of which PDFs to read, restates the central results in compact form, adds connections back to the black-hole-thermodynamics material you already know, and provides worked examples and exercises.</p>
+    <ul>
+      <li><strong>One module at a time.</strong> Each is built to take 3–7 days of serious study.</li>
+      <li><strong>Reading boxes (sand)</strong> tell you what to read from the PDF corpus before tackling the rest of the module.</li>
+      <li><strong>Worked examples (green)</strong> show the central calculation done end-to-end.</li>
+      <li><strong>Exercises (orange)</strong> are tagged <span class="diff std">standard</span> / <span class="diff hard">hard</span> / <span class="diff research">research</span>. Solutions are collapsible — try them first.</li>
+      <li><strong>Why-this-matters (teal)</strong> connects each module to the larger picture — especially to the Jacobson program you've been studying.</li>
+    </ul>
+
+    <!-- =============== PREREQS =============== -->
+    <h2 class="module" id="prereqs"><span class="mnum">0.1</span>Prerequisites &amp; the corpus</h2>
+    <p>String theory has a steep prerequisite chain. Below is what's strictly needed and what's already in the corpus. If you don't have a piece, read the indicated PDF first.</p>
+
+    <div class="reading"><span class="label">Prerequisites (with corpus pointers)</span>
+      <ul>
+        <li><strong>Quantum mechanics</strong> through path integrals (canonical). External.</li>
+        <li><strong>Special relativity</strong> and basic differential geometry. External.</li>
+        <li><strong>Quantum field theory</strong> through canonical quantization of free fields and basic interactions. → <code>papers/string_theory/Tong_QFT.pdf</code> chs. 1–6.</li>
+        <li><strong>Statistical field theory / renormalization</strong> for the CFT material. → <code>papers/string_theory/Tong_StatFieldTheory.pdf</code> chs. 1–4.</li>
+        <li><strong>General relativity</strong> through the Einstein equation. (You have this from the Jacobson course.)</li>
+        <li><strong>Complex analysis</strong> through contour integration. External.</li>
+        <li><strong>Group theory and Lie algebras</strong> at the level of representations of SU(N) and SO(N). External.</li>
+      </ul>
+    </div>
+
+    <div class="reading"><span class="label">The corpus on disk</span>
+      <pre>
+papers/string_theory/
+├── Tong_QFT.pdf                          (155 p)  prerequisite QFT
+├── Tong_StatFieldTheory.pdf              (144 p)  prerequisite SFT/CFT prep
+├── Tong_StringTheory.pdf                 (218 p)  MAIN TEXT
+├── Ginsparg1988_AppliedCFT.pdf            (90 p)  canonical CFT reference
+├── Polchinski1994_WhatIsStringTheory.pdf (154 p)  TASI overview & deeper material
+├── Kiritsis1997_IntroSuperstring.pdf     (249 p)  comprehensive superstring review
+├── StromingerVafa1996_BHEntropy.pdf       (12 p)  microscopic origin of S = A/4
+└── Maldacena1997_AdSCFT.pdf               (22 p)  the AdS/CFT paper itself</pre>
+      <p>Textbooks not in the corpus (require library access): Polchinski Vol I & II; Green–Schwarz–Witten Vol I & II; Becker–Becker–Schwarz; Zwiebach; Kiritsis (textbook, distinct from the review).</p>
+    </div>
+
+    <!-- =================================================================
+         PART I — FOUNDATIONS
+         ================================================================= -->
+
+    <h2 class="module" id="M1"><span class="mnum">Module 1</span>Why string theory?</h2>
+
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §0 ("Preliminaries") and §1 ("The Relativistic String") opening.</li>
+        <li>Polchinski 1994 (TASI), §1 "Introduction."</li>
+      </ul>
+    </div>
+
+    <p>The starting question of the subject: what if the fundamental degrees of freedom of nature are <em>1-dimensional</em> (strings) rather than 0-dimensional (points)? The motivations are not merely speculative — they are forced by three different lines of evidence.</p>
+
+    <h3>1.1 The three motivations</h3>
+    <ol class="body">
+      <li><strong>Massless spin-2 in the spectrum.</strong> Quantizing a closed string in flat space automatically produces a massless spin-2 excitation. By the Weinberg–Witten theorem, a massless spin-2 particle that couples consistently to a conserved stress tensor <em>must</em> be the graviton. String theory predicts gravity rather than postulating it.</li>
+      <li><strong>UV-finiteness of scattering.</strong> String amplitudes are finite at high energies. The exponential softening at high momentum transfer comes from the infinite tower of string excitations and the geometry of the worldsheet path integral. This solves the non-renormalizability of perturbative quantum gravity.</li>
+      <li><strong>Unification.</strong> The closed-string spectrum contains gauge bosons (open string sector) and gravity (closed string sector). The same dynamics yields both.</li>
+    </ol>
+
+    <div class="why"><span class="label">Connection to Jacobson</span>
+      Jacobson 1995 left open the question: <em>what are the microscopic degrees of freedom whose statistical mechanics gives the Einstein equation as an equation of state?</em> String theory is the most developed candidate answer. For specific black holes — Module 11 — the underlying microstates are explicitly counted and the result is the Bekenstein–Hawking entropy. Strominger–Vafa 1996 is the moment Jacobson's open question got a partial answer.
+    </div>
+
+    <h3>1.2 What "string theory" actually is</h3>
+    <p>The basic dynamical object is a one-dimensional string sweeping out a two-dimensional worldsheet $\Sigma$ in a target spacetime of dimension $D$. The action is the area of $\Sigma$ in target space — the Nambu–Goto action. The string's transverse oscillations are massive particles in target space; the spectrum is the set of normal modes. The tension is conventionally written</p>
+    $$ T \;=\; \frac{1}{2\pi\alp},\qquad \alp = \ell_s^2 $$
+    <p>where $\alp$ ("alpha prime") is the inverse string tension and $\ell_s$ is the string length — the one new fundamental scale.</p>
+
+    <div class="exercise"><span class="label">Exercise 1.1</span><span class="diff std">standard</span>
+      <p>Estimate $\ell_s$ if the string theory describes gravity with Newton's constant $G_N$ on the one hand, and produces gauge bosons at a TeV-scale unification on the other. Which scale wins?</p>
+      <details><summary>Solution</summary>
+        Closed-string graviton couplings give $G_N \sim g_s^2\, \ell_s^{D-2}$ in $D$ target dimensions ($g_s$ is the string coupling). If $\ell_s \sim \ell_P \sim 10^{-35}\,\text{m}$, gravity scales correctly. TeV unification would require $\ell_s \sim 10^{-19}\,\text{m}$, which is grossly inconsistent with measured $G_N$ in 4D — pointing to "braneworld" scenarios where $\ell_s \gg \ell_P$ is hidden in extra dimensions. The "natural" theory is Planckian; TeV-string scenarios are an extension.
+      </details>
+    </div>
+
+    <h2 class="module" id="M2"><span class="mnum">Module 2</span>The classical relativistic string</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §1 in full.</li>
+        <li>Optional: Polchinski 1994 §2.</li>
+      </ul>
+    </div>
+
+    <h3>2.1 The Nambu–Goto action</h3>
+    <p>The string worldsheet is parametrized by $(\sigma^0, \sigma^1) = (\tau, \sigma)$. Target-space coordinates of the string are $X^\mu(\tau, \sigma)$. The induced metric on the worldsheet is</p>
+    $$ \gamma_{ab} = \pa_a X^\mu\, \pa_b X^\nu\, \eta_{\mu\nu}. $$
+    <p>The Nambu–Goto action is just the worldsheet area:</p>
+    <div class="keyresult">
+      $$ S_{\rm NG} \;=\; -T \int \dd^2\sigma\,\sqrt{-\det\gamma_{ab}}. $$
+    </div>
+    <p>It is reparametrization-invariant (no preferred coordinate on the worldsheet) and target-space Lorentz invariant.</p>
+
+    <h3>2.2 The Polyakov action</h3>
+    <p>The square root in Nambu–Goto is awkward to quantize. Introduce an auxiliary worldsheet metric $h_{ab}(\tau,\sigma)$ and write</p>
+    <div class="keyresult">
+      $$ S_{\rm Pol} \;=\; -\frac{T}{2}\int \dd^2\sigma\,\sqrt{-h}\,h^{ab}\,\pa_a X^\mu\,\pa_b X^\nu\,\eta_{\mu\nu}. $$
+    </div>
+    <p>Varying $h^{ab}$ recovers $h_{ab} \propto \gamma_{ab}$ and equates the two actions classically. Polyakov has three local symmetries: 2D diffeomorphisms (2 functions) and Weyl rescaling $h_{ab} \to e^{2\omega} h_{ab}$ (1 function), exactly enough to gauge-fix $h_{ab} = \eta_{ab}$ ("flat-gauge").</p>
+
+    <div class="worked"><span class="label">Worked example</span>
+      <p><strong>Conformal gauge equations of motion.</strong> In flat gauge $h_{ab} = \eta_{ab}$, the Polyakov action reduces to a free 2D scalar field theory for each $X^\mu$:</p>
+      $$ S = -\frac{T}{2}\int\dd^2\sigma\,\eta^{ab}\pa_a X^\mu\pa_b X_\mu \;\Rightarrow\; \pa^a\pa_a X^\mu = 0. $$
+      <p>The general solution decomposes into left- and right-movers, $X^\mu(\tau,\sigma) = X^\mu_L(\tau+\sigma) + X^\mu_R(\tau-\sigma)$. <em>This is the key fact:</em> the string is two copies of a free 2D conformal field theory, one for each null direction on the worldsheet — and this CFT structure is the engine for the rest of the subject (Modules 3 and 4).</p>
+    </div>
+
+    <h3>2.3 Constraints</h3>
+    <p>Even after gauge-fixing, the equations of motion for $h_{ab}$ remain as <em>constraints</em>:</p>
+    $$ T_{ab} := -\frac{2}{T}\frac{1}{\sqrt{-h}}\frac{\delta S}{\delta h^{ab}} = 0. $$
+    <p>These are the Virasoro constraints. They will become operator equations annihilating physical states upon quantization (Module 5).</p>
+
+    <div class="exercise"><span class="label">Exercise 2.1</span><span class="diff std">standard</span>
+      <p>Derive the equations of motion for $X^\mu$ from the Polyakov action in an arbitrary worldsheet metric (not yet gauge-fixed). Show your result reduces to the wave equation $\pa^a\pa_a X^\mu = 0$ in flat gauge.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 2.2</span><span class="diff hard">hard</span>
+      <p>Show that the Polyakov action is invariant under Weyl rescalings of $h_{ab}$ even though Nambu–Goto is not (it doesn't contain $h_{ab}$ at all, so trivially). Then show that Weyl invariance plus 2D diffeomorphism invariance together imply $T^a{}_a = 0$ classically — the worldsheet stress tensor is traceless.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 2.3</span><span class="diff std">standard</span>
+      <p>Working in light-cone worldsheet coordinates $\sigma^\pm = \tau\pm\sigma$, write the Virasoro constraints as $T_{++} = T_{--} = 0$ (with $T_{+-} = 0$ following from Weyl invariance). Interpret physically.</p>
+    </div>
+
+    <h2 class="module" id="M3"><span class="mnum">Module 3</span>Conformal field theory I</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §4 "Introducing Conformal Field Theory."</li>
+        <li>Ginsparg, <em>Applied CFT</em>, §1–4 (the canonical reference).</li>
+      </ul>
+    </div>
+
+    <p>The Polyakov action in flat gauge is a 2D CFT. The string spectrum, scattering amplitudes, and dualities all flow from CFT structure. This is the single most important technical apparatus in the course.</p>
+
+    <h3>3.1 The conformal group in 2D</h3>
+    <div class="def"><span class="label">Definition</span>
+      A <em>conformal transformation</em> is a smooth coordinate change $x^a \to x'^a$ that rescales the metric: $g'_{ab}(x') = \Omega^2(x)\,g_{ab}(x)$ for some positive scalar $\Omega$. In dimensions $D \ge 3$ the conformal algebra is finite-dimensional (15 generators for $D=4$). In $D=2$ it is <strong>infinite-dimensional</strong>: complex-analytic and antianalytic maps $z \to f(z)$, $\bar z \to \bar f(\bar z)$. This is what makes 2D CFT so powerful — and so structurally restrictive.
+    </div>
+
+    <h3>3.2 Holomorphic and antiholomorphic sectors</h3>
+    <p>Write $z = \sigma^1 + i\sigma^2$ (Wick-rotated worldsheet). The 2D conformal algebra splits into holomorphic generators $L_n$ (acting by $z\to z + \epsilon z^{n+1}$) and antiholomorphic $\bar L_n$. The two sectors are independent — the worldsheet decomposes into "left" and "right."</p>
+
+    <h3>3.3 Primary fields</h3>
+    <div class="def"><span class="label">Definition</span>
+      A field $\mathcal O(z, \bar z)$ is <em>primary</em> with conformal weights $(h, \bar h)$ if under $z\to z'(z)$, $\bar z\to \bar z'(\bar z)$ it transforms as
+      $$ \mathcal O(z, \bar z) \;\longrightarrow\; \left(\frac{\dd z'}{\dd z}\right)^{h} \left(\frac{\dd \bar z'}{\dd \bar z}\right)^{\bar h} \mathcal O(z', \bar z'). $$
+      The weight $h$ ("holomorphic dimension") and $\bar h$ ("antiholomorphic dimension") are independent. The <em>scaling dimension</em> is $\Delta = h + \bar h$ and the <em>spin</em> is $s = h - \bar h$.
+    </div>
+
+    <div class="worked"><span class="label">Worked example</span>
+      <p><strong>$\pa X^\mu$ is a primary of weight $(1,0)$.</strong> The free scalar $X^\mu$ has classical scaling dimension $0$ in 2D (logarithmic), so $\pa_z X^\mu$ scales as a $(1,0)$ tensor. Compute its OPE with itself using $\langle X^\mu(z,\bar z)\,X^\nu(w,\bar w)\rangle = -\half\eta^{\mu\nu}\ln|z-w|^2$:</p>
+      $$ \pa X^\mu(z)\,\pa X^\nu(w) \;\sim\; -\frac{\eta^{\mu\nu}/2}{(z-w)^2} + \text{regular}. $$
+      <p>The double pole and the absence of a single pole are the signature of a $(1,0)$ primary.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 3.1</span><span class="diff std">standard</span>
+      <p>Show that the vertex operator $V_p(z,\bar z) = :e^{ip\cdot X(z,\bar z)}:$ is primary with weights $(\alp p^2/4, \alp p^2/4)$. (Use normal-ordering and the propagator above; this is the standard exponential-operator calculation.)</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 3.2</span><span class="diff hard">hard</span>
+      <p>Prove that conformal Ward identities determine the form of the 2-point and 3-point functions of primary operators up to constants. Show explicitly:</p>
+      $$ \langle \mathcal O_1(z_1)\mathcal O_2(z_2)\rangle \propto \delta_{h_1 h_2}\delta_{\bar h_1 \bar h_2}\,(z_1-z_2)^{-2h}(\bar z_1 - \bar z_2)^{-2\bar h}. $$
+    </div>
+
+    <h2 class="module" id="M4"><span class="mnum">Module 4</span>CFT II — Virasoro algebra and OPEs</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §4 (finish) and §4.3 on Virasoro.</li>
+        <li>Ginsparg, <em>Applied CFT</em>, §5–7 (Virasoro, BPZ).</li>
+      </ul>
+    </div>
+
+    <h3>4.1 The stress tensor</h3>
+    <p>The stress tensor of the free scalar CFT (closed string) is</p>
+    $$ T(z) = -\frac{1}{\alp}\,:\!\pa X^\mu \pa X_\mu\!:(z). $$
+    <p>It is itself a quasi-primary of weight 2 (modulo a central-charge anomaly term).</p>
+
+    <h3>4.2 The Virasoro algebra</h3>
+    <div class="thm"><span class="label">Theorem (Virasoro)</span>
+      The modes $L_n$ of $T(z) = \sum_n L_n z^{-n-2}$ satisfy
+      $$ [L_m, L_n] = (m - n)\,L_{m+n} + \frac{c}{12}\,m(m^2-1)\,\delta_{m+n,0}, $$
+      with an independent copy $\bar L_n$ for the antiholomorphic sector. The constant $c$ is the <em>central charge</em>; for $D$ free scalars, $c = D$.
+    </div>
+
+    <h3>4.3 OPEs and the conformal bootstrap</h3>
+    <p>The OPE structure of a CFT is</p>
+    $$ \mathcal O_i(z)\,\mathcal O_j(w) \;=\; \sum_k \frac{C_{ij}{}^k}{(z-w)^{h_i+h_j-h_k}(\bar z - \bar w)^{\bar h_i + \bar h_j - \bar h_k}}\,\mathcal O_k(w) + \dots $$
+    <p>Conformal invariance + associativity of the OPE (the "crossing equation") puts <em>algebraic</em> constraints on the spectrum $\{(h_i, \bar h_i)\}$ and the structure constants $\{C_{ij}{}^k\}$. This is the conformal bootstrap, a research-frontier program even today.</p>
+
+    <div class="exercise"><span class="label">Exercise 4.1</span><span class="diff hard">hard</span>
+      <p>Compute the OPE of $T(z)$ with itself and read off the central charge $c$ for the free boson. (You should find $T(z)T(w) \sim c/2(z-w)^4 + 2T(w)/(z-w)^2 + \pa T(w)/(z-w) + \dots$ with $c=1$ per boson.)</p>
+    </div>
+
+    <!-- =================================================================
+         PART II — THE STRING
+         ================================================================= -->
+
+    <h2 class="module" id="M5"><span class="mnum">Module 5</span>Bosonic string quantization</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §2 ("The Quantum String") and §3 ("Open Strings and D-Branes" — first half).</li>
+        <li>Polchinski 1994 §3 (lightcone quantization).</li>
+      </ul>
+    </div>
+
+    <p>Three approaches: light-cone gauge (loses manifest Lorentz invariance but is straightforward), covariant (with BRST), and the modern conformal-bootstrap-style derivation directly from CFT. Tong covers light-cone first; covariant comes later.</p>
+
+    <h3>5.1 Mode expansion</h3>
+    <p>For the closed string with periodic BCs $X^\mu(\tau, \sigma + 2\pi) = X^\mu(\tau, \sigma)$:</p>
+    $$ X^\mu(\tau,\sigma) = x^\mu + \alp p^\mu \tau + i\sqrt{\tfrac{\alp}{2}}\sum_{n\ne 0}\frac{1}{n}\bigl(\alpha_n^\mu e^{-in(\tau-\sigma)} + \tilde\alpha_n^\mu e^{-in(\tau+\sigma)}\bigr). $$
+    <p>The modes $\alpha_n^\mu, \tilde\alpha_n^\mu$ become creation/annihilation operators upon quantization (with reality giving $\alpha_{-n}^\mu = (\alpha_n^\mu)^\dagger$). The zero mode $p^\mu$ is target-space momentum.</p>
+
+    <h3>5.2 Quantization (light-cone gauge)</h3>
+    <p>Fix $X^+ = x^+ + \alp p^+ \tau$. Solve Virasoro constraints to eliminate $X^-$. Only $D-2$ transverse oscillators $X^i$ are independent. Commutators:</p>
+    $$ [\alpha_m^i, \alpha_n^j] = m\,\delta^{ij}\,\delta_{m+n,0}, $$
+    <p>and similarly for $\tilde\alpha$. Build the Hilbert space as a Fock space.</p>
+
+    <div class="worked"><span class="label">Worked example</span>
+      <p><strong>Mass formula.</strong> The mass operator (for a closed string) is</p>
+      $$ M^2 = \frac{2}{\alp}\bigl(N + \tilde N - 2a\bigr),\qquad N = \sum_{n>0}\alpha_{-n}^i\alpha_n^i,\;\tilde N = \sum_{n>0}\tilde\alpha_{-n}^i\tilde\alpha_n^i $$
+      <p>with level-matching $N = \tilde N$. The normal-ordering constant $a$ is fixed by Lorentz invariance — see Module 6.</p>
+    </div>
+
+    <h2 class="module" id="M6"><span class="mnum">Module 6</span>Critical dimension &amp; spectrum</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §2.4 and the calculation of $a$ and the critical dimension $D$.</li>
+        <li>Polchinski 1994 §3.</li>
+      </ul>
+    </div>
+
+    <p>Demanding that the quantum theory have target-space Lorentz invariance (broken by light-cone gauge classically — but recoverable only for specific $D$ and $a$) gives:</p>
+
+    <div class="keyresult">
+      $$ D = 26, \qquad a = 1. $$
+    </div>
+
+    <p>The bosonic string lives in 26 spacetime dimensions. This is the celebrated <em>critical dimension</em>.</p>
+
+    <h3>6.1 The spectrum at low levels</h3>
+    <ul>
+      <li><strong>Ground state</strong> ($N=\tilde N = 0$): $M^2 = -2/\alp < 0$. A tachyon — signal that the bosonic string vacuum is unstable, fixed in superstring theory.</li>
+      <li><strong>First excited level</strong> ($N=\tilde N=1$): $M^2 = 0$. A massless symmetric traceless tensor (graviton $G_{\mu\nu}$), an antisymmetric 2-form ($B_{\mu\nu}$), and a scalar (dilaton $\Phi$).</li>
+    </ul>
+
+    <div class="why"><span class="label">Why this is the moment string theory becomes inevitable</span>
+      The first excited level of the closed bosonic string <em>contains a graviton</em>. We did not put gravity in; we put a string in and quantized it consistently in flat space. Gravity dropped out. This is the strongest pull of the subject. Polchinski's TASI lectures §1 reproduces the modern reading: any consistent quantization of a relativistic 1D extended object on a flat background contains a massless spin-2 in its spectrum.
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 6.1</span><span class="diff hard">hard</span>
+      <p>Reproduce the calculation $D=26$, $a=1$ via the zeta-function-regularized sum $\sum_{n=1}^\infty n = -1/12$. (Tong §2.4 walks through it; do it yourself before reading.)</p>
+    </div>
+
+    <h2 class="module" id="M7"><span class="mnum">Module 7</span>Vertex operators &amp; scattering</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §6 ("String Interactions"), §5.</li>
+        <li>Polchinski 1994 §4.</li>
+      </ul>
+    </div>
+
+    <p>String scattering amplitudes are computed as worldsheet path integrals on Riemann surfaces with insertions of vertex operators. The amplitude for $n$-particle scattering is a sum over worldsheet topologies:</p>
+    $$ \mathcal A_n = \sum_{g=0}^\infty g_s^{2g-2+n}\int_{\mathcal M_g}[\dd m]\,\langle V_1\cdots V_n\rangle_g, $$
+    <p>where $g$ is genus, $g_s$ the string coupling, and $\mathcal M_g$ the moduli space of genus-$g$ surfaces.</p>
+
+    <h3>7.1 Tachyon scattering at tree level</h3>
+    <div class="worked"><span class="label">Worked example — Virasoro–Shapiro amplitude</span>
+      <p>Four closed-string tachyons at tree level (sphere worldsheet). After fixing the conformal Killing group $SL(2,\mathbb C)$ to place three insertion points at fixed locations, the amplitude evaluates to</p>
+      $$ \mathcal A_4 \;=\; g_s^2\,\delta^{26}(\Sigma p)\,\frac{\Gamma(-1-\alp s/4)\,\Gamma(-1-\alp t/4)\,\Gamma(-1-\alp u/4)}{\Gamma(2+\alp s/4)\,\Gamma(2+\alp t/4)\,\Gamma(2+\alp u/4)} $$
+      <p>where $s, t, u$ are Mandelstam invariants. This is the Virasoro–Shapiro amplitude. Its features: poles at $\alp s/4 = -1, 0, 1, 2, \dots$ are physical states (the tachyon, graviton, higher-spin tower), and the high-energy behavior is <em>exponentially soft</em> — the resolution of the UV problem.</p>
+    </div>
+
+    <h2 class="module" id="M8"><span class="mnum">Module 8</span>Superstrings</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §7 ("Superstrings").</li>
+        <li>Kiritsis review §4–5 for parallel treatment.</li>
+        <li>Polchinski 1994 §6–7.</li>
+      </ul>
+    </div>
+
+    <p>The bosonic string has two fatal problems: a tachyon in the spectrum, and no fermions. Both are fixed by adding worldsheet fermions $\psi^\mu(z)$ in addition to $X^\mu$ — promoting the worldsheet CFT to a <em>superconformal</em> field theory. The result is the superstring.</p>
+
+    <h3>8.1 The superconformal worldsheet</h3>
+    <p>Add fermions: $\psi^\mu(z)$ (holomorphic) and $\tilde\psi^\mu(\bar z)$ (antiholomorphic). Worldsheet supersymmetry pairs $X^\mu$ with $\psi^\mu$. The superconformal algebra extends Virasoro by a fermionic generator $G(z)$.</p>
+
+    <h3>8.2 GSO projection and the five superstrings</h3>
+    <p>Consistent (modular-invariant, tachyon-free) GSO projections of the open and closed superstring give five distinct 10-dimensional theories — type I, type IIA, type IIB, heterotic SO(32), and heterotic $E_8\times E_8$ — all related by web of dualities (M-theory).</p>
+
+    <div class="keyresult">
+      $$ D_{\rm super} = 10. $$
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 8.1</span><span class="diff hard">hard</span>
+      <p>Reproduce the critical dimension $D=10$ for the superstring via the central-charge balance ($c_{\rm matter} + c_{\rm ghost} = 0$ on the BRST side; equivalently, lightcone Lorentz invariance directly).</p>
+    </div>
+
+    <!-- =================================================================
+         PART III — GEOMETRY
+         ================================================================= -->
+
+    <h2 class="module" id="M9"><span class="mnum">Module 9</span>T-duality &amp; compactification</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Tong, <em>String Theory</em>, §8 and §9 (compactification, T-duality).</li>
+        <li>Kiritsis review §3 (closed string on a circle).</li>
+      </ul>
+    </div>
+
+    <p>String theory needs $D=10$ (super) or $D=26$ (bosonic). The world appears 4-dimensional. The resolution: 6 (resp. 22) of the dimensions are <em>compactified</em> — wrapped into small geometric shapes.</p>
+
+    <h3>9.1 String on a circle</h3>
+    <p>Closed bosonic string with $X^{25}$ compactified on a circle of radius $R$. Two new effects:</p>
+    <ul>
+      <li><strong>Momentum quantization:</strong> $p^{25} = n/R$, $n\in\mathbb Z$.</li>
+      <li><strong>Winding:</strong> the string can wrap the circle $w$ times. Winding number $w \in \mathbb Z$ is a new quantum number with mass contribution $\propto wR/\alp$.</li>
+    </ul>
+
+    <p>The mass formula becomes</p>
+    $$ M^2 = \left(\frac{n}{R}\right)^2 + \left(\frac{wR}{\alp}\right)^2 + \frac{2}{\alp}(N + \tilde N - 2). $$
+
+    <h3>9.2 T-duality</h3>
+    <div class="thm"><span class="label">Theorem (T-duality)</span>
+      The spectrum is invariant under
+      $$ R \;\longleftrightarrow\; \frac{\alp}{R},\qquad n \;\longleftrightarrow\; w. $$
+      <em>Two string theories on circles of radii $R$ and $\alp/R$ are physically identical.</em> Small and large are interchanged. There is a self-dual radius $R = \sqrt{\alp}$.
+    </div>
+
+    <div class="why"><span class="label">Why T-duality is conceptually fundamental</span>
+      Two geometrically distinct spaces give literally the same physics. The "geometry" of the target space is therefore not fundamental — it is a property of the effective description, which depends on how you choose to interpret the string's quantum numbers. <em>Spacetime is emergent.</em> This is a direct, calculable example of the emergent-spacetime intuition that Jacobson 1995 (Module 11 of the BH course) gestured at.
+    </div>
+
+    <h2 class="module" id="M10"><span class="mnum">Module 10</span>D-branes</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Polchinski 1994 §5 (the original TASI lectures discovered D-branes).</li>
+        <li>Tong, <em>String Theory</em>, §3 on open strings + D-branes.</li>
+        <li>Kiritsis §7.</li>
+      </ul>
+    </div>
+
+    <p>Open strings end on D-branes — extended dynamical objects in target space. A D$p$-brane is a $(p+1)$-dimensional hypersurface on which open strings can end (with Dirichlet boundary conditions in the transverse directions, Neumann along the brane). D-branes carry charges under the Ramond–Ramond gauge fields of type II string theories.</p>
+
+    <p>Key facts:</p>
+    <ul>
+      <li>D-branes are <em>solitonic</em> states of the closed-string theory — explicit classical solutions of the low-energy supergravity.</li>
+      <li>Mass scales as $1/g_s$ (not $1/g_s^2$ like the usual solitons): "almost perturbative" objects.</li>
+      <li>$N$ coincident D$p$-branes carry a $U(N)$ gauge theory on their worldvolume.</li>
+    </ul>
+
+    <div class="why"><span class="label">Why D-branes matter</span>
+      D-branes are the objects whose microstate-counting will produce $S=A/4$ for specific extremal black holes (Module 11). They are also the objects that make AdS/CFT work concretely (Module 12). Without D-branes neither result exists. Polchinski's discovery (1995) was one of the major events of the string-theory "second revolution."
+    </div>
+
+    <!-- =================================================================
+         PART IV — CONNECTIONS
+         ================================================================= -->
+
+    <h2 class="module" id="M11"><span class="mnum">Module 11</span>Black hole entropy — Strominger–Vafa</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Strominger &amp; Vafa, <em>Microscopic origin of the Bekenstein–Hawking entropy</em>, Phys. Lett. B379, 99 (1996), hep-th/9601029 — <strong>read the whole paper</strong>, it's 12 pages.</li>
+        <li>Polchinski 1994 §8 (background on extremal BHs).</li>
+        <li>Kiritsis review §14 (counting D-brane states).</li>
+      </ul>
+    </div>
+
+    <p>This module is the answer to the open question we left in the Jacobson course. Recall: Jacobson 1995 assumed $S = A/(4G\hbar)$ and used the first law of thermodynamics to derive Einstein's equation. He left open <em>what microstates</em> the entropy was counting. Strominger and Vafa supplied the answer — for a specific class of extremal black holes.</p>
+
+    <h3>11.1 The construction</h3>
+    <p>Consider 5-dimensional $\mathcal N = 4$ supergravity (the low-energy limit of type IIB string theory compactified on $T^5$). It admits a family of supersymmetric (BPS), extremal black holes carrying three independent charges $(Q_1, Q_5, n)$ — interpretable in the string-theory description as wrapped D1-branes, wrapped D5-branes, and momentum along an internal circle.</p>
+
+    <h3>11.2 The two calculations</h3>
+    <p><strong>Macroscopic.</strong> The classical Bekenstein–Hawking entropy of this 5D extremal black hole is</p>
+    $$ S_{\rm BH} = \frac{A}{4G_5} = 2\pi\sqrt{Q_1 Q_5 n}. $$
+
+    <p><strong>Microscopic.</strong> Count the BPS states of the D-brane system with the same charges. In the weak-coupling limit, the D1–D5 system on a circle carries an effective 1+1-dimensional CFT (the "Strominger–Vafa CFT") with central charge $c = 6\,Q_1 Q_5$. The number of states at level $n$ is given by Cardy's formula:</p>
+    $$ S_{\rm micro} = 2\pi\sqrt{\frac{c\, n}{6}} = 2\pi\sqrt{Q_1 Q_5 n}. $$
+
+    <div class="keyresult">
+      $$ S_{\rm BH} \;=\; S_{\rm micro} \;=\; 2\pi\sqrt{Q_1 Q_5 n}. $$
+    </div>
+
+    <p><strong>Exact agreement.</strong> Not parametric — exact, including the $2\pi$. This is the first explicit microscopic derivation of $S = A/4$.</p>
+
+    <div class="why"><span class="label">Why this is enormous</span>
+      Recall the structure of Jacobson's argument: assume $S = A/(4G\hbar)$ for every horizon, apply the first law, derive Einstein. The "$S = A/4$" is taken from Hawking's semiclassical calculation but the <em>microstates</em> are unidentified — Jacobson treats them as a black box. Strominger–Vafa opens that box for a specific BH and finds D-brane configurations whose state count agrees <em>exactly</em>. This is the first concrete realization of the "$g_{\mu\nu} = \langle X\rangle_{N\to\infty}$" picture that the Jacobson course ended on, with $X$ now identified as a specific configuration of strings and branes.
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 11.1</span><span class="diff std">standard</span>
+      <p>Look up Cardy's formula $S(E) = 2\pi\sqrt{c E / 6}$ for a 2D CFT (Tong §4 or Ginsparg). Derive it from the modular invariance of the torus partition function.</p>
+    </div>
+
+    <div class="exercise"><span class="label">Exercise 11.2</span><span class="diff research">research</span>
+      <p>Read Strominger–Vafa in full. Identify (a) where supersymmetry is used to justify extrapolating the count from weak to strong coupling, (b) what the moduli space of the CFT looks like, and (c) why the agreement does not depend on the values of moduli not protected by supersymmetry.</p>
+    </div>
+
+    <h2 class="module" id="M12"><span class="mnum">Module 12</span>AdS/CFT — Maldacena</h2>
+    <div class="reading"><span class="label">Reading</span>
+      <ul>
+        <li>Maldacena, <em>The large N limit of superconformal field theories and supergravity</em>, Adv. Theor. Math. Phys. 2, 231 (1998), hep-th/9711200 — read the whole paper, 22 pages.</li>
+        <li>Kiritsis review §15.</li>
+      </ul>
+    </div>
+
+    <h3>12.1 The conjecture</h3>
+    <div class="thm"><span class="label">Maldacena (1997)</span>
+      Type IIB string theory on AdS$_5 \times S^5$ (with appropriate flux) is equivalent to $\mathcal N=4$ super-Yang–Mills theory in 4 spacetime dimensions with gauge group $SU(N)$. The 't Hooft coupling $\lambda = g_{YM}^2 N$ is dual to $L^4/\alp^2$ where $L$ is the AdS radius. The CFT lives on the boundary of AdS.
+    </div>
+
+    <h3>12.2 The dictionary</h3>
+    <ul>
+      <li>Bulk fields $\leftrightarrow$ boundary operators.</li>
+      <li>Bulk masses $\leftrightarrow$ boundary scaling dimensions: $m^2 L^2 = \Delta(\Delta - d)$ in AdS$_{d+1}$.</li>
+      <li>Bulk geometry $\leftrightarrow$ boundary entanglement (Ryu–Takayanagi 2006).</li>
+      <li>Bulk gravity is <strong>emergent</strong> from the boundary CFT.</li>
+    </ul>
+
+    <div class="why"><span class="label">The Jacobson connection, made literal</span>
+      In AdS/CFT, the bulk gravitational dynamics — including Einstein's equation — emerges from the boundary CFT, which is a perfectly ordinary quantum field theory with a finite number of degrees of freedom per unit boundary volume. The "microstates" that Jacobson conjectured exist <em>are</em> the boundary CFT degrees of freedom. The metric $g_{\mu\nu}$ in the bulk is an emergent description of correlations in the boundary CFT, much as pressure and density are emergent descriptions of molecular motion. <em>AdS/CFT is the concrete realization of the emergent-gravity picture that Jacobson 1995 inferred.</em>
+    </div>
+
+    <h2 class="module" id="M13"><span class="mnum">Module 13</span>Open frontier</h2>
+    <p>Where active research lives. A non-exhaustive map.</p>
+    <ul>
+      <li><strong>Holographic entanglement.</strong> Ryu–Takayanagi (2006), Van Raamsdonk (2010), entanglement wedge reconstruction (Almheiri–Dong–Harlow 2014). <em>Building spacetime from entanglement.</em></li>
+      <li><strong>The information paradox &amp; islands.</strong> Penington 2019, Almheiri–Engelhardt–Marolf–Maxfield 2019, replica wormholes. Spacetime <em>thermodynamics</em> meets <em>information theory</em>.</li>
+      <li><strong>ER = EPR.</strong> Maldacena–Susskind 2013. Entangled qubits glue spacetime together.</li>
+      <li><strong>Beyond AdS.</strong> Holography in cosmological / dS spaces, flat-space holography. Less well-developed but very active.</li>
+      <li><strong>Swampland program.</strong> Which effective field theories are consistent with a UV string theory completion? Active conjectures (weak gravity conjecture, distance conjecture, ...).</li>
+      <li><strong>String phenomenology.</strong> Can you embed the Standard Model in a string compactification? Important but technically painful.</li>
+    </ul>
+
+    <!-- ================= FINAL PROBLEM SET ================= -->
+    <h2 class="module" id="finalset"><span class="mnum">Back matter</span>Final problem set</h2>
+
+    <div class="exercise"><span class="label">P1</span><span class="diff std">standard</span>
+      <p>Derive the Polyakov action from the Nambu–Goto action by integrating out the auxiliary worldsheet metric. Show the two are classically equivalent.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P2</span><span class="diff hard">hard</span>
+      <p>Compute the OPE of the stress tensor $T(z)$ with itself for the free boson and read off the central charge. Verify $c = 1$ per scalar.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P3</span><span class="diff hard">hard</span>
+      <p>Carry out the lightcone-gauge calculation of the critical dimension of the bosonic string. Use $\sum_{n=1}^\infty n = -1/12$ (zeta regularization) and demand target-space Lorentz invariance.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P4</span><span class="diff hard">hard</span>
+      <p>Show that the mass formula for the closed bosonic string on a circle is T-dual under $R \leftrightarrow \alp/R$, $n \leftrightarrow w$. Identify the self-dual radius and compute the additional massless states there.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P5</span><span class="diff hard">hard</span>
+      <p>Derive Cardy's formula $S = 2\pi\sqrt{cE/6}$ from modular invariance of a 2D CFT torus partition function. Then apply it to the Strominger–Vafa CFT with $c = 6 Q_1 Q_5$ to reproduce $S = 2\pi\sqrt{Q_1 Q_5 n}$.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P6</span><span class="diff research">research</span>
+      <p>Read Maldacena's 1997 paper end-to-end. Identify the precise statement of the AdS/CFT correspondence (it has different "strengths" — full duality, supergravity limit, planar limit). State the dictionary between bulk masses and boundary dimensions.</p>
+    </div>
+
+    <div class="exercise"><span class="label">P7</span><span class="diff research">research</span>
+      <p>The "two completions of Jacobson 1995" problem: write a 2-page essay comparing the Strominger–Vafa derivation of $S = A/4$ (microstate counting) with the Jacobson–Verlinde / entanglement-equilibrium derivation (Jacobson 2015, PRL 116). What does each get right? Where do they overlap? What's missing in both?</p>
+    </div>
+
+    <!-- ================= REFERENCES ================= -->
+    <h2 class="module" id="refs"><span class="mnum">Back matter</span>References &amp; corpus</h2>
+    <p>All PDFs live in <code>papers/string_theory/</code>.</p>
+    <ul>
+      <li><a href="../papers/string_theory/Tong_StringTheory.pdf">D. Tong, <em>String Theory</em> (Cambridge lecture notes, 218 p).</a> The spine of this course.</li>
+      <li><a href="../papers/string_theory/Tong_QFT.pdf">D. Tong, <em>Quantum Field Theory</em> (155 p).</a> Prerequisite.</li>
+      <li><a href="../papers/string_theory/Tong_StatFieldTheory.pdf">D. Tong, <em>Statistical Field Theory</em> (144 p).</a> Prerequisite for CFT.</li>
+      <li><a href="../papers/string_theory/Ginsparg1988_AppliedCFT.pdf">P. Ginsparg, <em>Applied Conformal Field Theory</em>, hep-th/9108028 (90 p).</a> Canonical CFT reference.</li>
+      <li><a href="../papers/string_theory/Polchinski1994_WhatIsStringTheory.pdf">J. Polchinski, <em>What is String Theory?</em>, hep-th/9411028 (154 p).</a> Les Houches / TASI 1994.</li>
+      <li><a href="../papers/string_theory/Kiritsis1997_IntroSuperstring.pdf">E. Kiritsis, <em>Introduction to Superstring Theory</em>, hep-th/9709062 (249 p).</a> Comprehensive review.</li>
+      <li><a href="../papers/string_theory/StromingerVafa1996_BHEntropy.pdf">A. Strominger and C. Vafa, <em>Microscopic origin of the Bekenstein–Hawking entropy</em>, hep-th/9601029 (12 p).</a> Module 11.</li>
+      <li><a href="../papers/string_theory/Maldacena1997_AdSCFT.pdf">J. Maldacena, <em>The large N limit of superconformal field theories and supergravity</em>, hep-th/9711200 (22 p).</a> Module 12.</li>
+    </ul>
+    <h4>Textbook recommendations (not in corpus — library access)</h4>
+    <ul>
+      <li>J. Polchinski, <em>String Theory</em>, Vols. I & II (Cambridge, 1998). The canonical graduate text.</li>
+      <li>K. Becker, M. Becker, J. Schwarz, <em>String Theory and M-Theory</em> (Cambridge, 2007). Modern, includes flux compactifications.</li>
+      <li>E. Kiritsis, <em>String Theory in a Nutshell</em> (Princeton, 2007). Concise.</li>
+      <li>B. Zwiebach, <em>A First Course in String Theory</em> (Cambridge, 2nd ed. 2009). Gentler, undergrad-friendly.</li>
+      <li>M. Green, J. Schwarz, E. Witten, <em>Superstring Theory</em>, Vols. I & II (Cambridge, 1987). The classic.</li>
+    </ul>
+
+    <p style="text-align:center;color:var(--muted);font-size:14px;margin-top:54px">
+      End of course. <a href="index.html">Return to the main learning hub.</a>
+    </p>
+
+  </main>
+</div>
+</body>
+</html>

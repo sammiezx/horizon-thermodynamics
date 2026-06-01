@@ -1,0 +1,211 @@
+% =====================================================================
+% Greybody factors for <SPACETIME-TBD> — working draft
+%
+% Build:    latexmk -pdf main.tex
+% Watch:    latexmk -pvc -pdf main.tex
+% Clean:    latexmk -c
+%
+% This is a *working draft*. The spacetime, field content, and numerical
+% method are not yet locked in --- see ./README.md for the open decisions
+% and the criteria for closing them.
+% =====================================================================
+
+\documentclass[
+  aps,
+  prd,
+  preprint,      % single-column draft style; switch to 'reprint' near submission
+  superscriptaddress,
+  nofootinbib,
+  amsmath,
+  amssymb,
+  floatfix,
+]{revtex4-2}
+
+% --- Packages -------------------------------------------------------
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{tensor}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,
+            linkcolor=blue!60!black,
+            citecolor=green!60!black,
+            urlcolor=blue!60!black]{hyperref}
+
+\usepackage[
+  backend=biber,
+  style=numeric-comp,
+  sorting=none,
+  giveninits=true,
+  uniquename=init,
+]{biblatex}
+\addbibresource{../../references/library.bib}
+
+% --- Custom macros --------------------------------------------------
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\Sch}{\text{Sch}}
+\newcommand{\GN}{G_{\!N}}
+\newcommand{\lp}{\ell_{\mathrm{P}}}
+\newcommand{\Mp}{M_{\mathrm{P}}}
+
+% Draft watermark — remove before submission
+\usepackage{draftwatermark}
+\SetWatermarkText{DRAFT}
+\SetWatermarkScale{4}
+\SetWatermarkLightness{0.92}
+
+% =====================================================================
+\begin{document}
+
+\title{Greybody factors for \textbf{\textcolor{red}{[SPACETIME-TBD]}} black holes}
+
+\author{Sameer Pant}
+\email{spant@clearoneadvantage.com}
+\affiliation{Affiliation TBD}
+
+\date{\today}
+
+\begin{abstract}
+\textcolor{red}{[Draft abstract --- fill in after results are in.]}
+We compute the greybody factors $\Gamma_{\omega\ell}(\omega)$ for a massless
+scalar field on the \textcolor{red}{[SPACETIME-TBD]} background and extract the
+asymptotic Hawking emission spectrum at infinity. We compare to the
+Schwarzschild result of Ref.~\cite{Page1976} and discuss the implications of
+the modified geometry on the low- and high-frequency tails of the emission.
+\end{abstract}
+
+\maketitle
+
+% --- Introduction ---------------------------------------------------
+\section{Introduction}
+\label{sec:intro}
+
+Hawking's discovery that a black hole of mass $M$ emits a thermal flux at
+temperature
+\begin{equation}
+  T_H = \frac{\hbar c^3}{8\pi \GN M k_B}
+  \label{eq:hawking-temp}
+\end{equation}
+established that black holes are genuine thermodynamic objects~\cite{Hawking1975,
+BardeenCarterHawking1973}. The flux measured at infinity, however, is not
+exactly Planckian: it is modulated by a frequency-dependent transmission
+coefficient $\Gamma_{\omega\ell}(\omega)$ --- the \emph{greybody factor} ---
+that encodes the back-scattering of outgoing modes by the curvature potential
+outside the horizon~\cite{Page1976}.
+
+\textcolor{red}{[Motivate the specific spacetime: why is this geometry
+interesting? Where does it appear in the modern literature? What is known
+about its Hawking emission already, and what is the gap?]}
+
+The rest of the paper is organized as follows.
+Section~\ref{sec:setup} introduces the geometry and the scalar field equation.
+Section~\ref{sec:numerics} describes the numerical method for extracting
+$\Gamma_{\omega\ell}(\omega)$.
+Section~\ref{sec:results} presents the greybody factors and the emission
+spectrum, and compares them to the Schwarzschild benchmark.
+Section~\ref{sec:discussion} discusses the limits of the calculation and
+points to extensions.
+
+% --- Setup ----------------------------------------------------------
+\section{Setup}
+\label{sec:setup}
+
+\subsection{The \textcolor{red}{[SPACETIME-TBD]} geometry}
+
+\textcolor{red}{[Metric, parameters, horizon structure, asymptotic behavior.
+Include the limit in which the geometry reduces to Schwarzschild.]}
+
+\subsection{Scalar field equation and the radial potential}
+
+The minimally-coupled massless Klein--Gordon equation
+$\Box \phi = 0$, after separation of variables in
+$\phi = e^{-i\omega t} Y_{\ell m}(\theta,\varphi)\, \psi_{\omega\ell}(r)/r$,
+reduces to a Schr\"odinger-like equation
+\begin{equation}
+  \frac{d^2 \psi}{dr_*^2} + \left[\omega^2 - V_\ell(r)\right] \psi = 0,
+  \label{eq:radial}
+\end{equation}
+with tortoise coordinate $r_*$ and effective potential $V_\ell$ \textcolor{red}{[
+write the explicit form once the geometry is fixed]}.
+
+\subsection{Boundary conditions}
+
+The greybody factor $\Gamma_{\omega\ell}$ is defined by the standard scattering
+boundary conditions: purely-ingoing at the horizon, mixed in/outgoing at
+infinity. Concretely,
+\begin{align}
+  \psi &\sim e^{-i\omega r_*} & &(r \to r_+), \\
+  \psi &\sim A^{\mathrm{out}}_{\omega\ell}\, e^{+i\omega r_*}
+        + A^{\mathrm{in}}_{\omega\ell}\, e^{-i\omega r_*} & &(r \to \infty),
+\end{align}
+and
+\begin{equation}
+  \Gamma_{\omega\ell} = 1 - \left|\frac{A^{\mathrm{out}}_{\omega\ell}}
+                                       {A^{\mathrm{in}}_{\omega\ell}}\right|^2.
+  \label{eq:greybody-def}
+\end{equation}
+
+% --- Numerical method ------------------------------------------------
+\section{Numerical method}
+\label{sec:numerics}
+
+\textcolor{red}{[Pick one of: (i) direct shooting, (ii) Leaver-style continued
+fractions, (iii) WKB. Justify the choice. State accuracy targets and
+convergence tests.]}
+
+% --- Results ---------------------------------------------------------
+\section{Results}
+\label{sec:results}
+
+\begin{figure}[t]
+  \centering
+  % \includegraphics[width=\columnwidth]{figures/greybody.pdf}
+  \caption{\textcolor{red}{[Greybody factor $\Gamma_{\omega\ell}(\omega)$ for
+  several $\ell$, with the Schwarzschild benchmark of Ref.~\cite{Page1976}
+  overlaid.]}}
+  \label{fig:greybody}
+\end{figure}
+
+\begin{figure}[t]
+  \centering
+  % \includegraphics[width=\columnwidth]{figures/spectrum.pdf}
+  \caption{\textcolor{red}{[Hawking emission spectrum
+  $d^2N/(dt\, d\omega)$ at infinity, summed over $\ell$.]}}
+  \label{fig:spectrum}
+\end{figure}
+
+% --- Discussion ------------------------------------------------------
+\section{Discussion}
+\label{sec:discussion}
+
+\textcolor{red}{[Implications for the emission spectrum's low/high-frequency
+tails, comparison to Schwarzschild, what fails as the geometry approaches
+limits (e.g. extremal, near-Schwarzschild). Punt anything that does not fit
+in a short paper to "future work" --- additional fields, additional
+spacetimes, QNM spectra, holographic interpretations all belong in a sequel.]}
+
+% --- Acknowledgments -------------------------------------------------
+\begin{acknowledgments}
+\textcolor{red}{[TBD]}
+\end{acknowledgments}
+
+\printbibliography
+
+% --- Appendices ------------------------------------------------------
+\appendix
+
+\section{Conventions}
+\label{app:conventions}
+
+Metric signature $(-,+,+,+)$. Natural units $\hbar = c = \GN = k_B = 1$ unless
+stated. Greek indices $\mu,\nu,\dots$ run over spacetime; Latin indices run
+over the angular sphere.
+
+\section{Numerical convergence tests}
+\label{app:convergence}
+
+\textcolor{red}{[Tables / plots showing that the reported $\Gamma_{\omega\ell}$
+are converged in resolution, integration domain, and numerical tolerance.]}
+
+\end{document}
