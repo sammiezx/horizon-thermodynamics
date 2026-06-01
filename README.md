@@ -1,14 +1,31 @@
-# Black Hole Radiation — Research Workspace
+# Horizon Thermodynamics — Research Workspace
 
-A long-lived workspace for studying black hole radiation and producing research papers.
-Scope is intentionally broad, spanning four areas that map to the `papers/` subfolders:
+A long-lived workspace for studying black-hole thermodynamics and the physics of
+horizons — from Hawking radiation and the information paradox to the
+thermodynamic origin of gravity — and for producing research papers from that
+study.
 
-- **Hawking radiation theory** → `papers/hawking_radiation/`
-- **The information paradox** → `papers/information_paradox/`
-- **Numerical work** → `papers/numerical/`
-- **Analog-gravity experiments** → `papers/analog_gravity/`
+The unifying thread is **horizons as thermodynamic objects**: Hawking
+temperature, horizon entropy, the generalized second law, and the line of work
+(Jacobson 1995 onward) that treats the Einstein equation itself as an equation
+of state.
 
-(Plus `papers/foundations/` for GR / QFT-in-curved-spacetime references.)
+## Two halves of the repo
+
+- **`learning/` — self-built graduate courses (HTML).** No-steps-skipped
+  lectures pitched at qualifying-exam level, with derivations, worked examples,
+  and difficulty-tagged exercises. Open [learning/index.html](learning/index.html)
+  as the hub. Current contents:
+  - [hawking-1975-deep.html](learning/hawking-1975-deep.html) — equation-by-equation
+    walkthrough of Hawking 1975, *Particle Creation by Black Holes*
+  - [jacobson-1995-course.html](learning/jacobson-1995-course.html) /
+    [jacobson-1995.html](learning/jacobson-1995.html) — thermodynamics of spacetime
+  - [string-theory-course.html](learning/string-theory-course.html)
+  - [research-craft-course.html](learning/research-craft-course.html) &
+    [paper-worthiness-and-AI.html](learning/paper-worthiness-and-AI.html) — how to
+    write a paper, judge what's paper-worthy, and use AI honestly in physics research
+- **`papers/` + `notes/` + `manuscripts/` — the research pipeline.** Read PDFs,
+  take per-paper notes, synthesize topic notes, draft manuscripts. Mechanics below.
 
 ## Start here
 
@@ -43,7 +60,8 @@ A green test suite and a built `main.pdf` mean you're set.
 ## Layout
 
 ```
-black_hole_radiation/
+horizon-thermodynamics/
+├── learning/          # Self-built graduate courses (HTML), open index.html
 ├── papers/            # PDFs of papers, organized by topic
 ├── notes/             # Markdown notes
 │   ├── per_paper/     #   one file per paper, keyed by BibTeX cite key
@@ -55,6 +73,12 @@ black_hole_radiation/
 ├── talks/             # Beamer presentations
 └── reading_list.md    # Prioritized backlog of what to read next
 ```
+
+`papers/` topics: `foundations/` (GR / QFT-in-curved-spacetime),
+`hawking_radiation/`, `information_paradox/`, `bh_successors/` (Page curve,
+firewalls, ER=EPR, replica wormholes, …), `analog_gravity/`, `numerical/`,
+`string_theory/`, plus `exemplars/` and `research_craft/` for model papers and
+craft references.
 
 ## Why this shape
 
@@ -103,9 +127,10 @@ Library code lives under `src/bh_radiation/`. Exploratory notebooks live in `not
 
 ## Version control
 
-This workspace is a git repo on `main`. Commit early — especially the bibliography,
-notes, and manuscripts. Build artifacts and editor caches are gitignored; see
-`.gitignore` for specifics.
+This workspace is a git repo on `main`, pushed to
+`github.com/sammiezx/horizon-thermodynamics`. Commit early — especially the
+bibliography, notes, and manuscripts. Build artifacts and editor caches are
+gitignored; see `.gitignore` for specifics.
 
 ## Standards & conventions
 
