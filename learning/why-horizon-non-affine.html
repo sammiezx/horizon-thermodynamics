@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Why the Killing parameter is non-affine on a horizon</title>
+  <script>
+    window.MathJax = {
+      tex:{ inlineMath:[['$','$']], displayMath:[['$$','$$']], processEscapes:true, tags:'ams',
+            macros: { half:'\\tfrac{1}{2}', pa:'\\partial', kt:'\\kappa' } },
+      svg:{fontCache:'global'}
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root{
+      --bg:#fbfaf6; --bg-side:#f1eee2; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
+      --border:#d8d3c4; --code:#efeadc; --maxw:760px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:18px/1.7 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
+    main{max-width:var(--maxw);margin:0 auto;padding:54px 28px 120px}
+    .eyebrow{font:700 12px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:0.1em;
+             text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    h1{font-size:30px;line-height:1.2;margin:0 0 10px;letter-spacing:-0.01em}
+    .subtitle{color:var(--muted);font-size:16px;margin-bottom:36px;font-style:italic}
+    h2{font-size:22px;margin:50px 0 10px;letter-spacing:-0.01em;padding-bottom:7px;border-bottom:2px solid var(--accent)}
+    h2 .step{display:block;font:700 11px/1.4 -apple-system,sans-serif;letter-spacing:0.09em;
+             text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+    h3{font-size:18px;margin:26px 0 8px;color:var(--accent)}
+    p{margin:0 0 16px}
+    a{color:var(--accent);text-decoration:underline;text-decoration-color:var(--soft);text-underline-offset:2px}
+    strong{font-weight:700}
+    .lead{font-size:19px;background:#faf2e2;border:1px solid var(--soft);border-left:4px solid var(--accent);
+          padding:16px 20px;border-radius:4px;margin:0 0 30px}
+    .def,.worked,.remark,.keyresult,.flow{margin:20px 0;padding:15px 20px;border-radius:4px;font-size:16.5px}
+    .def{background:#dde7f1;border-left:4px solid #2a5a8a}
+    .worked{background:#eaf3e0;border-left:4px solid var(--green)}
+    .remark{background:#e8e6e0;border-left:4px solid #5a5a5a}
+    .keyresult{background:#faf2e2;border:1px solid var(--soft);border-left:4px solid var(--accent)}
+    .flow{background:#d8ece9;border-left:4px solid var(--teal)}
+    .label{display:inline-block;font:700 10.5px/1.4 -apple-system,sans-serif;letter-spacing:0.1em;
+           text-transform:uppercase;color:white;padding:2px 9px;border-radius:3px;margin-right:8px;vertical-align:2px}
+    .def .label{background:#2a5a8a}
+    .worked .label{background:var(--green)}
+    .remark .label{background:#5a5a5a}
+    .flow .label{background:var(--teal)}
+    .def p:last-child,.worked p:last-child,.remark p:last-child,.keyresult p:last-child,.flow p:last-child{margin-bottom:0}
+    .keyresult p:first-child{margin-top:0}
+    hr{border:none;border-top:1px solid var(--border);margin:40px 0}
+    .tag{font:700 11px/1 -apple-system,sans-serif;color:var(--teal);letter-spacing:.04em}
+  </style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">Horizon thermodynamics · concept note</div>
+  <h1>Why the Killing parameter is <em>non-affine</em> on a horizon</h1>
+  <div class="subtitle">The real reason behind &nbsp;$\xi^\nu\nabla_\nu\xi^\mu = \kappa\,\xi^\mu$&nbsp; — and why $\kappa$ is the surface gravity.</div>
+
+  <div class="lead">
+    The non-affinity is <strong>not</strong> a defect of the geodesics. The horizon generators are
+    perfectly good null geodesics with a perfectly good affine parameter. The real question is:
+    <strong>why does the <em>Killing flow</em> run along them non-affinely?</strong>
+    The answer is one structural fact — the Killing vector generates a <strong>boost</strong>
+    and must <strong>vanish at the bifurcation surface</strong>.
+  </div>
+
+  <h2><span class="step">Step 0</span>Clearing up what is being asked</h2>
+  <p>
+    On a null generator there is no proper time ($ds^2=0$), but the curve is still a geodesic, so it
+    admits an affine parameter $\lambda$ with a parallel-transported tangent:
+  </p>
+  <div class="def">
+    <span class="label">Affine</span>
+    $$k^\mu=\frac{dx^\mu}{d\lambda},\qquad k^\nu\nabla_\nu k^\mu = 0$$
+    <p style="margin-top:8px;text-align:center">
+      i.e. $k$ is <em>constant</em> (parallel-transported) along the ray.
+    </p>
+  </div>
+  <p>
+    So an affine generator-vector is <strong>constant</strong> along the ray. The puzzle is that the
+    Killing vector $\xi$ is <em>not</em> constant — it obeys
+    $\xi^\nu\nabla_\nu\xi^\mu=\kappa\,\xi^\mu$. Why can't $\xi$ just be the constant affine tangent?
+  </p>
+
+  <h2><span class="step">Step 1</span>The one reason: $\xi$ must vanish at the bifurcation surface</h2>
+  <p>
+    This is the heart of it, so we go slowly. We will show $\xi=\kappa\lambda\,k$ in three small moves:
+    <strong>(1a)</strong> $\xi$ can only be the affine tangent times some scalar; <strong>(1b)</strong> that
+    scalar&rsquo;s growth rate <em>is</em> $\kappa$; <strong>(1c)</strong> two physical facts force the
+    scalar to be exactly $\kappa\lambda$.
+  </p>
+
+  <h3>1a — On a single generator, the only freedom is a scalar</h3>
+  <p>
+    Walk along one null generator. At every point the generator has exactly <strong>one</strong> null
+    direction, and the affine tangent $k$ already points along it. So <em>any</em> vector that is tangent to
+    the generator &mdash; including the Killing vector $\xi$ &mdash; can differ from $k$ only by a
+    <strong>length</strong>. That is, there is some scalar function $h(\lambda)$ along the ray with
+  </p>
+  <div class="def">
+    <span class="label">Setup</span>
+    $$\xi = h(\lambda)\,k .$$
+    <p style="margin-top:8px">
+      $h$ is just &ldquo;how long $\xi$ is, compared to the affine tangent, at each point of the ray.&rdquo;
+      Nothing has been assumed yet &mdash; this holds for <em>any</em> tangent vector field.
+    </p>
+  </div>
+
+  <h3>1b — The non-affinity $\kappa$ is exactly the growth rate of $h$</h3>
+  <p>
+    Now compute the non-affinity of $\xi=h\,k$ directly. Use $k^\nu\nabla_\nu k^\mu=0$ ($k$ is affine, hence
+    constant) and $k^\nu\nabla_\nu h=\dfrac{dh}{d\lambda}=h'$ (contracting $k$ into a gradient is just
+    $d/d\lambda$):
+  </p>
+  <div class="worked">
+    <span class="label">Compute</span>
+    $$\xi^\nu\nabla_\nu\xi^\mu
+      = h\,k^\nu\nabla_\nu\!\big(h\,k^\mu\big)
+      = h\big[\,\underbrace{(k^\nu\nabla_\nu h)}_{=\,h'}\,k^\mu
+        + h\,\underbrace{k^\nu\nabla_\nu k^\mu}_{=\,0}\big]
+      = h\,h'\,k^\mu .$$
+    <p style="margin-top:10px">
+      Compare with the definition $\xi^\nu\nabla_\nu\xi^\mu=\kappa\,\xi^\mu=\kappa\,h\,k^\mu$. The $h\,k^\mu$
+      cancels, leaving simply
+      $$\boxed{\ \kappa = h'(\lambda)=\dfrac{dh}{d\lambda}\ }.$$
+    </p>
+  </div>
+  <div class="remark">
+    <span class="label">Read this slowly</span>
+    <p>
+      This is the whole secret. <strong>The surface gravity $\kappa$ is nothing but the rate at which
+      $\xi$&rsquo;s length grows as you move along the affine parameter.</strong> If $\xi$ kept a constant
+      length ($h'=0$) it would be affine ($\kappa=0$). Non-affinity just means $\xi$ is getting longer
+      (or shorter) as you slide along the ray.
+    </p>
+  </div>
+
+  <h3>1c — Two facts pin $h$ to a straight line through zero</h3>
+  <p>So far $h$ is any function with $h'=\kappa$. Two physical inputs fix it completely:</p>
+  <ul>
+    <li>
+      <strong>Zeroth law of black-hole mechanics:</strong> $\kappa$ is <em>constant</em> along the horizon.
+      With $h'=\kappa=\text{const}$, integrating gives $h(\lambda)=\kappa\lambda + c$ &mdash; a straight line.
+    </li>
+    <li>
+      <strong>Bifurcation surface:</strong> $\xi=0$ there, so $h(0)=0$, which kills the constant: $c=0$.
+    </li>
+  </ul>
+  <div class="keyresult">
+    $$\boxed{\ \xi = \kappa\,\lambda\,k\ }\qquad\text{(starts at zero on $\mathcal B$, ramps up linearly along the ray)}$$
+  </div>
+  <p>
+    There it is, with every step justified: $\xi$ <em>must</em> grow linearly because its growth rate
+    $\kappa$ is constant, and it <em>must</em> start from zero because it vanishes at the bifurcation surface.
+  </p>
+
+  <div class="flow">
+    <span class="label">Why $\kappa\ne0$ is forced</span>
+    <p>
+      Suppose the Killing flow <em>were</em> affine, $\kappa=0$. Then $h'=0$, so $h$ is constant; combined with
+      $h(0)=0$ that gives $h\equiv0$, i.e. $\xi\equiv0$ on the <em>entire</em> generator &mdash; no horizon at
+      all. So a genuine (bifurcate) Killing horizon <strong>cannot</strong> be affine: $\kappa\ne0$ is unavoidable.
+      <br><span style="font-size:14.5px;color:var(--muted)">
+      (The borderline case $\kappa=0$ is exactly the <em>extremal</em> black hole &mdash; zero temperature, and
+      indeed it has <em>no</em> bifurcation surface; it sits infinitely far down the generator.)</span>
+    </p>
+  </div>
+
+  <h2><span class="step">Step 2</span>See it in flat space — Rindler is the whole story</h2>
+  <p>The boost Killing vector of Minkowski space, $ds^2=-dt^2+dx^2$:</p>
+  <div class="worked">
+    <span class="label">Rindler</span>
+    $$\xi = a\,(x\,\pa_t + t\,\pa_x),\qquad
+      \xi\cdot\xi = a^2(t^2-x^2).$$
+    <p style="margin-top:10px">
+      $\xi\cdot\xi=0$ on the light cone $t=\pm x$ &mdash; that is the <strong>horizon</strong>.
+      And $\xi=0$ at $x=t=0$ &mdash; the <strong>bifurcation point</strong>.
+    </p>
+  </div>
+  <p>
+    On the future generator $x=t$, the affine parameter is $\lambda=t$ and the affine tangent is
+    $k=\pa_t+\pa_x$. Substitute $x=t$:
+  </p>
+  <div class="keyresult">
+    $$\xi = a\,t\,(\pa_t+\pa_x) = (a\,t)\,k = (a\lambda)\,k
+      \quad\Longrightarrow\quad \xi^\nu\nabla_\nu\xi^\mu = a\,\xi^\mu,\quad \kappa=a.$$
+  </div>
+  <p>
+    Exactly the boxed form $\xi=\kappa\lambda k$. The Killing vector <em>is</em> the affine tangent
+    scaled by the affine parameter itself — because it has to die at $\lambda=0$.
+  </p>
+
+  <h2><span class="step">Step 3</span>Same structure in Schwarzschild (Kruskal coordinates)</h2>
+  <p>
+    Schwarzschild&rsquo;s time-translation $\xi=\pa_t$, written in Kruskal null coordinates $(U,V)$, is a
+    <strong>boost in the $(U,V)$ plane</strong>:
+  </p>
+  <div class="worked">
+    <span class="label">Kruskal</span>
+    $$\xi=\pa_t=\kappa\,(V\,\pa_V - U\,\pa_U),\qquad \kappa=\frac{1}{4M}.$$
+    <p style="margin-top:10px">
+      Vanishes at $U=V=0$ (the bifurcation sphere). On the future horizon $U=0$, the affine parameter is
+      $\lambda=V$ and $k=\pa_V$, so
+      $$\xi=\pa_t=\kappa\,V\,\pa_V=(\kappa\lambda)\,k.$$
+    </p>
+  </div>
+  <p>Identical to Rindler. Hence $\xi^\nu\nabla_\nu\xi^\mu=\kappa\,\xi^\mu$ with $\kappa=1/4M$.</p>
+
+  <hr>
+
+  <h2>The answer in one breath</h2>
+  <div class="flow">
+    <span class="label">Essence</span>
+    <p>
+      <strong>Geometric:</strong> the Killing vector must be zero at the bifurcation surface, so along each
+      generator it grows <em>linearly</em> in the affine parameter, $\xi=\kappa\lambda k$, instead of staying
+      constant. A linearly-growing tangent is non-affine, and $\kappa$ is its slope.
+    </p>
+    <p style="margin-top:12px">
+      <strong>Group-theoretic:</strong> the horizon symmetry is a <em>boost</em>. A boost <em>dilates</em> its
+      null rays, $\lambda\to e^{\kappa s}\lambda$, rather than <em>translating</em> them. Affine parameters are
+      translated by their generator; the Killing generator scales them &mdash; and multiplicative scaling
+      <em>is</em> $\xi^\nu\nabla_\nu\xi^\mu=\kappa\xi^\mu$.
+    </p>
+  </div>
+
+  <div class="remark">
+    <span class="label">Why this is the whole game</span>
+    <p>
+      Because $\xi$ scales $\lambda$ multiplicatively, the affine parameter and the Killing time $u$ are related
+      <strong>exponentially</strong>, $\lambda\propto e^{\kappa u}$. That single exponential is what turns the
+      horizon-regular vacuum into a thermal bath for the distant observer, giving
+      $T_{\text{Hawking}}=\kappa/2\pi=1/8\pi M$. <strong>The non-affinity, the exponential, and the Hawking
+      temperature are the same fact</strong> — that the horizon&rsquo;s symmetry is a boost with a fixed point.
+    </p>
+  </div>
+
+  <p style="margin-top:40px;font-size:14px;color:var(--muted)">
+    <span class="tag">SEE ALSO</span> &nbsp;
+    <a href="hawking-1975-deep.html">hawking-1975-deep.html</a> &middot;
+    <a href="index.html">learning index</a>
+  </p>
+</main>
+</body>
+</html>

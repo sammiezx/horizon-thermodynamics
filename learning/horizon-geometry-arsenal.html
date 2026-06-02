@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Mathematical Arsenal for Horizon Geometry</title>
+  <script>
+    window.MathJax = {
+      tex:{ inlineMath:[['$','$']], displayMath:[['$$','$$']], processEscapes:true, tags:'ams',
+            macros:{ half:'\\tfrac{1}{2}', pa:'\\partial', kt:'\\kappa',
+                     R:'\\mathbb{R}', Tp:'T_p\\mathcal M' } },
+      svg:{fontCache:'global'}
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <style>
+    :root{
+      --bg:#fbfaf6; --bg-side:#f1eee2; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a; --blue:#2a5a8a;
+      --border:#d8d3c4; --code:#efeadc; --maxw:780px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:18px/1.7 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
+    .layout{display:grid;grid-template-columns:270px 1fr;min-height:100vh}
+    aside{background:var(--bg-side);border-right:1px solid var(--border);
+          padding:30px 22px;position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;font-size:13px}
+    aside .brand{font-weight:700;font-size:15.5px;line-height:1.25}
+    aside .brand small{display:block;font-weight:400;font-size:11.5px;color:var(--muted);margin-top:5px}
+    aside h2{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;font-weight:700}
+    aside ol{list-style:none;padding:0;margin:0}
+    aside ol li{margin-bottom:5px}
+    aside ol a{color:var(--fg);text-decoration:none;display:flex;gap:8px;font-size:12.5px;line-height:1.35}
+    aside ol a:hover{color:var(--accent)}
+    aside ol a .num{color:var(--accent);font-size:11px;min-width:18px;font-weight:700}
+    aside .back{display:block;margin-top:18px;padding-top:12px;border-top:1px solid var(--border);
+                font-size:12px;color:var(--muted);text-decoration:none}
+    aside .back:hover{color:var(--accent)}
+    main{padding:48px 56px 120px;max-width:calc(var(--maxw) + 112px)}
+    main > *{max-width:var(--maxw)}
+    .eyebrow{font:700 12px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    h1{font-size:30px;line-height:1.18;margin:0 0 10px;letter-spacing:-0.01em}
+    .subtitle{color:var(--muted);font-size:16px;margin-bottom:14px;font-style:italic}
+    .howto{background:#e8e6e0;border-left:4px solid #5a5a5a;padding:12px 16px;border-radius:4px;font-size:15px;margin-bottom:30px}
+    h2.mod{font-size:23px;margin:60px 0 6px;letter-spacing:-0.01em;padding-bottom:8px;border-bottom:2px solid var(--accent)}
+    h2.mod .mnum{display:block;font:700 12px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+    h3{font-size:17.5px;margin:26px 0 8px;color:var(--accent)}
+    p{margin:0 0 15px}
+    a{color:var(--accent);text-decoration:underline;text-decoration-color:var(--soft);text-underline-offset:2px}
+    strong{font-weight:700}
+    ul,ol.body{margin:0 0 15px;padding-left:24px}
+    li{margin-bottom:5px}
+    .def,.eg,.remark,.key,.flow,.warn{margin:18px 0;padding:14px 18px;border-radius:4px;font-size:16px}
+    .def{background:#dde7f1;border-left:4px solid var(--blue)}
+    .eg{background:#eaf3e0;border-left:4px solid var(--green)}
+    .remark{background:#e8e6e0;border-left:4px solid #5a5a5a}
+    .key{background:#faf2e2;border:1px solid var(--soft);border-left:4px solid var(--accent)}
+    .flow{background:#d8ece9;border-left:4px solid var(--teal)}
+    .warn{background:#f5dcd8;border-left:4px solid #b03020}
+    .label{display:inline-block;font:700 10.5px/1.4 -apple-system,sans-serif;letter-spacing:0.1em;text-transform:uppercase;color:white;padding:2px 9px;border-radius:3px;margin-right:8px;vertical-align:2px}
+    .def .label{background:var(--blue)}
+    .eg .label{background:var(--green)}
+    .remark .label{background:#5a5a5a}
+    .flow .label{background:var(--teal)}
+    .warn .label{background:#b03020}
+    .def p:last-child,.eg p:last-child,.remark p:last-child,.key p:last-child,.flow p:last-child,.warn p:last-child{margin-bottom:0}
+    .def p:first-child,.eg p:first-child,.key p:first-child,.flow p:first-child{margin-top:0}
+    figure.diagram{margin:20px auto;max-width:540px;text-align:center}
+    figure.diagram svg{display:block;margin:0 auto;max-width:100%;height:auto;background:#faf6e9;border:1px solid var(--border);border-radius:4px}
+    figure.diagram figcaption{font:12.5px -apple-system,sans-serif;color:var(--muted);padding:8px 12px 0;line-height:1.5}
+    hr{border:none;border-top:1px solid var(--border);margin:38px 0}
+    @media(max-width:900px){.layout{grid-template-columns:1fr}
+      aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
+      main{padding:28px 20px 80px}}
+  </style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <div class="brand">Horizon Geometry — Arsenal
+    <small>Everything you need to read the non-affinity argument</small>
+  </div>
+  <h2>Modules</h2>
+  <ol>
+    <li><a href="#m1"><span class="num">1</span>Curves &amp; parameters</a></li>
+    <li><a href="#m2"><span class="num">2</span>Tangent vectors = derivatives</a></li>
+    <li><a href="#m3"><span class="num">3</span>Vector fields, flows, integral curves</a></li>
+    <li><a href="#m4"><span class="num">4</span>Metric &amp; causal character</a></li>
+    <li><a href="#m5"><span class="num">5</span>Hypersurfaces &amp; normals</a></li>
+    <li><a href="#m6"><span class="num">6</span>Generators of a null surface</a></li>
+    <li><a href="#m7"><span class="num">7</span>Covariant derivative &amp; transport</a></li>
+    <li><a href="#m8"><span class="num">8</span>Geodesics: affine / non-affine</a></li>
+    <li><a href="#m9"><span class="num">9</span>Killing vectors</a></li>
+    <li><a href="#m10"><span class="num">10</span>Assembling the horizon</a></li>
+  </ol>
+  <a class="back" href="why-horizon-non-affine.html">→ back to the non-affinity note</a>
+  <a class="back" href="index.html">→ learning index</a>
+</aside>
+<main>
+  <div class="eyebrow">Horizon thermodynamics · prerequisites</div>
+  <h1>Mathematical Arsenal for Horizon Geometry</h1>
+  <div class="subtitle">The ten pieces of machinery behind &ldquo;the Killing vector is non-affine on the horizon&rdquo; — built from scratch, each with a hand-computable example.</div>
+  <div class="howto">
+    <strong>How to use this.</strong> Read top to bottom once. Every module ends with a
+    <span style="color:var(--green);font-weight:700">worked example</span> you can verify with pen and paper
+    — actually do them. The single most important new word is <strong>generator</strong> (Module 6); everything
+    before it exists to make that module land.
+  </div>
+
+  <!-- ===================== M1 ===================== -->
+  <h2 class="mod" id="m1"><span class="mnum">Module 1</span>Curves and their parameters</h2>
+  <p>
+    Everything starts with a <strong>curve</strong>: a smooth map from a real parameter into the spacetime.
+    You feed in a number, it gives you a point.
+  </p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>A <strong>curve</strong> is a map $\gamma:\R\to\mathcal M$, written in coordinates as $\lambda \mapsto x^\mu(\lambda)$.
+    The number $\lambda$ is the <strong>parameter</strong>; the set of points it sweeps out is the <strong>image</strong>.</p>
+  </div>
+  <p>
+    A crucial distinction you will use constantly: the <strong>image</strong> (the geometric track) and the
+    <strong>parametrization</strong> (how fast you run along it) are different things. The same track can be
+    run many ways.
+  </p>
+  <div class="eg">
+    <span class="label">Example</span>
+    <p>The unit circle, run two ways:</p>
+    $$\gamma_1:\ (\cos\lambda,\ \sin\lambda)\qquad\qquad \gamma_2:\ (\cos\lambda^2,\ \sin\lambda^2).$$
+    <p style="margin-top:8px">
+      Same image (the circle), different parametrizations. $\gamma_1$ runs at constant rate; $\gamma_2$
+      accelerates. <strong>Reparametrizing</strong> means switching $\lambda\to\sigma(\lambda)$ — relabelling
+      points without moving the track.
+    </p>
+  </div>
+
+  <!-- ===================== M2 ===================== -->
+  <h2 class="mod" id="m2"><span class="mnum">Module 2</span>Tangent vectors <em>are</em> derivatives</h2>
+  <p>
+    The single most important mental shift in differential geometry: a <strong>vector is a derivative
+    operator</strong>, not a little arrow floating in an ambient space. The tangent to a curve is the rate of
+    change <em>along</em> it.
+  </p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>The <strong>tangent vector</strong> to $\gamma$ is the operator $\dfrac{d}{d\lambda}$. Acting on any
+    function $f$, the chain rule gives</p>
+    $$\frac{d}{d\lambda}f = \frac{dx^\mu}{d\lambda}\,\frac{\pa f}{\pa x^\mu}
+      \;\equiv\; V^\mu\,\pa_\mu f,\qquad V^\mu=\frac{dx^\mu}{d\lambda}.$$
+    <p style="margin-top:8px">So the tangent vector is $V=V^\mu\pa_\mu$: <strong>components</strong> $V^\mu=dx^\mu/d\lambda$,
+    <strong>basis vectors</strong> $\pa_\mu=\pa/\pa x^\mu$. Vectors at a point $p$ live in the
+    <strong>tangent space</strong> $\Tp$.</p>
+  </div>
+  <div class="remark">
+    <span class="label">This resolves an old confusion</span>
+    <p>This is exactly why $\pa_\phi$ &ldquo;is&rdquo; a vector: the basis vector pointing along $\phi$
+    literally <em>is</em> the operator $\pa/\pa\phi$. There is no separate arrow. ($\pa_\phi$ and $\pa/\pa\phi$
+    are the same symbol; their dual partner is the one-form $d\phi$.)</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example</span>
+    <p>For the circle $\gamma_1=(\cos\lambda,\sin\lambda)$:</p>
+    $$V=\frac{dx}{d\lambda}\pa_x+\frac{dy}{d\lambda}\pa_y=-\sin\lambda\,\pa_x+\cos\lambda\,\pa_y.$$
+    <p style="margin-top:8px">At $\lambda=0$ this is $V=\pa_y$ — pointing straight &ldquo;up,&rdquo; tangent to the
+    circle at $(1,0)$. Exactly the arrow you'd draw, but obtained as a derivative.</p>
+  </div>
+
+  <!-- ===================== M3 ===================== -->
+  <h2 class="mod" id="m3"><span class="mnum">Module 3</span>Vector fields, flows, and integral curves</h2>
+  <p>
+    A single vector lives at one point. A <strong>vector field</strong> puts one at <em>every</em> point. Then
+    you can ask: what curves &ldquo;follow the arrows&rdquo;? Those are the field's integral curves, and the
+    whole family is its <strong>flow</strong>. This is the machinery behind both &ldquo;generator&rdquo; and
+    &ldquo;Killing flow.&rdquo;
+  </p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>A <strong>vector field</strong> $V^\mu(x)$ assigns a vector to each point. Its <strong>integral curves</strong>
+    are the curves whose tangent equals the field everywhere:</p>
+    $$\frac{dx^\mu}{d\lambda}=V^\mu\big(x(\lambda)\big).$$
+    <p style="margin-top:8px">Threading one integral curve through every point gives the <strong>flow</strong> of $V$:
+    advancing the parameter $\lambda$ slides every point along its own integral curve.</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example A — rotation</span>
+    <p>$V=\pa_\phi=-y\,\pa_x+x\,\pa_y$ on the plane. Solve $\dot x=-y,\ \dot y=x$: the integral curves are
+    <strong>circles</strong>, and the flow is rigid rotation about the origin.</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example B — dilation (watch the fixed point!)</span>
+    <p>$V=x\,\pa_x+y\,\pa_y$. Solve $\dot x=x,\ \dot y=y$: $x=x_0e^\lambda$, so integral curves are
+    <strong>rays from the origin</strong>, traversed <em>exponentially</em>. At the origin $V=0$ — a
+    <strong>fixed point</strong>: the flow holds it still.</p>
+    <p style="margin-top:8px">Hold on to two features here — <em>exponential</em> motion along the curve, and a
+    <em>fixed point where the field vanishes</em>. The horizon's Killing field will do exactly this.</p>
+  </div>
+
+  <!-- ===================== M4 ===================== -->
+  <h2 class="mod" id="m4"><span class="mnum">Module 4</span>The metric and causal character</h2>
+  <p>The <strong>metric</strong> measures lengths and angles, and in a Lorentzian spacetime it sorts vectors
+  into three causal classes.</p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>The metric $g_{\mu\nu}$ gives the line element and the inner product:</p>
+    $$ds^2=g_{\mu\nu}\,dx^\mu dx^\nu,\qquad V\cdot W=g_{\mu\nu}V^\mu W^\nu.$$
+    <p style="margin-top:8px">A vector $V$ is &nbsp;<strong>timelike</strong> if $V\cdot V<0$,&nbsp;
+    <strong>null</strong> if $V\cdot V=0$,&nbsp; <strong>spacelike</strong> if $V\cdot V>0$&nbsp;
+    (sign convention $-{+}{+}{+}$).</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example</span>
+    <p>Minkowski, $\eta=\mathrm{diag}(-1,1,1,1)$:</p>
+    <ul>
+      <li>$u=(1,0,0,0)$: $u\cdot u=-1$ &nbsp;→ <strong>timelike</strong> (a worldline direction).</li>
+      <li>$s=(0,1,0,0)$: $s\cdot s=+1$ &nbsp;→ <strong>spacelike</strong>.</li>
+      <li>$k=(1,1,0,0)$: $k\cdot k=-1+1=0$ &nbsp;→ <strong>null</strong> (a light ray).</li>
+    </ul>
+    <p>Null vectors are the knife-edge between the two — the directions light travels.</p>
+  </div>
+  <div class="remark">
+    <span class="label">The strange fact about null vectors</span>
+    <p>A null vector is <strong>orthogonal to itself</strong>: $k\cdot k=0$ literally says $k\perp k$. This odd
+    property is the seed of everything weird about null surfaces in Module 5.</p>
+  </div>
+
+  <!-- ===================== M5 ===================== -->
+  <h2 class="mod" id="m5"><span class="mnum">Module 5</span>Hypersurfaces and their normals</h2>
+  <p>A <strong>hypersurface</strong> is a slice of one dimension less than spacetime — a 3D surface in 4D. The
+  cleanest way to specify one is as a level set.</p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>A <strong>hypersurface</strong> is $\Phi(x)=\text{const}$ for some function $\Phi$. Its
+    <strong>normal one-form</strong> is the gradient $n_\mu=\pa_\mu\Phi$, and the normal vector is
+    $n^\mu=g^{\mu\nu}n_\nu$. The surface inherits the causal character of its normal.</p>
+  </div>
+  <div class="warn">
+    <span class="label">The null case — this is the whole point</span>
+    <p>If the normal is <strong>null</strong> ($n\cdot n=0$), the surface is a <strong>null hypersurface</strong>.
+    Because a null vector is orthogonal to itself, the normal $n$ <strong>also lies tangent to the surface</strong>
+    — it is simultaneously &ldquo;sticking out of&rdquo; and &ldquo;running along&rdquo; the surface. No spacelike
+    or timelike surface does this. It is special to null surfaces, and it is what makes Module 6 possible.</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example</span>
+    <p>Minkowski, take $\Phi=t-x$, so the surface is $t-x=\text{const}$. Normal one-form $n_\mu=\pa_\mu\Phi=(1,-1,0,0)$.
+    Its norm:</p>
+    $$n\cdot n=\eta^{\mu\nu}n_\mu n_\nu=\eta^{tt}(1)^2+\eta^{xx}(-1)^2=-1+1=0.$$
+    <p style="margin-top:8px"><strong>Null surface.</strong> The normal vector is $n^\mu=\eta^{\mu\nu}n_\nu=(-1,-1,0,0)\propto(1,1,0,0)$.
+    Check it lies <em>in</em> the surface: moving along $(1,1,0,0)$ changes $t-x$ by $1-1=0$ — yes, it stays on
+    the surface. The normal runs along the surface, as promised.</p>
+  </div>
+
+  <!-- ===================== M6 ===================== -->
+  <h2 class="mod" id="m6"><span class="mnum">Module 6</span>Generators of a null surface <span style="font-size:14px;color:var(--muted)">(the key word)</span></h2>
+  <p>
+    Here is the word that was tripping you up. A null hypersurface is not a featureless slab — it is
+    <strong>woven out of null rays</strong>, and those rays are called its <strong>generators</strong>.
+  </p>
+  <div class="flow">
+    <span class="label">Intuition first</span>
+    <p>Think of a <strong>cylinder</strong> in ordinary 3D space. Through every point of the cylinder runs a
+    vertical <em>straight line</em> lying entirely on the cylinder. Those lines &ldquo;weave&rdquo; the surface —
+    they <strong>generate</strong> it. A null hypersurface is the same idea, with null geodesics in place of
+    straight lines.</p>
+  </div>
+  <div class="def">
+    <span class="label">Definition / Theorem</span>
+    <p>Every <strong>null hypersurface</strong> is ruled by a family of <strong>null geodesics</strong> called its
+    <strong>generators</strong>. Through each point of the surface passes exactly one generator, lying entirely
+    within the surface, and the null normal $n$ (from Module 5) is <strong>tangent to it</strong>. The surface is
+    the union of all its generators.</p>
+  </div>
+  <p>
+    This works <em>precisely because</em> of the strange fact in Module 5: the null normal is tangent to the
+    surface, so &ldquo;the direction sticking out&rdquo; is also &ldquo;a direction to travel,&rdquo; and
+    travelling along it traces a curve <em>in</em> the surface — a generator.
+  </p>
+  <figure class="diagram">
+    <svg viewBox="0 0 460 200" role="img" aria-label="null surface ruled by generators">
+      <!-- surface as a sheared band -->
+      <polygon points="60,150 360,40 420,40 120,150" fill="#d8ece9" stroke="#1f6e7e" stroke-width="1.5"/>
+      <!-- generators -->
+      <line x1="90"  y1="150" x2="120" y2="139" stroke="#8a3a18" stroke-width="2"/>
+      <line x1="150" y1="129" x2="180" y2="118" stroke="#8a3a18" stroke-width="2"/>
+      <line x1="210" y1="108" x2="240" y2="97"  stroke="#8a3a18" stroke-width="2"/>
+      <!-- long generator arrow -->
+      <line x1="90" y1="150" x2="395" y2="40" stroke="#8a3a18" stroke-width="2.4" marker-end="url(#ah)"/>
+      <defs><marker id="ah" markerWidth="9" markerHeight="9" refX="7" refY="4" orient="auto">
+        <path d="M0,0 L8,4 L0,8 z" fill="#8a3a18"/></marker></defs>
+      <text x="300" y="150" font-size="13" fill="#1f6e7e" font-style="italic">null hypersurface</text>
+      <text x="250" y="78" font-size="12.5" fill="#8a3a18">a generator (null geodesic)</text>
+    </svg>
+    <figcaption>A null hypersurface (teal) is the union of null-geodesic generators (red). The horizon is exactly such a surface.</figcaption>
+  </figure>
+  <div class="eg">
+    <span class="label">Example — the Rindler horizon</span>
+    <p>The null surface $t-x=0$ (with $x&gt;0$) from Module 5 is woven from the null line in the direction
+    $(1,1,0,0)$. Pick the generator through $(t,x)=(1,1)$: it is $\{(s,s):s&gt;0\}$, a null ray. Sliding along it
+    by the null normal $n\propto(1,1)$ keeps you on the surface. <strong>That ray is a generator of the Rindler
+    horizon</strong> — and in Module 9 the boost Killing field will turn out to run right along it.</p>
+  </div>
+  <div class="key">
+    <span class="label">Translation</span>
+    <p>So whenever the note says <strong>&ldquo;horizon generator,&rdquo;</strong> read: <em>&ldquo;one of the
+    null geodesics that the horizon is built from.&rdquo;</em> &ldquo;Along a generator&rdquo; means
+    &ldquo;moving along one of those null rays, staying on the horizon.&rdquo;</p>
+  </div>
+
+  <!-- ===================== M7 ===================== -->
+  <h2 class="mod" id="m7"><span class="mnum">Module 7</span>Covariant derivative and parallel transport</h2>
+  <p>
+    To compare vectors at different points of a curved space you need a <strong>connection</strong> — the
+    covariant derivative $\nabla$. Plain $\pa_\mu$ fails because the basis vectors themselves twist from point to
+    point; $\nabla$ corrects for that with the Christoffel symbols.
+  </p>
+  <div class="def">
+    <span class="label">Definition</span>
+    $$\nabla_\mu V^\nu=\pa_\mu V^\nu+\Gamma^\nu_{\mu\lambda}V^\lambda.$$
+    <p style="margin-top:8px">The <strong>directional derivative along a curve</strong> with tangent $k^\mu$ is
+    $k^\mu\nabla_\mu$. A vector $V$ is <strong>parallel-transported</strong> along the curve if it doesn't
+    change in the connection's eyes:</p>
+    $$k^\mu\nabla_\mu V^\nu=0\qquad(\text{&ldquo;}V\text{ stays constant along the curve&rdquo;}).$$
+  </div>
+  <div class="eg">
+    <span class="label">Example — flat vs curved</span>
+    <p><strong>Flat plane</strong> (Cartesian, $\Gamma=0$): parallel transport just keeps the components fixed —
+    an arrow slid around stays pointing the same way. <strong>Sphere:</strong> carry a vector around a closed
+    triangle and it comes back <em>rotated</em> by the enclosed area. That rotation (holonomy) is curvature, and
+    it is why &ldquo;constant&rdquo; needs the connection, not plain $\pa$.</p>
+  </div>
+
+  <!-- ===================== M8 ===================== -->
+  <h2 class="mod" id="m8"><span class="mnum">Module 8</span>Geodesics: affine vs non-affine</h2>
+  <p>A <strong>geodesic</strong> is the straightest possible curve: it parallel-transports its own tangent.</p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>$\gamma$ is a <strong>geodesic</strong> if its tangent $k$ satisfies, for some function $\kappa$,</p>
+    $$k^\nu\nabla_\nu k^\mu=\kappa\,k^\mu.$$
+    <p style="margin-top:8px">If $\kappa=0$ the parameter is <strong>affine</strong> and the tangent is genuinely
+    parallel-transported ($k^\nu\nabla_\nu k^\mu=0$). If $\kappa\ne0$ the same geometric curve is run
+    <strong>non-affinely</strong> — the tangent stays <em>parallel to itself</em> but rescales in length.</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example</span>
+    <p>Flat space, the straight line $x^\mu(\lambda)=A^\mu\lambda+B^\mu$ has $k^\mu=A^\mu$ constant, so
+    $k^\nu\nabla_\nu k^\mu=0$ — <strong>affine</strong>. Re-run the <em>same line</em> as $x^\mu(\sigma)=A^\mu\sigma^3+B^\mu$:
+    now the tangent grows, $k^\nu\nabla_\nu k^\mu\propto k^\mu$ with $\kappa\ne0$ — <strong>non-affine</strong>,
+    even though the track is identical. Affineness is about the <em>parametrization</em>, not the track.</p>
+  </div>
+  <div class="remark">
+    <span class="label">The hook into horizons</span>
+    <p>That $\kappa$ — the failure of a parametrization to be affine — is, on a horizon, the
+    <strong>surface gravity</strong>. The whole non-affinity note is about why the Killing parametrization of the
+    horizon generators has $\kappa\ne0$.</p>
+  </div>
+
+  <!-- ===================== M9 ===================== -->
+  <h2 class="mod" id="m9"><span class="mnum">Module 9</span>Killing vectors (symmetries)</h2>
+  <p>A <strong>Killing vector</strong> is the generator of a symmetry of the metric — a flow (Module 3) that
+  slides the spacetime onto itself without distortion.</p>
+  <div class="def">
+    <span class="label">Definition</span>
+    <p>$\xi$ is a <strong>Killing vector</strong> if its flow preserves the metric, equivalently if it solves the
+    <strong>Killing equation</strong></p>
+    $$\nabla_\mu\xi_\nu+\nabla_\nu\xi_\mu=0.$$
+    <p style="margin-top:8px"><strong>Shortcut:</strong> if the metric components don't depend on a coordinate
+    $x^a$, then $\pa_a$ is automatically Killing. Each Killing vector gives a conserved quantity
+    $\xi_\mu k^\mu=\text{const}$ along any geodesic.</p>
+  </div>
+  <div class="eg">
+    <span class="label">Example — the boost (remember Module 3B)</span>
+    <p>In Minkowski, the <strong>boost</strong> $\xi=a(x\,\pa_t+t\,\pa_x)$ is a Killing vector. Its flow is the
+    family of accelerated (hyperbolic) observers; its integral curves are the hyperbolae $x^2-t^2=\text{const}$.
+    Two features, exactly as in the dilation example:</p>
+    <ul>
+      <li>It <strong>vanishes at the origin</strong> $x=t=0$ — a fixed point.</li>
+      <li>Its norm $\xi\cdot\xi=a^2(t^2-x^2)$ is <strong>zero on $t=\pm x$</strong> — it goes null on a null
+      surface (the Rindler horizon of Module 6).</li>
+    </ul>
+  </div>
+
+  <!-- ===================== M10 ===================== -->
+  <h2 class="mod" id="m10"><span class="mnum">Module 10</span>Assembling the horizon picture</h2>
+  <p>Now stack the pieces. Each phrase in the non-affinity note maps to a module:</p>
+  <div class="key">
+    <span class="label">Definition</span>
+    <p>A <strong>Killing horizon</strong> is a <strong>null hypersurface</strong> (M5) whose
+    <strong>generators</strong> (M6) are orbits of a <strong>Killing vector</strong> $\xi$ (M9), on which $\xi$ is
+    <strong>null</strong> (M4).</p>
+  </div>
+  <p>On such a surface, two descriptions of the very same null ray collide:</p>
+  <ul>
+    <li>It is a <strong>null geodesic generator</strong> (M6, M8) — so it carries an <strong>affine</strong>
+    parameter $\lambda$ with tangent $k$, $k^\nu\nabla_\nu k=0$.</li>
+    <li>It is also an <strong>orbit of the Killing flow</strong> (M9) — so $\xi$ is <em>another</em> tangent to
+    the same ray.</li>
+  </ul>
+  <p>
+    Two tangents to one curve must be proportional (M6: only one null direction), so $\xi=h(\lambda)\,k$ for some
+    length $h$. The single question left — <strong>is the Killing parametrization affine?</strong> — is whether
+    $h$ is constant. It is not, because (M9 example) $\xi$ must vanish at the fixed point / bifurcation surface,
+    forcing $h$ to ramp linearly: $\xi=\kappa\lambda\,k$. That ramp rate $\kappa$ is the surface gravity.
+  </p>
+  <div class="flow">
+    <span class="label">You are now equipped</span>
+    <p>Re-read <a href="why-horizon-non-affine.html">why-horizon-non-affine.html</a>. Every term — generator,
+    affine parameter, Killing vector, null surface, bifurcation surface, $\kappa$ — now has a definition and a
+    worked example behind it. The argument should read as assembly, not magic.</p>
+  </div>
+
+  <hr>
+  <p style="font-size:14px;color:var(--muted)">
+    Next stop once this is solid: the exponential relation $\lambda\propto e^{\kappa u}$ and how it turns the
+    vacuum thermal — i.e. the actual Hawking calculation in
+    <a href="hawking-1975-deep.html">hawking-1975-deep.html</a>.
+  </p>
+</main>
+</div>
+</body>
+</html>
