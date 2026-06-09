@@ -4,121 +4,204 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Horizon Thermodynamics — a study portal</title>
-  <meta name="description" content="Self-built, graduate-level study notes on black-hole and horizon thermodynamics — Hawking 1975, Jacobson's thermodynamics of spacetime, surface gravity from first principles, and the craft of physics research.">
+  <meta name="description" content="Self-built, graduate-level study notes on black-hole and horizon thermodynamics — Hawking 1975, the thermodynamics of spacetime, surface gravity from first principles, and the craft of physics research. Derived, not memorized.">
+  <meta property="og:title" content="Horizon Thermodynamics — a study portal">
+  <meta property="og:description" content="Graduate-level notes on black-hole & horizon thermodynamics — derived, not memorized.">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#fbfaf6; --fg:#1c1c1a; --muted:#6a6660;
-      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
-      --border:#d8d3c4; --card:#f3ede0; --maxw:880px;
+      --bg:#fbf8f1; --bg2:#f4eee1; --fg:#211d18; --muted:#6f675c;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a; --gold:#a8842f;
+      --border:#e6ddcc; --card:#fffdf8;
+      --serif:"Fraunces",Georgia,"Times New Roman",serif;
+      --sans:"Inter",system-ui,-apple-system,sans-serif;
+      --mono:ui-monospace,"SF Mono",Menlo,monospace;
+      --maxw:980px;
     }
     *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--fg);
-         font:18px/1.65 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
-    .wrap{max-width:var(--maxw);margin:0 auto;padding:64px 26px 110px}
-    .eyebrow{font:700 12px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.12em;
-             text-transform:uppercase;color:var(--accent);margin-bottom:12px}
-    h1{font-size:40px;line-height:1.08;margin:0 0 12px;letter-spacing:-0.02em}
-    .lede{font-size:19px;color:var(--fg);margin:0 0 10px}
-    .sub{color:var(--muted);font-size:16px;margin:0 0 38px;max-width:62ch}
-    h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
-       font-family:-apple-system,system-ui,sans-serif;font-weight:700;
-       margin:42px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    @media(max-width:680px){.grid{grid-template-columns:1fr}.wrap{padding:42px 20px 80px}h1{font-size:32px}}
-    a.card{display:block;text-decoration:none;color:inherit;background:var(--card);
-           border:1px solid var(--border);border-left:4px solid var(--soft);border-radius:6px;
-           padding:16px 18px;transition:transform .08s ease,border-color .12s ease,box-shadow .12s ease}
-    a.card:hover{transform:translateY(-2px);border-left-color:var(--accent);
-                 box-shadow:0 6px 18px rgba(60,40,20,.10)}
-    a.card .tag{display:inline-block;font:700 10px/1.4 -apple-system,sans-serif;letter-spacing:.09em;
-                text-transform:uppercase;color:#fff;background:var(--soft);padding:2px 8px;border-radius:3px;margin-bottom:9px}
-    a.card.lecture .tag{background:var(--accent)}
-    a.card.course .tag{background:var(--teal)}
-    a.card.note .tag{background:var(--purple)}
-    a.card.build .tag{background:var(--green)}
-    a.card .t{font-size:18px;font-weight:700;line-height:1.25;margin:0 0 5px;letter-spacing:-0.01em}
-    a.card .d{font-size:14.5px;color:var(--muted);line-height:1.5;margin:0}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);
+         font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased;font-optical-sizing:auto}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+    /* ---------- hero ---------- */
+    .hero{position:relative;overflow:hidden;border-bottom:1px solid var(--border);
+          background:radial-gradient(125% 90% at 50% -25%, #fff6e6 0%, var(--bg) 58%)}
+    .hero::after{content:"";position:absolute;left:50%;top:-380px;transform:translateX(-50%);
+          width:760px;height:760px;border-radius:50%;pointer-events:none;
+          background:radial-gradient(circle, rgba(201,122,79,.20) 0%, rgba(168,132,47,.10) 40%, transparent 64%)}
+    .hero .wrap{position:relative;z-index:1;text-align:center;padding-top:94px;padding-bottom:64px}
+    .kicker{font-family:var(--sans);font-weight:600;font-size:12px;letter-spacing:.24em;
+            text-transform:uppercase;color:var(--accent);margin-bottom:22px}
+    h1{font-family:var(--serif);font-weight:600;font-size:clamp(42px,7.5vw,76px);line-height:1.0;
+       letter-spacing:-0.025em;margin:0 0 20px}
+    .arc{display:block;margin:0 auto 22px;width:200px;height:24px}
+    .tagline{font-size:clamp(18px,2.5vw,23px);font-style:italic;max-width:30ch;margin:0 auto 22px;opacity:.92}
+    .intro{font-size:16.5px;color:var(--muted);max-width:62ch;margin:0 auto 28px}
+    .stats{font-family:var(--sans);font-size:12.5px;letter-spacing:.03em;color:var(--muted);
+           display:flex;gap:10px 22px;justify-content:center;flex-wrap:wrap}
+    .stats b{color:var(--accent);font-weight:700}
+
+    /* ---------- sections ---------- */
+    main{padding:64px 0 116px}
+    .section{margin-top:60px}
+    .section:first-child{margin-top:0}
+    .sec-head{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+    .sec-num{font-family:var(--sans);font-weight:700;font-size:12px;letter-spacing:.1em;color:var(--soft);min-width:14px}
+    .sec-title{font-family:var(--sans);font-weight:700;font-size:12.5px;letter-spacing:.16em;
+               text-transform:uppercase;color:var(--muted)}
+    .sec-rule{flex:1;height:1px;background:var(--border)}
+
+    /* ---------- featured ---------- */
+    a.feat{display:block;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+           background:linear-gradient(170deg,#fffdf8 0%,#fbf3e4 100%);
+           border:1px solid var(--border);border-radius:16px;padding:32px 34px;
+           transition:transform .14s ease,box-shadow .18s ease,border-color .18s ease}
+    a.feat:hover{transform:translateY(-3px);box-shadow:0 18px 44px rgba(90,50,20,.14);border-color:var(--soft)}
+    a.feat .badge{position:absolute;top:20px;right:22px;font-family:var(--sans);font-weight:700;
+           font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#fff;
+           background:var(--accent);padding:5px 11px;border-radius:30px}
+    a.feat .meta{font-family:var(--mono);font-size:12px;color:var(--soft);margin-bottom:12px}
+    a.feat h3{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3.4vw,32px);line-height:1.1;
+              margin:0 0 12px;letter-spacing:-0.015em;max-width:22ch}
+    a.feat p{font-size:16px;color:var(--muted);margin:0;max-width:66ch}
+
+    /* ---------- card grid ---------- */
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}.hero .wrap{padding-top:68px}}
+    a.card{display:flex;flex-direction:column;text-decoration:none;color:inherit;
+           background:var(--card);border:1px solid var(--border);border-top:3px solid var(--soft);
+           border-radius:13px;padding:22px 24px;
+           transition:transform .14s ease,box-shadow .18s ease}
+    a.card:hover{transform:translateY(-3px);box-shadow:0 13px 32px rgba(90,50,20,.11)}
+    a.card .meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.01em;color:var(--soft);margin-bottom:11px}
+    a.card h3{font-family:var(--serif);font-weight:600;font-size:20.5px;line-height:1.18;
+              margin:0 0 8px;letter-spacing:-0.012em}
+    a.card p{font-family:var(--serif);font-size:14.5px;color:var(--muted);margin:0;line-height:1.5;flex:1}
+    a.card .go{font-family:var(--sans);font-weight:600;font-size:13px;color:var(--accent);
+               margin-top:15px;opacity:0;transform:translateX(-5px);transition:opacity .16s,transform .16s}
+    a.card:hover .go{opacity:1;transform:translateX(0)}
+    .c-teal{border-top-color:var(--teal)}    .c-teal .meta{color:var(--teal)}
+    .c-purple{border-top-color:var(--purple)}.c-purple .meta{color:var(--purple)}
+    .c-green{border-top-color:var(--green)}  .c-green .meta{color:var(--green)}
+    .c-gold{border-top-color:var(--gold)}    .c-gold .meta{color:var(--gold)}
+    .c-accent{border-top-color:var(--accent)}.c-accent .meta{color:var(--accent)}
     .span2{grid-column:1 / -1}
-    footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--border);
-           font-size:14px;color:var(--muted);line-height:1.6}
-    footer a{color:var(--accent)}
+
+    /* ---------- footer ---------- */
+    footer{border-top:1px solid var(--border);background:var(--bg2)}
+    footer .wrap{padding:36px 28px 52px;font-family:var(--sans);font-size:13.5px;color:var(--muted);line-height:1.75}
+    footer a{color:var(--accent);text-decoration:none}
+    footer a:hover{text-decoration:underline}
   </style>
 </head>
 <body>
-<div class="wrap">
 
-  <div class="eyebrow">Learning in public</div>
-  <h1>Horizon Thermodynamics</h1>
-  <p class="lede">A self-built study portal on the thermodynamics of black holes and horizons.</p>
-  <p class="sub">Graduate / qualifying-exam level, written to be understood rather than memorised — full derivations, nothing skipped, with the deeper steps folded into collapsible layers you open on demand. These are my working notes as I learn the subject; corrections and questions welcome.</p>
+  <header class="hero"><div class="wrap">
+    <div class="kicker">A study portal · learning in public</div>
+    <h1>Horizon<br>Thermodynamics</h1>
+    <svg class="arc" viewBox="0 0 200 24" fill="none" aria-hidden="true">
+      <path d="M4 20 C 60 2, 140 2, 196 20" stroke="#c97a4f" stroke-width="1.5" stroke-linecap="round"/>
+      <circle cx="100" cy="7.2" r="2.4" fill="#8a3a18"/>
+    </svg>
+    <p class="tagline">The thermodynamics of black holes and horizons — derived, not memorized.</p>
+    <p class="intro">Graduate / qualifying-exam-level notes written to be understood: full derivations with nothing skipped, the heavier steps tucked into collapsible layers you open on demand. These are my working notes as I learn the subject — corrections and questions welcome.</p>
+    <div class="stats"><span><b>9</b> study guides</span><span><b>graduate</b> level</span><span><b>open</b> source</span></div>
+  </div></header>
 
-  <h2>Black holes &amp; horizon thermodynamics — the core track</h2>
-  <div class="grid">
-    <a class="card lecture span2" href="learning/hawking-1975-deep.html">
-      <span class="tag">Deep lecture · 30 modules</span>
-      <p class="t">Hawking 1975 — line-by-line, nothing skipped</p>
-      <p class="d">A full walk through <em>Particle Creation by Black Holes</em>: the geometric setup, QFT on curved spacetime, the mode functions, the u(v) logarithm, the Bogoliubov coefficients, and the thermal spectrum — every skipped step filled in.</p>
-    </a>
-    <a class="card note" href="learning/why-horizon-non-affine.html">
-      <span class="tag">Concept note</span>
-      <p class="t">Why the Killing parameter is non-affine on a horizon</p>
-      <p class="d">Surface gravity κ from first principles — the boost, the bifurcation surface, and the exponential that makes Hawking's spectrum thermal. Built up organically from Rindler to Schwarzschild.</p>
-    </a>
-    <a class="card note" href="learning/horizon-geometry-arsenal.html">
-      <span class="tag">Reference</span>
-      <p class="t">Mathematical Arsenal for Horizon Geometry</p>
-      <p class="d">The prerequisite machinery — Killing vectors, null surfaces, affine parameters, surface gravity — collected as a working reference for the rest of the portal.</p>
-    </a>
-    <a class="card course" href="learning/jacobson-1995-course.html">
-      <span class="tag">Graduate course · 7 lectures</span>
-      <p class="t">Thermodynamics of Spacetime</p>
-      <p class="d">Jacobson 1995, that the Einstein equation can be read as an equation of state — built as a full course with theorems, worked examples, and difficulty-tagged problem sets.</p>
-    </a>
-    <a class="card note" href="learning/jacobson-1995.html">
-      <span class="tag">Q&amp;A guide</span>
-      <p class="t">Jacobson 1995 — step-by-step Q&amp;A</p>
-      <p class="d">A shorter, question-driven companion to the course above, for a first pass through the argument.</p>
-    </a>
-  </div>
+  <main class="wrap">
 
-  <h2>Wider theory</h2>
-  <div class="grid">
-    <a class="card course span2" href="learning/string-theory-course.html">
-      <span class="tag">Graduate course · 13 modules</span>
-      <p class="t">String Theory — a graduate course</p>
-      <p class="d">A self-contained course built from the ground up, for when the black-hole thread points toward the wider quantum-gravity landscape.</p>
-    </a>
-  </div>
+    <section class="section">
+      <div class="sec-head"><span class="sec-num">★</span><span class="sec-title">Start here</span><span class="sec-rule"></span></div>
+      <a class="feat" href="learning/hawking-1975-deep.html">
+        <span class="badge">★ Start here</span>
+        <div class="meta">30 modules · derivations + exercises</div>
+        <h3>Hawking 1975 — line by line, nothing skipped</h3>
+        <p>The whole of <em>Particle Creation by Black Holes</em>: the geometric setup, QFT on curved spacetime, the mode functions, the u(v) logarithm, the Bogoliubov coefficients, and the thermal spectrum — every step Hawking left to the reader, filled back in.</p>
+      </a>
+    </section>
 
-  <h2>The craft of research</h2>
-  <div class="grid">
-    <a class="card note" href="learning/research-craft-course.html">
-      <span class="tag">Essay course</span>
-      <p class="t">The Craft of Physics Research</p>
-      <p class="d">How good physics actually gets done — Feynman, Einstein, Hamming — on taste, problem selection, and writing papers that matter.</p>
-    </a>
-    <a class="card note" href="learning/paper-worthiness-and-AI.html">
-      <span class="tag">Survey</span>
-      <p class="t">Paper-Worthiness &amp; AI in Research</p>
-      <p class="d">What makes a result worth publishing, and an evidence-based, honest look at where AI sits in theoretical-physics research (2024–2026).</p>
-    </a>
-  </div>
+    <section class="section">
+      <div class="sec-head"><span class="sec-num">I</span><span class="sec-title">Black holes &amp; horizon thermodynamics</span><span class="sec-rule"></span></div>
+      <div class="grid">
+        <a class="card c-accent" href="learning/why-horizon-non-affine.html">
+          <div class="meta">concept note</div>
+          <h3>Why the Killing parameter is non-affine on a horizon</h3>
+          <p>Surface gravity κ from first principles — the boost, the bifurcation surface, and the exponential that makes Hawking&rsquo;s spectrum thermal. Built up organically from Rindler to Schwarzschild.</p>
+          <span class="go">Read →</span>
+        </a>
+        <a class="card c-accent" href="learning/horizon-geometry-arsenal.html">
+          <div class="meta">reference</div>
+          <h3>Mathematical Arsenal for Horizon Geometry</h3>
+          <p>The prerequisite machinery — Killing vectors, null surfaces, affine parameters, surface gravity — collected as one working reference for the rest of the portal.</p>
+          <span class="go">Read →</span>
+        </a>
+        <a class="card c-teal" href="learning/jacobson-1995-course.html">
+          <div class="meta">graduate course · 7 lectures</div>
+          <h3>Thermodynamics of Spacetime</h3>
+          <p>Jacobson 1995 — the Einstein equation read as an equation of state. A full course: theorems, worked examples, and difficulty-tagged problem sets.</p>
+          <span class="go">Read →</span>
+        </a>
+        <a class="card c-teal" href="learning/jacobson-1995.html">
+          <div class="meta">Q&amp;A guide</div>
+          <h3>Jacobson 1995 — step-by-step Q&amp;A</h3>
+          <p>A shorter, question-driven companion to the course above — for a fast first pass through the argument.</p>
+          <span class="go">Read →</span>
+        </a>
+      </div>
+    </section>
 
-  <h2>Experiment</h2>
-  <div class="grid">
-    <a class="card build span2" href="learning/muon-detector-build.html">
-      <span class="tag">Build doc</span>
-      <p class="t">Silicon PIN-photodiode radiation &amp; muon detector</p>
-      <p class="d">A hands-on build — turning a photodiode into a working particle detector, with the bill of materials and the physics of why it works.</p>
-    </a>
-  </div>
+    <section class="section">
+      <div class="sec-head"><span class="sec-num">II</span><span class="sec-title">Wider theory</span><span class="sec-rule"></span></div>
+      <div class="grid">
+        <a class="card c-purple span2" href="learning/string-theory-course.html">
+          <div class="meta">graduate course · 13 modules</div>
+          <h3>String Theory — a graduate course</h3>
+          <p>A self-contained course built from the ground up, for when the black-hole thread points toward the wider quantum-gravity landscape.</p>
+          <span class="go">Read →</span>
+        </a>
+      </div>
+    </section>
 
-  <footer>
-    Working notes by <a href="https://github.com/sammiezx">@sammiezx</a> ·
-    source on <a href="https://github.com/sammiezx/horizon-thermodynamics">GitHub</a>.<br>
-    Pitched at graduate level and written while learning — if you spot an error, please open an issue. Equations render with MathJax.
-  </footer>
+    <section class="section">
+      <div class="sec-head"><span class="sec-num">III</span><span class="sec-title">The craft of research</span><span class="sec-rule"></span></div>
+      <div class="grid">
+        <a class="card c-green" href="learning/research-craft-course.html">
+          <div class="meta">essay course</div>
+          <h3>The Craft of Physics Research</h3>
+          <p>How good physics actually gets done — Feynman, Einstein, Hamming — on taste, problem selection, and writing papers that matter.</p>
+          <span class="go">Read →</span>
+        </a>
+        <a class="card c-green" href="learning/paper-worthiness-and-AI.html">
+          <div class="meta">survey</div>
+          <h3>Paper-Worthiness &amp; AI in Research</h3>
+          <p>What makes a result worth publishing, and an evidence-based, honest look at where AI sits in theoretical-physics research (2024–2026).</p>
+          <span class="go">Read →</span>
+        </a>
+      </div>
+    </section>
 
-</div>
+    <section class="section">
+      <div class="sec-head"><span class="sec-num">IV</span><span class="sec-title">Experiment</span><span class="sec-rule"></span></div>
+      <div class="grid">
+        <a class="card c-gold span2" href="learning/muon-detector-build.html">
+          <div class="meta">build doc</div>
+          <h3>Silicon PIN-photodiode radiation &amp; muon detector</h3>
+          <p>A hands-on build — turning a photodiode into a working particle detector, with the bill of materials and the physics of why it works.</p>
+          <span class="go">Read →</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer><div class="wrap">
+    Working notes by <a href="https://github.com/sammiezx">@sammiezx</a> · source on <a href="https://github.com/sammiezx/horizon-thermodynamics">GitHub</a>.<br>
+    Pitched at graduate level and written while learning — spot an error? <a href="https://github.com/sammiezx/horizon-thermodynamics/issues">Open an issue</a>. Equations render with MathJax.
+  </div></footer>
+
 </body>
 </html>
