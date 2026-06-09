@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Horizon Thermodynamics — a study portal</title>
+  <meta name="description" content="Self-built, graduate-level study notes on black-hole and horizon thermodynamics — Hawking 1975, Jacobson's thermodynamics of spacetime, surface gravity from first principles, and the craft of physics research.">
+  <style>
+    :root{
+      --bg:#fbfaf6; --fg:#1c1c1a; --muted:#6a6660;
+      --accent:#8a3a18; --soft:#c97a4f; --teal:#1f6e7e; --green:#3a6a2a; --purple:#6a3a8a;
+      --border:#d8d3c4; --card:#f3ede0; --maxw:880px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);
+         font:18px/1.65 "Charter","Iowan Old Style",Georgia,serif;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:var(--maxw);margin:0 auto;padding:64px 26px 110px}
+    .eyebrow{font:700 12px/1.4 -apple-system,system-ui,sans-serif;letter-spacing:.12em;
+             text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+    h1{font-size:40px;line-height:1.08;margin:0 0 12px;letter-spacing:-0.02em}
+    .lede{font-size:19px;color:var(--fg);margin:0 0 10px}
+    .sub{color:var(--muted);font-size:16px;margin:0 0 38px;max-width:62ch}
+    h2{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+       font-family:-apple-system,system-ui,sans-serif;font-weight:700;
+       margin:42px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:680px){.grid{grid-template-columns:1fr}.wrap{padding:42px 20px 80px}h1{font-size:32px}}
+    a.card{display:block;text-decoration:none;color:inherit;background:var(--card);
+           border:1px solid var(--border);border-left:4px solid var(--soft);border-radius:6px;
+           padding:16px 18px;transition:transform .08s ease,border-color .12s ease,box-shadow .12s ease}
+    a.card:hover{transform:translateY(-2px);border-left-color:var(--accent);
+                 box-shadow:0 6px 18px rgba(60,40,20,.10)}
+    a.card .tag{display:inline-block;font:700 10px/1.4 -apple-system,sans-serif;letter-spacing:.09em;
+                text-transform:uppercase;color:#fff;background:var(--soft);padding:2px 8px;border-radius:3px;margin-bottom:9px}
+    a.card.lecture .tag{background:var(--accent)}
+    a.card.course .tag{background:var(--teal)}
+    a.card.note .tag{background:var(--purple)}
+    a.card.build .tag{background:var(--green)}
+    a.card .t{font-size:18px;font-weight:700;line-height:1.25;margin:0 0 5px;letter-spacing:-0.01em}
+    a.card .d{font-size:14.5px;color:var(--muted);line-height:1.5;margin:0}
+    .span2{grid-column:1 / -1}
+    footer{margin-top:54px;padding-top:22px;border-top:1px solid var(--border);
+           font-size:14px;color:var(--muted);line-height:1.6}
+    footer a{color:var(--accent)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Learning in public</div>
+  <h1>Horizon Thermodynamics</h1>
+  <p class="lede">A self-built study portal on the thermodynamics of black holes and horizons.</p>
+  <p class="sub">Graduate / qualifying-exam level, written to be understood rather than memorised — full derivations, nothing skipped, with the deeper steps folded into collapsible layers you open on demand. These are my working notes as I learn the subject; corrections and questions welcome.</p>
+
+  <h2>Black holes &amp; horizon thermodynamics — the core track</h2>
+  <div class="grid">
+    <a class="card lecture span2" href="learning/hawking-1975-deep.html">
+      <span class="tag">Deep lecture · 30 modules</span>
+      <p class="t">Hawking 1975 — line-by-line, nothing skipped</p>
+      <p class="d">A full walk through <em>Particle Creation by Black Holes</em>: the geometric setup, QFT on curved spacetime, the mode functions, the u(v) logarithm, the Bogoliubov coefficients, and the thermal spectrum — every skipped step filled in.</p>
+    </a>
+    <a class="card note" href="learning/why-horizon-non-affine.html">
+      <span class="tag">Concept note</span>
+      <p class="t">Why the Killing parameter is non-affine on a horizon</p>
+      <p class="d">Surface gravity κ from first principles — the boost, the bifurcation surface, and the exponential that makes Hawking's spectrum thermal. Built up organically from Rindler to Schwarzschild.</p>
+    </a>
+    <a class="card note" href="learning/horizon-geometry-arsenal.html">
+      <span class="tag">Reference</span>
+      <p class="t">Mathematical Arsenal for Horizon Geometry</p>
+      <p class="d">The prerequisite machinery — Killing vectors, null surfaces, affine parameters, surface gravity — collected as a working reference for the rest of the portal.</p>
+    </a>
+    <a class="card course" href="learning/jacobson-1995-course.html">
+      <span class="tag">Graduate course · 7 lectures</span>
+      <p class="t">Thermodynamics of Spacetime</p>
+      <p class="d">Jacobson 1995, that the Einstein equation can be read as an equation of state — built as a full course with theorems, worked examples, and difficulty-tagged problem sets.</p>
+    </a>
+    <a class="card note" href="learning/jacobson-1995.html">
+      <span class="tag">Q&amp;A guide</span>
+      <p class="t">Jacobson 1995 — step-by-step Q&amp;A</p>
+      <p class="d">A shorter, question-driven companion to the course above, for a first pass through the argument.</p>
+    </a>
+  </div>
+
+  <h2>Wider theory</h2>
+  <div class="grid">
+    <a class="card course span2" href="learning/string-theory-course.html">
+      <span class="tag">Graduate course · 13 modules</span>
+      <p class="t">String Theory — a graduate course</p>
+      <p class="d">A self-contained course built from the ground up, for when the black-hole thread points toward the wider quantum-gravity landscape.</p>
+    </a>
+  </div>
+
+  <h2>The craft of research</h2>
+  <div class="grid">
+    <a class="card note" href="learning/research-craft-course.html">
+      <span class="tag">Essay course</span>
+      <p class="t">The Craft of Physics Research</p>
+      <p class="d">How good physics actually gets done — Feynman, Einstein, Hamming — on taste, problem selection, and writing papers that matter.</p>
+    </a>
+    <a class="card note" href="learning/paper-worthiness-and-AI.html">
+      <span class="tag">Survey</span>
+      <p class="t">Paper-Worthiness &amp; AI in Research</p>
+      <p class="d">What makes a result worth publishing, and an evidence-based, honest look at where AI sits in theoretical-physics research (2024–2026).</p>
+    </a>
+  </div>
+
+  <h2>Experiment</h2>
+  <div class="grid">
+    <a class="card build span2" href="learning/muon-detector-build.html">
+      <span class="tag">Build doc</span>
+      <p class="t">Silicon PIN-photodiode radiation &amp; muon detector</p>
+      <p class="d">A hands-on build — turning a photodiode into a working particle detector, with the bill of materials and the physics of why it works.</p>
+    </a>
+  </div>
+
+  <footer>
+    Working notes by <a href="https://github.com/sammiezx">@sammiezx</a> ·
+    source on <a href="https://github.com/sammiezx/horizon-thermodynamics">GitHub</a>.<br>
+    Pitched at graduate level and written while learning — if you spot an error, please open an issue. Equations render with MathJax.
+  </footer>
+
+</div>
+</body>
+</html>
