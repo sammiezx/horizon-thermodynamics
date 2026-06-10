@@ -83,6 +83,16 @@
     figure.diagram svg{display:block;margin:0 auto;max-width:100%;height:auto;background:#faf6e9;
                        border:1px solid var(--border);border-radius:4px}
     figure.diagram figcaption{font:-apple-system 12.5px sans-serif;color:var(--muted);padding:8px 12px 0;line-height:1.5}
+    details.more{margin:18px 0;background:#f1ece0;border:1px solid var(--border);
+                 border-left:4px solid var(--soft);border-radius:4px}
+    details.more>summary{cursor:pointer;padding:11px 18px;list-style:none;
+                 font:700 13.5px/1.45 -apple-system,system-ui,sans-serif;color:var(--accent)}
+    details.more>summary::-webkit-details-marker{display:none}
+    details.more>summary::before{content:"\25B8\00a0\00a0";color:var(--soft)}
+    details.more[open]>summary::before{content:"\25BE\00a0\00a0"}
+    details.more>summary:hover{color:var(--soft)}
+    details.more .inner{padding:2px 18px 14px;font-size:15.5px}
+    details.more .inner>p:first-child{margin-top:0}
     hr{border:none;border-top:1px solid var(--border);margin:36px 0}
     @media(max-width:900px){.layout{grid-template-columns:1fr}
       aside{position:static;height:auto;border-right:none;border-bottom:1px solid var(--border)}
@@ -109,6 +119,7 @@
       <li><a href="#M1"><span class="num">M1</span><span>Penrose diagram — collapse</span></a></li>
       <li><a href="#M2"><span class="num">M2</span><span>Coordinates: $u, v, U, V$</span></a></li>
       <li><a href="#M3"><span class="num">M3</span><span>Surface gravity $\kappa$</span></a></li>
+      <li><a href="#M3a"><span class="num">M3A</span><span>Why the horizon forces an affine parameter</span></a></li>
     </ol>
     <h2>II · QFT on curved spacetime</h2>
     <ol>
@@ -336,6 +347,40 @@ Overall          ~95/100  outstanding masterpiece; founding document.
       <p>On the horizon $f = 0$ and the formula <em>looks</em> degenerate, but the correct identification is via the limit. Use instead the equivalent definition $\kappa^2 = -\half(\nabla_\mu \xi_\nu)(\nabla^\mu \xi^\nu)\big|_{\rm hor}$ which gives $\kappa = \half f'(2M) = \half \cdot 1/(2M) = 1/(4M)$.</p>
     </div>
 
+    <h2 class="module" id="M3a"><span class="mnum">Module 3A</span>Why the horizon forces an affine parameter</h2>
+
+    <p>Modules&nbsp;2–3 produced the affine parameter $U = -e^{-\kappa u}/\kappa$ and the surface gravity $\kappa$ almost mechanically. But it is worth stopping on the question a careful reader asks right here: <em>why must the horizon's null generators be parametrized affinely at all?</em> The choice is not cosmetic — it is forced, for three escalating reasons, and the third one <em>is</em> Hawking's result.</p>
+
+    <div class="flow"><span class="label">Reason 1 — necessity</span>
+      <p>The horizon is a null hypersurface, ruled by null geodesic generators. Along any null curve $\dd s^2 = 0$, so <strong>proper time never advances</strong> — it is identically zero and cannot label points on the ray. We need <em>some</em> parameter, and the affine one is the unique canonical choice: it is the parameter for which the tangent is parallel-transported,</p>
+      $$ \kk = \frac{\dd x^\mu}{\dd\lambda},\qquad k^\nu\nabla_\nu k^\mu = 0. $$
+      <p>Only with an affine $\lambda$ do conserved quantities $\xi_\mu k^\mu = \text{const}$ hold along the ray and the Raychaudhuri focusing equation take its standard form. A non-affine parameter injects a spurious surface-gravity term, $k^\nu\nabla_\nu k^\mu = \alpha\,k^\mu$, into every one of these.</p>
+    </div>
+
+    <div class="warn"><span class="label">Reason 2 — regularity (the coordinate region)</span>
+      <p>Two parameters compete on the horizon. The <em>Killing</em> parameter $u$ (advancing along $\xi = \pa_u$) is non-affine, $\xi^\nu\nabla_\nu\xi^\mu = \kappa\,\xi^\mu$; the affine $U$ obeys $k^\nu\nabla_\nu k^\mu = 0$. They are related <em>logarithmically</em>:</p>
+      $$ U = -\frac{1}{\kappa}\,e^{-\kappa u}\qquad\Longleftrightarrow\qquad u = -\frac{1}{\kappa}\ln(-\kappa U). $$
+      <p>Now watch the horizon limit. As a ray approaches $\Jp$'s past horizon $\mathscr H^+$,</p>
+      $$ U \to 0^-\ \text{(finite, smooth)},\qquad u \to +\infty\ \text{(diverges)}. $$
+      <p>The Killing/Schwarzschild time <strong>never reaches the horizon</strong> — an infalling ray takes infinite $u$ to arrive, though it crosses at finite $U$ (and finite proper time). This <em>is</em> the $r\to 2M$ coordinate pathology of Module&nbsp;2: $u$ simply does not cover the horizon. The affine parameter does. Kruskal $U,V$ are nothing but the affine parameters along the generators, which is exactly why Kruskal is the chart regular across $\mathscr H^\pm$. So affineness is not a convenience — it is the only parametrization whose <em>domain includes the horizon at all.</em></p>
+    </div>
+
+    <div class="thm"><span class="label">Reason 3 — it manufactures the spectrum</span>
+      <p>The exponential map between $U$ and $u$ does the real work. An outgoing mode the external observer calls positive-frequency, $e^{-i\omega u}$, written in the affine parameter becomes a <em>logarithm</em> in $U$:</p>
+      $$ e^{-i\omega u} = \exp\!\Big[\tfrac{i\omega}{\kappa}\ln(-\kappa U)\Big]. $$
+      <p>A function purely positive-frequency in $u$ is <strong>not</strong> purely positive-frequency in $U$: Fourier-analyzing $\exp[(i\omega/\kappa)\ln(-\kappa U)]$ against the affine modes $e^{-i\omega' U}$ returns <em>both</em> signs, with their magnitudes locked in a fixed ratio (Modules&nbsp;17–18):</p>
+      $$ \left|\frac{\beta_{\omega\omega'}}{\alpha_{\omega\omega'}}\right| = e^{-\pi\omega/\kappa}\;\Longrightarrow\; |\beta_\omega|^2 = \frac{1}{e^{2\pi\omega/\kappa}-1}. $$
+      <p>That is a Bose–Einstein distribution at $T = \kappa/2\pi$. The thermality is precisely the statement <em>positive-frequency-in-affine-$U$ $\neq$ positive-frequency-in-Killing-$u$</em>, with the mismatch fixed by the affine↔Killing exponential.</p>
+    </div>
+
+    <div class="keyresult">
+      Null generator has no proper time $\;\Rightarrow\;$ use affine $U$ $\;\Rightarrow\;$ $U$ is the regular parameter that crosses the horizon while Killing $u$ diverges $\;\Rightarrow\;$ the log relation $u = -\kappa^{-1}\ln(-\kappa U)$ turns the horizon-regular vacuum into a thermal bath.
+    </div>
+
+    <div class="remark"><span class="label">Where this lands in the paper</span>
+      <p>This is the conceptual content of the logarithm $u \simeq -\kappa^{-1}\ln(v_0 - v)$ derived in Module&nbsp;13 and continued in Modules&nbsp;17–18. When you hit that step in Hawking, the quantity playing the role of the smooth, horizon-crossing coordinate is the affine parameter; the retarded time $u$ is the non-affine Killing time. That single logarithm <em>is</em> the affine↔Killing relation, and it is the entire origin of the Planck factor. If the text states the log without flagging that distinction, this is the line to slow down on.</p>
+    </div>
+
     <!-- ====================================================
          PART II — QFT ON CURVED SPACETIME
          ==================================================== -->
@@ -360,6 +405,78 @@ Overall          ~95/100  outstanding masterpiece; founding document.
       $$ (\phi_1, \phi_2)_{\Jm} \;=\; -i\int \dd v\,\dd^2\Omega\, r^2\,(\phi_1\,\pa_v\phi_2^* - \phi_2^*\,\pa_v\phi_1)\big|_{\Jm}. $$
       Hawking absorbs the $r^2 d^2\Omega$ into the normalization of the mode functions $\phi \sim Y_{\ell m}(\Omega)/r$ at large $r$. Then only the $v$-integral remains.
     </div>
+
+    <details class="more">
+      <summary>Make this intuitive — why the $r^2$ and the angles just disappear</summary>
+      <div class="inner">
+        <p style="margin-top:8px">Each piece looks like machinery but is a one-line physical fact. The whole step is just: <em>count the wave&rsquo;s wiggles as they cross a giant sphere, and the geometry bookkeeping cancels.</em></p>
+
+        <p><strong>1. Why we may move to $\Jm$ at all — conserved flux.</strong> The inner product is a conserved current: like the total water crossing a river, it gives the same number through <em>any</em> cross-section. So slide the cross-section out to where the waves are simplest. $\Jm$ (past null infinity — where the incoming waves come from) is just the most convenient cross-section.</p>
+
+        <p><strong>2. Why $r^2$ cancels — the light-bulb argument.</strong> A spherical wave dims as it spreads: amplitude $\sim 1/r$, so intensity $\sim 1/r^2$. But the sphere it crosses has area $\sim r^2$. The total crossing the sphere is</p>
+        $$\underbrace{\tfrac{1}{r^2}}_{\text{intensity}}\times\underbrace{r^2}_{\text{area}}=\text{constant}.$$
+        <p>The dimming and the growing sphere cancel <em>exactly</em> — that is just energy conservation (a light bulb pushes the same total power through every sphere around it, however large). So the $r^2$ in the measure eats the $1/r$ from each of the two mode factors, and $r$ drops out: the answer does not care how big the sphere is.</p>
+
+        <p><strong>3. Why the angles integrate to $1$ — drum modes.</strong> The spherical harmonics $Y_{\ell m}(\Omega)$ are the independent vibration patterns of a sphere — its &ldquo;notes,&rdquo; like a drumhead&rsquo;s. Different patterns do not overlap (orthogonal $\to 0$); each is normalized ($\to 1$):</p>
+        $$\int \dd^2\Omega\;\, Y_{\ell m}\,Y_{\ell'm'}^* = \delta_{\ell\ell'}\,\delta_{mm'}.$$
+        <p>So summing over the sphere just asks &ldquo;same pattern?&rdquo; — yes gives $1$, no gives $0$. The labels $(\ell,m)$ never mix (spherical symmetry); they ride along as spectators.</p>
+
+        <p><strong>4. Why $\pa_v$ — the only live direction.</strong> Sitting on $\Jm$ at a fixed angle and at $r\to\infty$, the one thing that changes as the wave sweeps past is the advanced time $v$ (the arrival time of the incoming ray). So the &ldquo;time derivative&rdquo; in the current has nowhere to point but along $v$.</p>
+
+        <div class="flow"><span class="label">Net effect</span>
+          <p style="margin-bottom:0">Geometry ($r^2$) cancels the spreading ($1/r^2$); the angles ($Y_{\ell m}$) integrate to a Kronecker delta; only $v$ survives. The 4-D integral becomes a <strong>1-D count of the wave&rsquo;s oscillations in $v$</strong> — and with $\phi\sim e^{-i\omega v}$ that is an ordinary Fourier overlap, which is all the Bogoliubov coefficients (Modules 16–18) ever need. Same story on $\Jp$ with $u$ in place of $v$.</p>
+        </div>
+      </div>
+    </details>
+
+    <details class="more">
+      <summary>Spherical harmonics, properly — from the circle to orbitals to the $\delta$&rsquo;s</summary>
+      <div class="inner">
+        <p style="margin-top:8px">Worth nailing once and for all — the same objects run through this calculation, the hydrogen atom, and the cosmic microwave background. Build them up from something you already know.</p>
+
+        <h4 style="margin:16px 0 4px">Start on a circle (the 1-D warm-up)</h4>
+        <p>On a circle, any periodic function expands in Fourier modes $e^{im\phi}$, $m\in\mathbb{Z}$. Here $m$ counts <strong>how many wavelengths fit around the circle</strong>, and the modes are orthogonal:</p>
+        $$\int_0^{2\pi} e^{im\phi}\,e^{-im'\phi}\,\dd\phi = 2\pi\,\delta_{mm'}.$$
+        <p>Spherical harmonics are <em>exactly this idea on the 2-sphere</em>: standing waves, labelled by integers, orthogonal, and complete.</p>
+
+        <h4 style="margin:16px 0 4px">The patterns, and their two labels</h4>
+        <p>A spherical harmonic factorises into a "round the equator" part and a "pole-to-pole" part:</p>
+        $$Y_{\ell m}(\theta,\phi)=N_{\ell m}\,\underbrace{P_\ell^{m}(\cos\theta)}_{\text{pole}\,\to\,\text{pole}}\,\underbrace{e^{im\phi}}_{\text{around equator}},\qquad \ell=0,1,2,\dots,\quad m=-\ell,\dots,+\ell.$$
+        <p>For each <strong>degree</strong> $\ell$ there are $2\ell+1$ patterns. You can read both labels straight off the picture:</p>
+        <ul>
+          <li><strong>$\ell$ = total number of nodal lines</strong> — how wiggly the pattern is overall, its "pitch." It is the eigenvalue label: $L^2\,Y_{\ell m}=\ell(\ell+1)\,Y_{\ell m}$.</li>
+          <li><strong>$m$ = how much of that wiggle runs around the equator.</strong> Exactly $|m|$ of the nodal lines are meridians (longitude lines, from the $e^{im\phi}$); the other $\ell-|m|$ are latitude circles. $m$ also fixes the orientation / azimuthal twist.</li>
+        </ul>
+
+        <div class="def"><span class="label">The low ones — you have already seen these</span>
+          $$Y_{00}=\tfrac{1}{\sqrt{4\pi}}\qquad(\text{constant — the global average, a "monopole"})$$
+          $$Y_{10}=\sqrt{\tfrac{3}{4\pi}}\,\cos\theta,\qquad Y_{1,\pm1}=\mp\sqrt{\tfrac{3}{8\pi}}\,\sin\theta\,e^{\pm i\phi}\qquad(\text{dipole — 3 orientations})$$
+          $$Y_{20}=\sqrt{\tfrac{5}{16\pi}}\,(3\cos^2\theta-1)\qquad(\text{quadrupole})$$
+          <p style="margin-top:8px;margin-bottom:0">The shapes $|Y_{\ell m}|^2$ <em>are</em> the <strong>atomic orbitals</strong>: $\ell=0$ the spherical $s$, $\ell=1$ the three $p$ dumbbells, $\ell=2$ the five $d$ cloverleaves. And the <strong>CMB power spectrum</strong> is just the sky&rsquo;s temperature expanded in $Y_{\ell m}$ — each $\ell$ a finer angular scale. You have met these before.</p>
+        </div>
+
+        <h4 style="margin:16px 0 4px">Why "drum modes" is precise, not a metaphor</h4>
+        <p>$Y_{\ell m}$ are the <strong>standing waves of the sphere</strong> — eigenfunctions of the spherical Laplacian:</p>
+        $$\nabla^2_{\text{sphere}}\,Y_{\ell m}=-\ell(\ell+1)\,Y_{\ell m}.$$
+        <p>Each carries a definite "frequency$^2$" $=\ell(\ell+1)$, its pitch. Solve any wave equation on a sphere and it rings as a superposition of these — exactly as a drumhead rings in its Bessel modes. This is also <em>why</em> they appear here: separating the wave equation on spherically-symmetric Schwarzschild <em>forces</em> the angular factor to be a $Y_{\ell m}$.</p>
+
+        <h4 style="margin:16px 0 4px">Orthonormality — the one property the inner product needs</h4>
+        <p>Different patterns are "perpendicular" as functions (their overlap integral vanishes); each is normalised to one. With $\dd\Omega=\sin\theta\,\dd\theta\,\dd\phi$:</p>
+        $$\boxed{\ \int Y_{\ell m}\,Y_{\ell'm'}^{*}\,\dd\Omega=\delta_{\ell\ell'}\,\delta_{mm'}\ }$$
+        <div class="worked"><span class="label">Check it by hand</span>
+          <p><strong>Normalised.</strong> $\displaystyle\int |Y_{00}|^2\,\dd\Omega=\frac{1}{4\pi}\int \dd\Omega=\frac{1}{4\pi}\,(4\pi)=1.$</p>
+          <p style="margin-bottom:0"><strong>Orthogonal.</strong> $\displaystyle\int Y_{00}\,Y_{10}\,\dd\Omega\ \propto\ \int\cos\theta\,\dd\Omega=2\pi\!\int_0^\pi\!\cos\theta\,\sin\theta\,\dd\theta=2\pi\Big[\tfrac12\sin^2\theta\Big]_0^\pi=0.$ A constant and a $\cos\theta$ simply average to zero over the sphere.</p>
+        </div>
+
+        <h4 style="margin:16px 0 4px">Completeness</h4>
+        <p>Orthonormal <em>and</em> complete, so any function on the sphere is a sum of them — a Fourier series on the 2-sphere:</p>
+        $$f(\theta,\phi)=\sum_{\ell=0}^{\infty}\sum_{m=-\ell}^{\ell} a_{\ell m}\,Y_{\ell m}(\theta,\phi),\qquad a_{\ell m}=\int f\,Y_{\ell m}^{*}\,\dd\Omega.$$
+
+        <div class="flow"><span class="label">Why this nails the Hawking step</span>
+          <p>Schwarzschild is spherically symmetric, so the field separates, $\phi_{\omega\ell m}\sim \dfrac{R_{\omega\ell}(r)}{r}\,Y_{\ell m}(\Omega)\,e^{-i\omega t}$, and <strong>different $(\ell,m)$ never mix</strong> (angular momentum is conserved). In the inner product the angular integral <em>is</em> the orthonormality relation above, collapsing to $\delta_{\ell\ell'}\delta_{mm'}$ — every $(\ell,m)$ channel is independent. So Hawking solves <em>one</em> $\ell$ at a time; all $2\ell+1$ of its $m$-values give the same answer (degeneracy); and the angular harmonics ride along as <strong>spectators</strong> while the real work happens in the 1-D radial/time problem.</p>
+        </div>
+      </div>
+    </details>
 
     <h2 class="module" id="M6"><span class="mnum">Module 6</span>Positive/negative frequency and the vacuum ambiguity</h2>
 
