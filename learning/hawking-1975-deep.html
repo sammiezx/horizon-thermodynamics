@@ -556,6 +556,34 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     $$ \omega_{\rm local} \sim \omega\,e^{\kappa u} \;\;(\text{as } u \to \infty). $$
     <p>For any fixed $u$ large enough, $\omega_{\rm local}$ exceeds the spacetime curvature scale $\sim 1/M$. The mode is locally very high frequency compared to the geometry — exactly the regime where geometric optics is exact. This justifies the WKB approximation.</p>
 
+    <details class="more">
+      <summary>How $\omega_{\rm local}\sim\omega\,e^{\kappa u}$ — the derivation</summary>
+      <div class="inner">
+        <p style="margin-top:8px">This exponential is the same Kruskal relation from Module&nbsp;3A, now wearing the hat of a <em>blueshift</em>. Two clocks tell the whole story.</p>
+
+        <p><strong>The mode and the two clocks.</strong> The outgoing mode at $\Jp$ oscillates in <em>retarded time</em> $u$ — the distant static observer&rsquo;s clock:</p>
+        $$\phi\propto e^{-i\omega u},\qquad \text{phase}\ \psi=-\omega u.$$
+        <p>That observer counts crests per unit $u$ and calls it $\omega=|\dd\psi/\dd u|$. A <em>local</em> observer near the horizon measures frequency against <em>their own</em> clock — proper time $\tau$, which near the horizon is the affine (Kruskal) parameter. So</p>
+        $$\omega_{\rm local}=\Big|\frac{\dd\psi}{\dd\tau}\Big|=\omega\,\Big|\frac{\dd u}{\dd\tau}\Big|.$$
+        <p>Everything sits in that conversion factor $\dd u/\dd\tau$.</p>
+
+        <p><strong>The conversion factor is exponential.</strong> From Modules&nbsp;2 and 3A, the regular (horizon-crossing) coordinate and retarded time are related by the Kruskal exponential, with $\tau\propto U$ near the horizon:</p>
+        $$U=-\frac1\kappa e^{-\kappa u}\ \Longrightarrow\ \frac{\dd U}{\dd u}=e^{-\kappa u}=-\kappa U\ \Longrightarrow\ \Big|\frac{\dd u}{\dd U}\Big|=e^{\kappa u}.$$
+        <div class="keyresult">
+          $$\omega_{\rm local}\ \propto\ \omega\,\Big|\frac{\dd u}{\dd U}\Big|\ =\ \omega\,e^{\kappa u}.$$
+        </div>
+        <p>As $u\to\infty$ — a ray emerging at very late retarded time grazed the horizon when traced back — $\omega_{\rm local}\to\infty$, the unbounded blueshift.</p>
+
+        <div class="remark"><span class="label">Why, physically</span>
+          <p style="margin-bottom:0">Distant time $u$ and the local near-horizon clock are related <em>exponentially</em> (the Kruskal map): one tick of the local clock is $e^{\kappa u}$ ticks of $u$, so the same wave train packs $e^{\kappa u}$ more oscillations per unit local time the closer you trace it. Equivalently it is plain <strong>gravitational blueshift</strong> — a static observer where the redshift factor is $V=\sqrt{1-2M/r}$ sees $\omega/V$, and the ray reaching infinity at late $u$ sat where $V\propto e^{-\kappa u}$, so $\omega_{\rm local}=\omega/V\propto\omega\,e^{\kappa u}$. Same $\kappa$, same exponential.</p>
+        </div>
+
+        <div class="flow"><span class="label">The same exponential, twice</span>
+          <p style="margin-bottom:0">This blueshift and the thermal spectrum (Modules&nbsp;13–18) are <em>the same fact</em> — the affine↔Killing exponential $U\propto e^{-\kappa u}$. That is exactly why the trans-Planckian caveat below bites: the very mechanism that makes the spectrum thermal also drives $\omega_{\rm local}$ past the Planck scale.</p>
+        </div>
+      </div>
+    </details>
+
     <div class="warn"><span class="label">But — the trans-Planckian problem (Module 28)</span>
       As $u \to \infty$, $\omega_{\rm local}$ eventually exceeds the Planck scale, at which point unknown quantum-gravity physics presumably modifies the calculation. Hawking 1975 ignores this. Whether the final answer is robust against trans-Planckian modifications is a subtle, much-discussed question — the answer is broadly "yes" but requires careful argument (e.g., Unruh 1995 on the supersonic dumb-hole analog).
     </div>
