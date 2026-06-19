@@ -557,39 +557,34 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     <p>For any fixed $u$ large enough, $\omega_{\rm local}$ exceeds the spacetime curvature scale $\sim 1/M$. The mode is locally very high frequency compared to the geometry — exactly the regime where geometric optics is exact. This justifies the WKB approximation.</p>
 
     <details class="more">
-      <summary>How $\omega_{\rm local}\sim\omega\,e^{\kappa u}$ — the derivation</summary>
+      <summary>How $\omega_{\rm local}\sim\omega\,e^{\kappa u}$ — and <em>why</em> it is exponential, not just big</summary>
       <div class="inner">
-        <p style="margin-top:8px">This exponential is the same Kruskal relation from Module&nbsp;3A, now wearing the hat of a <em>blueshift</em>. Two clocks tell the whole story.</p>
 
-        <p><strong>The mode and the two clocks.</strong> The outgoing mode at $\Jp$ oscillates in <em>retarded time</em> $u$ — the distant static observer&rsquo;s clock:</p>
-        $$\phi\propto e^{-i\omega u},\qquad \text{phase}\ \psi=-\omega u.$$
-        <p>That observer counts crests per unit $u$ and calls it $\omega=|\dd\psi/\dd u|$. A <em>local</em> observer near the horizon measures frequency against <em>their own</em> clock — proper time $\tau$, which near the horizon is the affine (Kruskal) parameter. So</p>
-        $$\omega_{\rm local}=\Big|\frac{\dd\psi}{\dd\tau}\Big|=\omega\,\Big|\frac{\dd u}{\dd\tau}\Big|.$$
-        <p>Everything sits in that conversion factor $\dd u/\dd\tau$.</p>
+        <p style="margin-top:8px"><strong>The one reframe.</strong> A wave is a train of crests, and &ldquo;frequency&rdquo; means <em>how many crests pass you per second, on your own clock.</em> Far from the hole an escaping wave has an ordinary frequency $\omega$. Trace that same wave back to an observer <strong>hovering</strong> just outside the horizon (it takes rockets — holding station near a black hole is hard work), whose clock is nearly frozen: the same crests, divided by a tiny sliver of <em>their</em> local time, give an enormous frequency. The blueshift lives entirely in the <em>denominator</em> — the slow clock — not in the wave.</p>
 
-        <p><strong>The conversion factor is exponential.</strong> From Modules&nbsp;2 and 3A, the regular (horizon-crossing) coordinate and retarded time are related by the Kruskal exponential, with $\tau\propto U$ near the horizon:</p>
-        $$U=-\frac1\kappa e^{-\kappa u}\ \Longrightarrow\ \frac{\dd U}{\dd u}=e^{-\kappa u}=-\kappa U\ \Longrightarrow\ \Big|\frac{\dd u}{\dd U}\Big|=e^{\kappa u}.$$
+        <p>You already know the mirror image: light climbing <em>out</em> gets <strong>redshifted</strong> (stretched, reddened). Tracing a wave <em>in</em> toward the horizon is that movie run backward — squeezed to higher frequency. The only thing left to explain is <em>why the squeeze is exponential.</em></p>
+
+        <p><strong>Label each wave by its escape time $u$</strong> — the moment it finally reaches the far telescope. A wave that escapes <em>later</em> had to start from <em>closer to the horizon</em>: rays skimming nearer the horizon linger longer before climbing out, so they emerge later (this is exactly the $u(v)$ relation made precise in Module&nbsp;13). So <em>later $u$ = deeper origin = slower local clock.</em></p>
+
+        <h4 style="margin:16px 0 6px">Why it is exponential (the part worth slowing down on)</h4>
+        <p>The real question: as you hover step by step closer to the horizon, why does the local frequency <strong>multiply</strong> by a fixed factor each step instead of just <em>adding</em> a fixed amount? Because the effect is <strong>self-reinforcing</strong> — the rate at which the blueshift grows is proportional to the blueshift you <em>already</em> have. Equal steps in $u$ don&rsquo;t add to the frequency; they rescale whatever you&rsquo;ve already got by the same factor:</p>
+        $$\omega\ \longrightarrow\ 2\omega\ \longrightarrow\ 4\omega\ \longrightarrow\ 8\omega\ \longrightarrow\ \cdots\qquad(\text{equal steps in }u)$$
+        <p>And &ldquo;growth rate proportional to current size&rdquo; <em>is</em> the definition of an exponential. The proportionality constant — the multiplier per unit of far-away time — <strong>is the surface gravity $\kappa$</strong> — roughly, <em>how steeply the clocks slow as you descend toward the horizon</em> (the hole&rsquo;s pull measured right at the horizon), the same $\kappa$ from Module&nbsp;3 that sets the temperature. One line says it all:</p>
         <div class="keyresult">
-          $$\omega_{\rm local}\ \propto\ \omega\,\Big|\frac{\dd u}{\dd U}\Big|\ =\ \omega\,e^{\kappa u}.$$
+          $$\frac{\dd\,\omega_{\rm local}}{\dd u}=\kappa\,\omega_{\rm local}\qquad\Longrightarrow\qquad \boxed{\ \omega_{\rm local}\sim\omega\,e^{\kappa u}\ }.$$
         </div>
-        <p>As $u\to\infty$ — a ray emerging at very late retarded time grazed the horizon when traced back — $\omega_{\rm local}\to\infty$, the unbounded blueshift.</p>
+        <p>A constant <em>multiplicative</em> rate $\Rightarrow$ exponential — the same move as the 1-D dilation $\dd x/\dd u = ax \Rightarrow x\propto e^{au}$ in the <a href="why-horizon-non-affine.html">non-affinity note</a>. And the horizon is an <em>unbounded</em> number of these doublings away — it sits at $u\to\infty$, infinitely many e-folds packed into a finite proper distance — so as a ray grazes the horizon $\omega_{\rm local}$ does not merely get large, it <strong>diverges</strong>.</p>
 
-        <h4 style="margin:16px 0 4px">The physical picture — why there is any frequency at all</h4>
-        <p>Surfaces of constant $u$ are the outgoing <em>wavefronts</em>; a photon rides one and stays at fixed $u$. But the <strong>observer is not the light</strong>. A massive observer moves on a timelike worldline, and a timelike worldline cannot sit on a single (null) wavefront — that would mean travelling at the speed of light. So the observer is <strong>swept through</strong> successive wavefronts, and $u$ climbs along their worldline. The frequency they measure <em>is</em> that crossing rate, $\dd u/\dd\tau$.</p>
-        <p>Picture ocean swell rolling past a buoy: each crest travels its own path while the buoy bobs as crest after crest passes — at a rate set by how fast the crests sweep over it. You would feel <em>no</em> oscillation only by surfing along with a single crest; for light that is forbidden, so every real observer is hit by all of them. Near the horizon the observer&rsquo;s own clock runs so slowly that a torrent of crests washes over each second — that torrent <em>is</em> the blueshift.</p>
+        <h4 style="margin:16px 0 6px">Where the rate $\kappa$ actually comes from</h4>
+        <p><em>(The intuition above already gives the answer; this box is the formal backing — skip it if calculus isn&rsquo;t your thing.)</em> Why $\kappa$ specifically, and not some other rate? Because the hovering observer&rsquo;s clock stays <strong>regular</strong> (finite, well-behaved) right up to the horizon, whereas the far observer&rsquo;s retarded time $u$ runs off to infinity there. The coordinate that <em>is</em> regular at the horizon is the Kruskal $U$ (Modules&nbsp;2–3A), so the hoverer&rsquo;s proper time tracks $U$, not $u$ — and that very mismatch between the regular clock and $u$ <em>is</em> the redshift. They are tied by the exponential we already built:</p>
+        $$\tau\propto U=-\tfrac1\kappa e^{-\kappa u}\ \Longrightarrow\ \dd\tau\propto \dd U=e^{-\kappa u}\,\dd u\ \Longrightarrow\ \omega_{\rm local}=\omega\,\Big|\frac{\dd u}{\dd\tau}\Big|\propto\omega\,e^{\kappa u}.$$
+        <p>This is the <em>same</em> result as the self-reinforcing argument above, with the <em>same</em> $\kappa$ — that argument gives the <em>shape</em> (exponential), this one pins the <em>rate</em> from the geometry. The single fact both rest on — that $U$, not $u$, is the regular clock at the horizon — is the whole content of the <a href="why-horizon-non-affine.html">non-affinity note</a>.</p>
 
-        <div class="flow"><span class="label">Gedanken — a relay of hovering observers</span>
-          <p>String a chain of observers <em>hovering</em> at fixed radii (firing rockets to hold station), marching ever closer to $r=2M$. Send one outgoing wave through. Each measures its local frequency as the wavefronts cross them; the deeper ones, whose clocks run slower, count more crests per second — a higher frequency. So far this is ordinary gravitational blueshift.</p>
-          <p style="margin-bottom:0">Now the sharp part, straight from the Kruskal map: <strong>equal steps of &ldquo;lateness&rdquo; $\Delta u$ multiply the measured frequency by the same factor $e^{\kappa\,\Delta u}$.</strong> The blueshift is not arithmetic but <em>geometric</em> — each fixed increment toward the horizon multiplies the frequency <em>again</em>, so it runs off to infinity exponentially rather than linearly. That constant multiplicative rate per unit retarded time is precisely the surface gravity: the hole&rsquo;s near-horizon clock is an <strong>exponential gearbox, and $\kappa$ is its gear ratio.</strong> This is the same $\kappa$ that will set the Hawking temperature — here you can <em>see</em> it as the rate at which the blueshift compounds.</p>
-        </div>
-
-        <div class="remark"><span class="label">Why, physically</span>
-          <p style="margin-bottom:0">Distant time $u$ and the local near-horizon clock are related <em>exponentially</em> (the Kruskal map): one tick of the local clock is $e^{\kappa u}$ ticks of $u$, so the same wave train packs $e^{\kappa u}$ more oscillations per unit local time the closer you trace it. Equivalently it is plain <strong>gravitational blueshift</strong> — a static observer where the redshift factor is $V=\sqrt{1-2M/r}$ sees $\omega/V$, and the ray reaching infinity at late $u$ sat where $V\propto e^{-\kappa u}$, so $\omega_{\rm local}=\omega/V\propto\omega\,e^{\kappa u}$. Same $\kappa$, same exponential.</p>
+        <div class="flow"><span class="label">Gedanken — the bucket brigade of hoverers</span>
+          <p style="margin-bottom:0">Line up observers hovering at fixed heights, each lower one nearer $r=2M$, holding station with rockets. Send one wave down. Each reads a higher frequency than the one above — and crucially, step a <em>fixed</em> distance lower and the reading does not climb by a fixed <em>amount</em>; it <strong>multiplies</strong> by the same factor again, $\omega\to2\omega\to4\omega\to8\omega$. Geometric, not arithmetic, because the slowdown feeds on itself (above). Run the brigade to the horizon and the frequency runs to infinity — $\kappa$ is the multiplier per step, and it is the very same exponential that becomes the thermal spectrum in Modules&nbsp;13–18.</p>
         </div>
 
-        <div class="flow"><span class="label">The same exponential, twice</span>
-          <p style="margin-bottom:0">This blueshift and the thermal spectrum (Modules&nbsp;13–18) are <em>the same fact</em> — the affine↔Killing exponential $U\propto e^{-\kappa u}$. That is exactly why the trans-Planckian caveat below bites: the very mechanism that makes the spectrum thermal also drives $\omega_{\rm local}$ past the Planck scale.</p>
-        </div>
+        <p style="margin-bottom:0"><strong>Why Module&nbsp;11 cares:</strong> $\omega_{\rm local}\to\infty$ means the local wavelength shrinks far below the curvature scale $M$, so geometric optics becomes exact. (And it is the same exponential that, pushed past the Planck scale, raises the trans-Planckian caveat below.)</p>
       </div>
     </details>
 
