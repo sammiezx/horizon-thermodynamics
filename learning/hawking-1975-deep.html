@@ -652,12 +652,31 @@ Overall          ~95/100  outstanding masterpiece; founding document.
 
     <h2 class="module" id="M16"><span class="mnum">Module 16</span>The two integrals — $\alpha$ and $\beta$</h2>
 
-    <p>Substitute into the KG inner product on $\Jm$:</p>
-    $$ \alpha_{\omega\omega'} \;=\; -i\int_{-\infty}^{v_0}\dd v\,\bigl[f^{\rm out}_\omega\,\pa_v (f^{\rm in}_{\omega'})^* - (f^{\rm in}_{\omega'})^*\,\pa_v f^{\rm out}_\omega\bigr]. $$
-    <p>With $f^{\rm in}_{\omega'} = e^{-i\omega' v}/\sqrt{4\pi\omega'}$, the action of $i\pa_v$ on $(f^{\rm in})^*$ pulls down $-\omega'$. After bookkeeping, the inner product reduces, in the relevant regime $v$ near $v_0$, to</p>
-    $$ \alpha_{\omega\omega'} \;\propto\; \sqrt{\frac{\omega'}{\omega}}\,C^{-i\omega/\kappa}\,e^{-i\omega' v_0}\int_0^\infty x^{i\omega/\kappa}\,e^{-i\omega' x}\,\dd x, $$
-    <p>$$ \beta_{\omega\omega'} \;\propto\; \sqrt{\frac{\omega'}{\omega}}\,C^{-i\omega/\kappa}\,e^{+i\omega' v_0}\int_0^\infty x^{i\omega/\kappa}\,e^{+i\omega' x}\,\dd x, $$</p>
-    <p>where the substitution $x = v_0 - v$ has been made and the lower limit of integration extended to $-\infty$ on $\Jm$ giving the upper limit $\infty$ in $x$. The minor numerical constants are absorbed; only the integrals matter for the ratio $|\beta|/|\alpha|$.</p>
+    <h4 style="margin:14px 0 6px">First — what are $\alpha$ and $\beta$, really?</h4>
+    <p>The field has two natural sets of modes. The <strong>in-modes</strong> $f^{\rm in}_{\omega'}\propto e^{-i\omega'v}$ live on $\Jm$ and define the vacuum the star starts in. The <strong>out-modes</strong> $f^{\rm out}_\omega$ live on $\Jp$ and are what a late-time detector calls &ldquo;a particle of frequency $\omega$.&rdquo; They are two bases for the same field, related by a <strong>Bogoliubov transformation</strong>:</p>
+    $$ f^{\rm out}_\omega \;=\; \int_0^\infty\!\dd\omega'\,\bigl[\,\alpha_{\omega\omega'}\,f^{\rm in}_{\omega'} \;+\; \beta_{\omega\omega'}\,(f^{\rm in}_{\omega'})^{*}\,\bigr]. $$
+    <p>The $\alpha$ term is the boring part — &ldquo;rewrite one basis in the other.&rdquo; The $\beta$ term is everything: it mixes in the <em>complex-conjugate</em> in-modes, i.e. the <em>negative</em>-frequency ones. Blending positive and negative frequency is precisely what makes one observer&rsquo;s vacuum look like another&rsquo;s particles. In fact the number of out-quanta sitting in the in-vacuum is</p>
+    <div class="keyresult" style="margin:10px 0">
+      $$ \langle N_\omega\rangle \;=\; \int_0^\infty\!\dd\omega'\,|\beta_{\omega\omega'}|^2. $$
+    </div>
+    <p>So <strong>$\beta$ <em>is</em> the particle-creation amplitude</strong>: if $\beta=0$ the two vacua agree and the hole is dark; $\beta\neq0$ is Hawking radiation. Everything below is just getting $\beta$ (and $\alpha$, which we need for normalisation).</p>
+
+    <h4 style="margin:16px 0 6px">How you pull them out — overlaps, evaluated on $\Jm$</h4>
+    <p>The coefficients are simply the out-mode&rsquo;s overlaps with the in-modes, measured by the Klein–Gordon inner product:</p>
+    $$ \alpha_{\omega\omega'}=\bigl(f^{\rm out}_\omega,\,f^{\rm in}_{\omega'}\bigr),\qquad \beta_{\omega\omega'}=-\bigl(f^{\rm out}_\omega,\,(f^{\rm in}_{\omega'})^{*}\bigr). $$
+    <p>Here is the one trick that makes it doable: that inner product is <strong>conserved</strong> (Module&nbsp;5), so we can evaluate it on whatever surface we like — and we choose $\Jm$, the one place we know <em>both</em> functions. There the in-modes are plain waves $e^{-i\omega'v}$, and the out-mode is the back-propagated $(v_0-v)^{i\omega/\kappa}$ from Module&nbsp;15. (That power law is nothing exotic — it is $e^{\,i(\omega/\kappa)\ln(v_0-v)}$, the Module&nbsp;13 logarithm simply exponentiated. The whole near-horizon story is hiding inside that exponent.)</p>
+
+    <h4 style="margin:16px 0 6px">Plug in, and one clean substitution</h4>
+    <p>On $\Jm$ the inner product is just $-i\!\int\!\dd v$ of the $\pa_v$ current (Module&nbsp;5). Acting with $\pa_v$ on a plane wave $e^{\pm i\omega'v}$ only pulls down its frequency $\pm i\omega'$ — no real work — so each coefficient collapses to a single integral over the rays that escape, $v<v_0$:</p>
+    $$ \alpha_{\omega\omega'}\ \propto\ \sqrt{\tfrac{\omega'}{\omega}}\!\int_{-\infty}^{v_0}\!\!\dd v\,(v_0-v)^{i\omega/\kappa}\,e^{+i\omega'v},\qquad \beta_{\omega\omega'}\ \propto\ \sqrt{\tfrac{\omega'}{\omega}}\!\int_{-\infty}^{v_0}\!\!\dd v\,(v_0-v)^{i\omega/\kappa}\,e^{-i\omega'v}. $$
+    <p>Now substitute $x=v_0-v$ — read it as &ldquo;<em>how far below the last escaping ray</em> $v_0$.&rdquo; Then $(v_0-v)^{i\omega/\kappa}=x^{i\omega/\kappa}$, the limits $v\!:\!-\infty\!\to\!v_0$ become $x\!:\!\infty\!\to\!0$, and the plane waves contribute only a pure phase $e^{\mp i\omega'v_0}$ (which cancels in $|\beta/\alpha|$):</p>
+    <div class="keyresult">
+      $$ \alpha_{\omega\omega'}\ \propto\ \int_0^\infty\! x^{\,i\omega/\kappa}\,e^{-i\omega'x}\,\dd x,\qquad \beta_{\omega\omega'}\ \propto\ \int_0^\infty\! x^{\,i\omega/\kappa}\,e^{+i\omega'x}\,\dd x. $$
+    </div>
+
+    <div class="flow"><span class="label">The one thing to notice</span>
+      <p style="margin-bottom:0">$\alpha$ and $\beta$ are the <em>same integral with $\omega'\to-\omega'$</em> — the only difference is $e^{-i\omega'x}$ versus $e^{+i\omega'x}$. So their <em>ratio</em> is decided entirely by how the power $x^{i\omega/\kappa}$ reacts to flipping the sign of the frequency. A power law reacts to that by a clean factor $e^{-\pi\omega/\kappa}$ — and <em>that</em> is where the temperature comes from (Module&nbsp;17). Hold onto this: the thermal spectrum is just the asymmetry between $+\omega'$ and $-\omega'$ in this one integral.</p>
+    </div>
 
     <h2 class="module" id="M17"><span class="mnum">Module 17</span>The integrals — analytic continuation</h2>
 
