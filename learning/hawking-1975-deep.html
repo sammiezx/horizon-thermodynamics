@@ -593,28 +593,43 @@ Overall          ~95/100  outstanding masterpiece; founding document.
 
     <h2 class="module" id="M13"><span class="mnum">Module 13</span>Derivation of $u \approx -\kappa^{-1}\ln(v_0 - v)$</h2>
 
-    <p>This is the central technical step. Hawking states it as eq. (2.4)–(2.6) of the original paper without full derivation. Here it is.</p>
+    <p>This is the heart of the paper — and it is the <em>same logarithm</em> as the frozen star (Module&nbsp;11), now written as the relation between an <em>incoming</em> ray and the <em>outgoing</em> ray it turns into.</p>
 
-    <p><strong>Step 1.</strong> Consider an outgoing null geodesic in the exterior Schwarzschild region, hovering just outside the horizon. Its affine parameter satisfies</p>
-    $$ \frac{\dd r}{\dd u} \;=\; \half\,\bigl(1 - \tfrac{2M}{r}\bigr) \;\equiv\; \half\,f(r). $$
-    <p>Near the horizon, $f(r) \approx \kappa\cdot 2(r - 2M) \cdot (1/(2M))$. More precisely:</p>
-    $$ f(r) = \frac{r - 2M}{r} \approx \frac{r - 2M}{2M} \;\;\text{as } r \to 2M. $$
-    <p>Let $\rho \equiv r - 2M$. Then $f \approx \rho/(2M)$ and $\dd r/\dd u = \dd\rho/\dd u \approx \rho/(4M) = \kappa\rho$. Solve:</p>
-    $$ \rho(u) \approx \rho_0\,e^{\kappa u},\qquad r(u) - 2M \approx \rho_0\,e^{\kappa u}. $$
+    <figure class="diagram">
+      <svg viewBox="0 0 560 300" role="img" aria-label="Collapsing star: ingoing rays reflect through the centre and emerge; rays just inside the last one pile up at late times">
+        <defs><marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#3a352e"/></marker></defs>
+        <polygon points="68,286 300,286 210,150 68,150" fill="rgba(110,102,96,0.13)"/>
+        <line x1="300" y1="286" x2="210" y2="150" stroke="#6a6660" stroke-width="1.2"/>
+        <text x="98" y="250" font-size="11" fill="#6a6660" font-family="sans-serif">collapsing star</text>
+        <line x1="68" y1="26" x2="68" y2="286" stroke="#6a6660" stroke-width="1.5"/>
+        <text x="42" y="22" font-size="10.5" fill="#6a6660" font-family="sans-serif">r = 0</text>
+        <line x1="210" y1="26" x2="210" y2="150" stroke="#8a3a18" stroke-width="1.6" stroke-dasharray="5 4"/>
+        <text x="216" y="38" font-size="10.5" fill="#8a3a18" font-family="sans-serif">horizon r = 2M</text>
+        <text x="503" y="270" font-size="13" fill="#6a6660" font-family="Georgia,serif">&#8464;&#8315;</text>
+        <text x="503" y="54" font-size="13" fill="#6a6660" font-family="Georgia,serif">&#8464;&#8314;</text>
+        <polyline points="500,256 68,150 500,74" fill="none" stroke="#1f6e7e" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="470" y="252" font-size="10.5" fill="#1f6e7e" font-family="sans-serif">v&#8321;</text>
+        <text x="470" y="86" font-size="10.5" fill="#1f6e7e" font-family="sans-serif">u&#8321;</text>
+        <polyline points="500,206 68,116 213,48 500,36" fill="none" stroke="#8a3a18" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="462" y="203" font-size="10.5" fill="#8a3a18" font-family="sans-serif">v&#8322;&#8594;v&#8320;</text>
+        <text x="448" y="30" font-size="10.5" fill="#8a3a18" font-family="sans-serif">u&#8322; (late)</text>
+        <polyline points="500,182 68,110 210,40" fill="none" stroke="#b03020" stroke-width="2"/>
+        <text x="470" y="179" font-size="10.5" fill="#b03020" font-family="sans-serif">v&#8320;</text>
+      </svg>
+      <figcaption>Each ingoing ray (advanced time $v$) reflects through the regular centre $r=0$ and leaves as an outgoing ray (retarded time $u$). The <span style="color:#b03020">last escaping ray $v_0$</span> reflects and just fails to get out — it becomes the horizon. A ray a hair inside it (<span style="color:#8a3a18">$v\to v_0$</span>) skims the forming horizon, so it climbs out <em>much</em> later: a tiny window of $v$ just below $v_0$ smears across <em>all</em> late $u$. That pile-up is the radiation.</figcaption>
+    </figure>
 
-    <p><strong>Step 2.</strong> The ingoing ray that, after reflection from the center, becomes this outgoing ray, hits the star's surface at some $r = r_s(v)$. The Killing-energy of the photon is conserved: $\omega_v = $ constant along the trajectory. The relationship between the ingoing $v$ and the outgoing $u$ comes from the geometry at the reflection point.</p>
+    <p><strong>The one idea.</strong> By the frozen-star logic (Module&nbsp;11), a ray that skims nearer the horizon takes exponentially longer to climb out — so it lands on $\Jp$ at a much later $u$. The effect in one line: <em>a finite sliver of incoming rays just below $v_0$ becomes the entire late-time outgoing history.</em></p>
 
-    <p><strong>Step 3.</strong> Inside the collapsing star and at the reflection (center), the geometry is approximately Minkowski (or some smooth interior), and the matching is regular. The non-trivial part is the redshift between the outgoing-ray's behavior near the horizon and its asymptotic form at $\Jp$.</p>
-
-    <p><strong>Step 4.</strong> The outgoing ray's local affine parameter $\lambda$ near the horizon is related to $u$ by $\lambda \propto e^{\kappa u}$ (since $u$ is the Killing parameter and $\lambda$ is affine, related by the Killing-vector norm $\propto e^{\kappa u}$ in this regime). Hence, $r - 2M \sim \lambda \sim e^{\kappa u}$ as $u \to \infty$.</p>
-
-    <p><strong>Step 5.</strong> Tracing back to $\Jm$: the ingoing ray that, after reflection, emerges as the outgoing ray with retarded time $u$, came in at advanced time $v$ such that the geodesic matching across the star surface gives</p>
-    $$ v_0 - v \;\propto\; r(u) - 2M \;\propto\; e^{-\kappa u}. $$
-    <p>Inverting:</p>
+    <p><strong>The math — two factors, one dramatic and one boring.</strong></p>
+    <p><em>(i) Near the horizon — the drama.</em> From Modules&nbsp;11 / 3A, the regular (Kruskal) outgoing coordinate is $U=-\tfrac1\kappa e^{-\kappa u}$. The entire exponential lives in this one relation.</p>
+    <p><em>(ii) Through the centre — the boring part.</em> The star interior and the reflection at $r=0$ are perfectly smooth — nothing singular happens there — so the map from the incoming ray to the outgoing one is a smooth, locally <strong>linear</strong> relabelling. Hence the outgoing ray&rsquo;s $U$ is simply proportional to how far inside the last ray it began:</p>
+    $$U \;\propto\; (v-v_0) = -(v_0-v).$$
+    <p>Put (i) and (ii) together — that <em>is</em> the derivation:</p>
     <div class="keyresult">
-      $$ u(v) \;\approx\; -\kappa^{-1}\,\ln\!\left(\frac{v_0 - v}{C}\right)\qquad\text{(as $v \to v_0^-$)} $$
+      $$v_0-v \;\propto\; -U \;=\; \tfrac1\kappa e^{-\kappa u}\qquad\Longrightarrow\qquad \boxed{\,u \approx -\kappa^{-1}\ln(v_0-v)\,}\quad(v\to v_0^-).$$
     </div>
-    <p>where $C$ is a constant of order $M$ depending on the collapse details. This is the universal late-time form of the Hawking effect. <em>The logarithm is geometry; $\kappa$ is the rate at which late-time outgoing rays "remember" earlier ingoing rays.</em></p>
+    <p>All the structure is the near-horizon exponential; the collapse only sets the constant. That is precisely why the result is <strong>universal</strong> (Module&nbsp;14): change the star and you change $C$ — never the logarithm, never $\kappa$.</p>
 
     <h2 class="module" id="M14"><span class="mnum">Module 14</span>Why the logarithm is universal (and the matching detail doesn't matter)</h2>
 
