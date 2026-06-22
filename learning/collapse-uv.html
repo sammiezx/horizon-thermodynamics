@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>u(v) &amp; Kruskal — the log map in action</title>
+<meta name="description" content="Interactive: drag the incoming ray's advanced time v toward the last ray v0 and watch it climb out at later and later retarded time u = −κ⁻¹ ln(v0−v); see why Kruskal U is the smooth coordinate.">
+<style>
+  :root{ --bg:#fbf8f1; --fg:#211d18; --muted:#6f675c; --accent:#8a3a18; --soft:#c97a4f;
+    --teal:#1f6e7e; --red:#b03020; --border:#e6ddcc; --card:#fffdf8; --scene:#faf6e9;
+    --serif:"Charter","Iowan Old Style",Georgia,serif; --sans:-apple-system,system-ui,sans-serif; --mono:ui-monospace,Menlo,monospace; --maxw:880px; }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:42px 22px 90px}
+  .eyebrow{font:700 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  h1{font-size:31px;line-height:1.12;margin:0 0 10px;letter-spacing:-0.015em}
+  .sub{color:var(--muted);font-size:16.5px;margin:0 0 24px;max-width:62ch}
+  h2{font-size:14px;font-family:var(--sans);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:34px 0 12px;border-bottom:1px solid var(--border);padding-bottom:7px}
+  .note{background:#f3ede0;border-left:4px solid var(--soft);border-radius:6px;padding:13px 17px;font-size:15.5px;margin:14px 0}
+  .panel{background:var(--scene);border:1px solid var(--border);border-radius:10px;padding:8px}
+  canvas{display:block;width:100%;height:auto;border-radius:6px}
+  .controls{margin:16px 0 4px;font-family:var(--sans);font-size:14px}
+  .controls label{display:flex;align-items:center;gap:12px;color:var(--muted)}
+  input[type=range]{flex:1;accent-color:var(--accent);cursor:pointer}
+  .readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:14px}
+  .ro{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--soft);border-radius:8px;padding:9px 13px}
+  .ro .k{font:600 10.5px/1.3 var(--sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+  .ro .v{font:600 18px/1.2 var(--mono);margin-top:3px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:640px){.two{grid-template-columns:1fr}}
+  .eq{font-family:var(--mono);font-size:14px;background:#f1ece0;border-radius:5px;padding:2px 7px}
+  p{margin:0 0 14px} a{color:var(--accent)}
+  .cap{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.5}
+  footer{margin-top:38px;border-top:1px solid var(--border);padding-top:16px;font-family:var(--sans);font-size:13.5px;color:var(--muted)}
+  footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Interactive · companion to Module 13</div>
+  <h1>u(v): the log map, and Kruskal coordinates</h1>
+  <p class="sub">An ingoing ray (advanced time <em>v</em>) reflects through the centre and leaves as an outgoing ray (retarded time <em>u</em>). Drag <em>v</em> toward the last escaping ray <em>v₀</em> and watch the outgoing ray climb out later and later — the relation is <span class="eq">u = −κ⁻¹ ln(v₀−v)</span>.</p>
+
+  <div class="note">Units: $2M=1$, $\kappa=1$, $v_0=1$ (so $u=-\ln(1-v)$ and the Kruskal coordinate is exactly $U=v-1$). The shapes are the real functional forms; the ray paths are schematic.</div>
+
+  <h2>① The collapse — drag the incoming ray</h2>
+  <div class="panel"><canvas id="scene" width="900" height="470"></canvas></div>
+  <div class="controls"><label>v = 0 &nbsp;<input id="v" type="range" min="0" max="0.997" step="0.001" value="0.5">&nbsp; v₀ (last ray)</label></div>
+  <div class="readouts">
+    <div class="ro"><div class="k">advanced time v</div><div class="v" id="rv">0.500</div></div>
+    <div class="ro"><div class="k">how far inside v₀ &nbsp;(v₀−v)</div><div class="v" id="rg">0.500</div></div>
+    <div class="ro"><div class="k">retarded time u = −ln(v₀−v)</div><div class="v" id="ru">0.69</div></div>
+    <div class="ro"><div class="k">Kruskal U = −(1/κ)e<sup>−κu</sup></div><div class="v" id="rU">−0.500</div></div>
+  </div>
+
+  <div class="two" style="margin-top:22px">
+    <div>
+      <h2>② The map u(v)</h2>
+      <div class="panel" style="background:var(--card)"><canvas id="plot" width="520" height="360"></canvas></div>
+      <p class="cap">A finite window of $v$ just below $v_0$ stretches over <em>all</em> late $u$ — the late-time pile-up that becomes the radiation.</p>
+    </div>
+    <div>
+      <h2>③ Kruskal U in action</h2>
+      <div class="panel" style="background:var(--card)"><canvas id="kruskal" width="520" height="360"></canvas></div>
+      <p class="cap"><strong>Equal steps of Killing time</strong> $u=0,1,2,\dots$ land at $U=-e^{-u}$ — <strong>bunching exponentially</strong> toward the horizon $U=0$. That is why $U$ (not $u$) is the coordinate that stays smooth there: all the late-time rays spread over infinite $u$ live in a tiny <em>regular</em> interval of $U$.</p>
+    </div>
+  </div>
+
+  <h2>What this shows</h2>
+  <p>The whole of Module&nbsp;13 in one move: rays a hair inside $v_0$ skim the forming horizon and so emerge exponentially later. The map $u=-\kappa^{-1}\ln(v_0-v)$ is just the near-horizon exponential $U=-\tfrac1\kappa e^{-\kappa u}$ (dramatic) composed with the smooth, linear reflection through the centre, $U\propto v-v_0$ (boring). Read it backwards and it is the frozen star; quantize it and it is the thermal spectrum.</p>
+
+  <footer>Part of <a href="index.html">Horizon Thermodynamics</a> · companion to <a href="hawking-1975-deep.html#M13">Hawking 1975 — Module 13</a> and the <a href="frozen-star.html">Frozen-Star visualization</a>.</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+<script>window.MathJax={tex:{inlineMath:[['$','$']]}};</script>
+<script>
+(function(){
+  // model: 2M=1, kappa=1, v0=1  ->  u=-ln(1-v),  U=v-1
+  const V=document.getElementById('v');
+  const sc=document.getElementById('scene'), sx=sc.getContext('2d'), SW=sc.width, SH=sc.height;
+  const pl=document.getElementById('plot'), px=pl.getContext('2d'), PW=pl.width, PH=pl.height;
+  const kr=document.getElementById('kruskal'), kx=kr.getContext('2d'), KW=kr.width, KH=kr.height;
+
+  // scene layout
+  const cx=110, xh=320, xe=820, top=44, bot=430;  // centre, horizon, edge(scri)
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function drawScene(v,u){
+    sx.clearRect(0,0,SW,SH); sx.fillStyle='#faf6e9'; sx.fillRect(0,0,SW,SH);
+    // collapsing star
+    sx.fillStyle='rgba(110,102,96,0.13)';
+    sx.beginPath(); sx.moveTo(cx,bot); sx.lineTo(470,bot); sx.lineTo(xh,210); sx.lineTo(cx,210); sx.closePath(); sx.fill();
+    sx.strokeStyle='#6a6660'; sx.lineWidth=1.2; sx.beginPath(); sx.moveTo(470,bot); sx.lineTo(xh,210); sx.stroke();
+    sx.fillStyle='#6a6660'; sx.font='14px -apple-system,sans-serif'; sx.fillText('collapsing star',150,360);
+    // centre
+    sx.strokeStyle='#6a6660'; sx.lineWidth=1.6; sx.beginPath(); sx.moveTo(cx,top); sx.lineTo(cx,bot); sx.stroke();
+    sx.fillText('r = 0',64,top-12);
+    // horizon
+    sx.strokeStyle='#8a3a18'; sx.lineWidth=1.8; sx.setLineDash([6,5]); sx.beginPath(); sx.moveTo(xh,top); sx.lineTo(xh,210); sx.stroke(); sx.setLineDash([]);
+    sx.fillStyle='#8a3a18'; sx.fillText('horizon  r = 2M',xh+8,top+4);
+    // scri labels
+    sx.fillStyle='#6a6660'; sx.font='17px Georgia,serif'; sx.fillText('ℐ⁻',xe+8,bot-6); sx.fillText('ℐ⁺',xe+8,top+12);
+    // the v0 ray (limiting, becomes horizon) — faint
+    sx.strokeStyle='#b03020'; sx.lineWidth=1.6; sx.globalAlpha=.45;
+    sx.beginPath(); sx.moveTo(xe,lerp(bot,210,1)); sx.lineTo(cx,top+34); sx.stroke();
+    sx.beginPath(); sx.moveTo(cx,top+34); sx.lineTo(xh,top+10); sx.stroke(); sx.globalAlpha=1;
+    sx.fillStyle='#b03020'; sx.font='13px -apple-system,sans-serif'; sx.fillText('v₀  (becomes the horizon)',xh+8,top+24);
+
+    // current ray
+    const yIn = lerp(bot-8, 230, v);          // entry on scri-minus rises with v
+    const yP  = lerp(bot-70, top+40, v);      // reflection point on centre rises with v
+    const yLand = top + (bot-120-top)*Math.exp(-u/2.4) + 10; // landing on scri+ rises (toward top) as u grows
+    // ingoing leg
+    sx.strokeStyle='#1f6e7e'; sx.lineWidth=2.4;
+    sx.beginPath(); sx.moveTo(xe,yIn); sx.lineTo(cx,yP); sx.stroke();
+    // outgoing leg: bend at the horizon (hug it for late u)
+    sx.strokeStyle='#8a3a18'; sx.lineWidth=2.4;
+    sx.beginPath(); sx.moveTo(cx,yP); sx.quadraticCurveTo(xh,yLand, xe,yLand); sx.stroke();
+    // landing dot
+    sx.fillStyle='#8a3a18'; sx.beginPath(); sx.arc(xe,yLand,5,0,7); sx.fill();
+    sx.fillStyle='#1f6e7e'; sx.beginPath(); sx.arc(xe,yIn,5,0,7); sx.fill();
+    // labels
+    sx.fillStyle='#1f6e7e'; sx.font='13px -apple-system,sans-serif'; sx.fillText('v',xe+8,yIn+4);
+    sx.fillStyle='#8a3a18'; sx.fillText('u',xe+8,yLand+4);
+  }
+
+  function drawPlot(v,u){
+    px.clearRect(0,0,PW,PH); px.fillStyle='#fffdf8'; px.fillRect(0,0,PW,PH);
+    const pad=42, x0=pad, x1=PW-14, y0=PH-30, y1=20, umax=6;
+    // axes
+    px.strokeStyle='#e6ddcc'; px.lineWidth=1; px.beginPath(); px.moveTo(x0,y1); px.lineTo(x0,y0); px.lineTo(x1,y0); px.stroke();
+    px.fillStyle='#6f675c'; px.font='12px -apple-system,sans-serif';
+    px.fillText('u',x0-30,y1+8); px.fillText('v',x1-12,y0+20); px.fillText('v₀',x1-14,y0-4);
+    const X=vv=>lerp(x0,x1,vv), Y=uu=>lerp(y0,y1,Math.min(uu,umax)/umax);
+    // curve u=-ln(1-v)
+    px.strokeStyle='#8a3a18'; px.lineWidth=2.2; px.beginPath();
+    for(let i=0;i<=300;i++){ const vv=i/300*0.995, uu=-Math.log(1-vv); const xx=X(vv),yy=Y(uu); i?px.lineTo(xx,yy):px.moveTo(xx,yy); }
+    px.stroke();
+    // current point
+    px.fillStyle='#1f6e7e'; px.beginPath(); px.arc(X(v),Y(u),5,0,7); px.fill();
+    px.strokeStyle='#1f6e7e'; px.setLineDash([3,3]); px.beginPath(); px.moveTo(X(v),y0); px.lineTo(X(v),Y(u)); px.lineTo(x0,Y(u)); px.stroke(); px.setLineDash([]);
+  }
+
+  function drawKruskal(v,u){
+    kx.clearRect(0,0,KW,KH); kx.fillStyle='#fffdf8'; kx.fillRect(0,0,KW,KH);
+    const x0=40, x1=KW-30, yax=KH*0.46;
+    // U axis from -1 (left) to 0 (right=horizon)
+    kx.strokeStyle='#bcae98'; kx.lineWidth=1.5; kx.beginPath(); kx.moveTo(x0,yax); kx.lineTo(x1,yax); kx.stroke();
+    const XU=U=>lerp(x0,x1, U+1);  // U in [-1,0] -> [x0,x1]
+    // horizon marker at U=0
+    kx.strokeStyle='#8a3a18'; kx.setLineDash([5,4]); kx.beginPath(); kx.moveTo(x1,yax-46); kx.lineTo(x1,yax+30); kx.stroke(); kx.setLineDash([]);
+    kx.fillStyle='#8a3a18'; kx.font='12px -apple-system,sans-serif'; kx.fillText('horizon U=0',x1-92,yax-52);
+    kx.fillStyle='#6f675c'; kx.fillText('U=−1',x0-6,yax+44);
+    // equal-u ticks at U=-e^{-u}
+    kx.fillStyle='#6f675c'; kx.font='11px ui-monospace,monospace';
+    for(let n=0;n<=6;n++){ const U=-Math.exp(-n); const xx=XU(U);
+      kx.strokeStyle='#1f6e7e'; kx.lineWidth=2; kx.beginPath(); kx.moveTo(xx,yax-12); kx.lineTo(xx,yax+12); kx.stroke();
+      kx.fillText('u='+n, xx-9, yax+28); }
+    kx.fillStyle='#1f6e7e'; kx.font='12px -apple-system,sans-serif'; kx.fillText('equal Killing-time steps →', x0, yax-30);
+    // current ray U=v-1
+    const Ucur=v-1, xc=XU(Ucur);
+    kx.fillStyle='#8a3a18'; kx.beginPath(); kx.arc(xc,yax,6,0,7); kx.fill();
+    kx.fillStyle='#8a3a18'; kx.font='12px -apple-system,sans-serif'; kx.fillText('this ray', xc-18, yax-20);
+  }
+
+  const rv=document.getElementById('rv'),rg=document.getElementById('rg'),ru=document.getElementById('ru'),rU=document.getElementById('rU');
+  function update(){
+    const v=parseFloat(V.value), g=1-v, u=-Math.log(g), U=v-1;
+    drawScene(v,u); drawPlot(v,u); drawKruskal(v,u);
+    rv.textContent=v.toFixed(3); rg.textContent=g.toFixed(3);
+    ru.textContent=(u>9?'∞ (→)':u.toFixed(2)); rU.textContent=U.toFixed(3);
+  }
+  V.addEventListener('input',update); update();
+})();
+</script>
+</body>
+</html>
