@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Frozen Star — see the redshift / blueshift in action</title>
+<meta name="description" content="An interactive visualization of the frozen star: light crawling near a black-hole horizon, Alice freezing and reddening, and the exponential blueshift ω_local ~ ω e^{κu}.">
+<style>
+  :root{
+    --bg:#fbf8f1; --fg:#211d18; --muted:#6f675c; --accent:#8a3a18; --soft:#c97a4f;
+    --teal:#1f6e7e; --border:#e6ddcc; --card:#fffdf8; --space:#0e0c14;
+    --serif:"Charter","Iowan Old Style",Georgia,serif; --sans:-apple-system,system-ui,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace; --maxw:860px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:42px 22px 90px}
+  .eyebrow{font:700 12px/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+  h1{font-size:32px;line-height:1.12;margin:0 0 10px;letter-spacing:-0.015em}
+  .sub{color:var(--muted);font-size:16.5px;margin:0 0 26px;max-width:60ch}
+  h2{font-size:14px;font-family:var(--sans);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:36px 0 12px;border-bottom:1px solid var(--border);padding-bottom:7px}
+  .panel{background:var(--space);border:1px solid #241f30;border-radius:12px;padding:10px;box-shadow:0 10px 30px rgba(40,25,15,.12)}
+  canvas{display:block;width:100%;height:auto;border-radius:8px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin:14px 0 4px;font-family:var(--sans);font-size:13.5px}
+  button{font:600 13.5px var(--sans);color:#fff;background:var(--accent);border:none;border-radius:7px;padding:8px 16px;cursor:pointer;transition:.12s}
+  button:hover{background:var(--soft)}
+  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--soft)}
+  label.ctl{display:flex;align-items:center;gap:8px;color:var(--muted)}
+  input[type=range]{accent-color:var(--accent);cursor:pointer}
+  .readouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
+  .ro{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--soft);border-radius:8px;padding:10px 13px}
+  .ro .k{font:600 11px/1.3 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+  .ro .v{font:600 19px/1.2 var(--mono);color:var(--fg);margin-top:3px}
+  .ro .v small{font-size:12px;color:var(--muted)}
+  p{margin:0 0 14px} a{color:var(--accent)}
+  .eq{font-family:var(--mono);font-size:14px;background:#f1ece0;border-radius:5px;padding:2px 7px}
+  .note{background:#f3ede0;border-left:4px solid var(--soft);border-radius:6px;padding:13px 17px;font-size:15.5px;margin:16px 0}
+  .legend{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin-top:8px;display:flex;gap:18px;flex-wrap:wrap}
+  .sw{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin-right:5px}
+  footer{margin-top:40px;border-top:1px solid var(--border);padding-top:18px;font-family:var(--sans);font-size:13.5px;color:var(--muted)}
+  footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="eyebrow">Interactive · horizon thermodynamics</div>
+  <h1>The Frozen Star</h1>
+  <p class="sub">Watch light <em>crawl</em> near a black-hole horizon — and watch Alice freeze and redden as she falls. The whole of Hawking's blueshift, <span class="eq">ω_local ~ ω·e^{κu}</span>, lives in this one picture.</p>
+
+  <div class="note">
+    <strong>The one fact driving everything:</strong> for an outgoing light ray in Schwarzschild, <span class="eq">dr/dt = 1 − 2M/r</span>. Far away that's ≈1 (light at full speed); right at the horizon (r → 2M) it's <strong>0</strong> — escaping light grinds to a crawl. Everything below <em>emerges</em> from that single line. Press play and watch.
+  </div>
+
+  <h2>① Watch Alice fall — the frozen star</h2>
+  <div class="panel"><canvas id="scene" width="820" height="360"></canvas></div>
+  <div class="legend">
+    <span><span class="sw" style="background:hsl(235,85%,60%)"></span>blue = high frequency (fresh light)</span>
+    <span><span class="sw" style="background:hsl(0,85%,52%)"></span>red = redshifted (climbed from near the horizon)</span>
+    <span>○ = a light pulse Alice emitted (one per tick of <em>her</em> clock)</span>
+  </div>
+  <div class="controls">
+    <button id="play">⏸ Pause</button>
+    <button id="reset" class="ghost">↺ Reset</button>
+    <label class="ctl">slow <input id="speed" type="range" min="0.3" max="4" step="0.1" value="1.4" style="width:120px"> fast</label>
+  </div>
+  <div class="readouts">
+    <div class="ro"><div class="k">Bob's clock (far away)</div><div class="v" id="roT">0.0</div></div>
+    <div class="ro"><div class="k">Alice's clock (falling)</div><div class="v" id="roTau">0.0 <small>freezes</small></div></div>
+    <div class="ro"><div class="k">Alice's height ε = r − 2M</div><div class="v" id="roEps">6.00</div></div>
+    <div class="ro"><div class="k">Frequency Bob receives</div><div class="v" id="roFac">1.00 ω</div></div>
+  </div>
+
+  <h2>② The exponential, made visible</h2>
+  <p>Each dot below is one pulse arriving at Bob: its received frequency (vertical) against when it arrives (horizontal), on a <strong>logarithmic</strong> frequency axis. Exponential decay shows up as a <strong>straight line</strong> — that's the signature you're looking for. The slope is the surface gravity κ.</p>
+  <div class="panel" style="background:var(--card);border-color:var(--border)"><canvas id="plot" width="820" height="220"></canvas></div>
+  <p style="font-size:14px;color:var(--muted)">Alice emits her flashes at a steady rate <em>by her own watch</em>, yet they arrive at Bob ever-later and ever-redder, thinning toward silence. She never quite crosses — she <em>freezes</em>. (The climb-out time from height ε grows like <span class="eq">−2M·ln ε</span>: a logarithm. Invert it and ε ~ <span class="eq">e^{−t/2M}</span> — her height halves every fixed tick of Bob's clock.)</p>
+
+  <h2>③ Now run it backward — the blueshift</h2>
+  <p>Hawking doesn't watch Alice's light go <em>out</em>; he takes a wave Bob receives and traces it <em>back</em> toward the horizon. Same exponential, reversed: the deeper you look, the more <strong>blue</strong> it was. Drag the slider to place an emission point and watch the local wave bunch up — its frequency is <span class="eq">ω_local = ω / √(1 − 2M/r)</span>, running to infinity at the horizon.</p>
+  <div class="panel" style="background:var(--card);border-color:var(--border)"><canvas id="wave" width="820" height="150"></canvas></div>
+  <div class="controls">
+    <label class="ctl" style="flex:1;min-width:240px">far away
+      <input id="rEmit" type="range" min="1.02" max="9" step="0.001" value="6" style="flex:1">
+      at the horizon</label>
+  </div>
+  <div class="readouts">
+    <div class="ro"><div class="k">Emission radius r</div><div class="v" id="roR">6.00 <small>(2M = 1)</small></div></div>
+    <div class="ro"><div class="k">Local blueshift ω_local / ω</div><div class="v" id="roB">1.10×</div></div>
+  </div>
+
+  <h2>What you just discovered</h2>
+  <p>Light crawls near the horizon → the climb-out time is a <strong>logarithm</strong> → invert it and everything is <strong>exponential</strong>: Alice freezes exponentially, her light reddens exponentially (out), and a wave traced inward blueshifts exponentially (in). The rate is the surface gravity κ — the very same κ that becomes the Hawking temperature <span class="eq">T = κ/2π</span>. Feed this exponential into a quantum field and the stretched modes come out <em>thermal</em>. That is Hawking radiation.</p>
+
+  <footer>
+    Part of <a href="index.html">Horizon Thermodynamics</a> · companion to
+    <a href="hawking-1975-deep.html">Hawking 1975 — Module 11</a>. Schematic, geometric units (2M = 1); the curves show the real functional forms, not a numerically exact ray-trace.
+  </footer>
+</div>
+
+<script>
+(function(){
+  // ---------- model (geometric units, 2M = 1) ----------
+  const twoM=1, rBob=9, rStart=7;
+  const f = r => Math.max(0, 1 - twoM/r);
+  function colorFor(fac){ fac=Math.max(0,Math.min(1,fac));
+    const hue=235*fac, light=42+22*fac, sat=88; return `hsl(${hue},${sat}%,${light}%)`; }
+
+  // ---------- scene canvas ----------
+  const scene=document.getElementById('scene'), sx=scene.getContext('2d');
+  const W=scene.width, H=scene.height, cy=H*0.5;
+  const xH=170, xB=720, Rhole=70;
+  const X = r => { r=Math.max(twoM,Math.min(rBob,r)); return xH+(r-twoM)/(rBob-twoM)*(xB-xH); };
+
+  let S, playing=true, speed=1.4;
+  function reset(){ S={t:0,rA:rStart,tau:0,nextEmit:0.15,pulses:[],arr:[],bobFac:1,flash:-9}; }
+  reset();
+
+  function step(dt){
+    S.t+=dt;
+    S.rA += (-0.72*f(S.rA))*dt;
+    if(S.rA<twoM+1e-4) S.rA=twoM+1e-4;
+    S.tau += Math.sqrt(f(S.rA))*dt;
+    let guard=0;
+    while(S.tau>=S.nextEmit && guard++<8){
+      const fac=Math.sqrt(f(S.rA));
+      S.pulses.push({r:S.rA,fac:Math.max(fac,1e-4)});
+      S.nextEmit+=0.30; S.flash=S.t;
+    }
+    for(const p of S.pulses) p.r += f(p.r)*dt;
+    for(let i=S.pulses.length-1;i>=0;i--){
+      if(S.pulses[i].r>=rBob){
+        S.bobFac=S.pulses[i].fac;
+        S.arr.push({t:S.t,fac:S.pulses[i].fac});
+        if(S.arr.length>600) S.arr.shift();
+        S.pulses.splice(i,1);
+      }
+    }
+    if(S.pulses.length>500) S.pulses.splice(0,S.pulses.length-500);
+  }
+
+  function drawScene(){
+    sx.clearRect(0,0,W,H);
+    // background space
+    const g=sx.createLinearGradient(0,0,W,0);
+    g.addColorStop(0,'#070510'); g.addColorStop(1,'#13101c');
+    sx.fillStyle=g; sx.fillRect(0,0,W,H);
+    // faint stars
+    sx.fillStyle='rgba(255,255,255,0.20)';
+    for(let i=0;i<60;i++){ const sxp=(i*97.3)%W, syp=(i*53.7)%H; sx.fillRect(sxp,syp,1,1); }
+    // radial guide line
+    sx.strokeStyle='rgba(255,255,255,0.08)'; sx.lineWidth=1;
+    sx.beginPath(); sx.moveTo(xH,cy); sx.lineTo(xB,cy); sx.stroke();
+    // black hole
+    const hx=xH-Rhole;
+    const ring=sx.createRadialGradient(hx,cy,Rhole*0.6,hx,cy,Rhole*1.35);
+    ring.addColorStop(0,'rgba(201,122,79,0)'); ring.addColorStop(0.72,'rgba(201,122,79,0.0)');
+    ring.addColorStop(0.85,'rgba(232,150,90,0.55)'); ring.addColorStop(1,'rgba(201,122,79,0)');
+    sx.fillStyle=ring; sx.beginPath(); sx.arc(hx,cy,Rhole*1.35,0,7); sx.fill();
+    sx.fillStyle='#000'; sx.beginPath(); sx.arc(hx,cy,Rhole,0,7); sx.fill();
+    sx.strokeStyle='rgba(245,170,110,0.9)'; sx.lineWidth=2.5;
+    sx.beginPath(); sx.arc(hx,cy,Rhole,-1.25,1.25); sx.stroke();
+    sx.fillStyle='rgba(245,200,160,0.85)'; sx.font='600 12px -apple-system,sans-serif';
+    sx.fillText('horizon  r = 2M', xH-30, cy-Rhole-12);
+    // pulses
+    for(const p of S.pulses){
+      const x=X(p.r), c=colorFor(p.fac);
+      sx.shadowColor=c; sx.shadowBlur=10; sx.fillStyle=c;
+      sx.beginPath(); sx.arc(x,cy,4.5,0,7); sx.fill(); sx.shadowBlur=0;
+    }
+    // Alice
+    const xa=X(S.rA);
+    if(S.t-S.flash<0.25){ sx.fillStyle='rgba(255,255,255,0.5)'; sx.beginPath(); sx.arc(xa,cy,13,0,7); sx.fill(); }
+    sx.fillStyle='#fff'; sx.strokeStyle='#c97a4f'; sx.lineWidth=2;
+    sx.beginPath(); sx.arc(xa,cy,7,0,7); sx.fill(); sx.stroke();
+    sx.fillStyle='rgba(255,255,255,0.85)'; sx.font='600 12px -apple-system,sans-serif';
+    sx.fillText('Alice', xa-14, cy+26);
+    // Bob telescope
+    sx.fillStyle='rgba(255,255,255,0.9)';
+    sx.fillText('Bob', xB-10, cy-22);
+    const c=colorFor(S.bobFac);
+    sx.shadowColor=c; sx.shadowBlur=16; sx.fillStyle=c;
+    sx.beginPath(); sx.arc(xB,cy,11,0,7); sx.fill(); sx.shadowBlur=0;
+    sx.strokeStyle='rgba(255,255,255,0.8)'; sx.lineWidth=2; sx.beginPath(); sx.arc(xB,cy,11,0,7); sx.stroke();
+    // formula tag
+    sx.fillStyle='rgba(255,255,255,0.55)'; sx.font='13px ui-monospace,Menlo,monospace';
+    sx.fillText('dr/dt = 1 − 2M/r   → 0 at the horizon', 24, H-18);
+  }
+
+  // readouts
+  const roT=document.getElementById('roT'),roTau=document.getElementById('roTau'),
+        roEps=document.getElementById('roEps'),roFac=document.getElementById('roFac');
+  function updateReadouts(){
+    roT.textContent=S.t.toFixed(1);
+    roTau.innerHTML=S.tau.toFixed(2)+' <small>freezes</small>';
+    roEps.textContent=(S.rA-twoM).toFixed(3);
+    roFac.innerHTML=S.bobFac.toFixed(3)+' ω';
+  }
+
+  // ---------- plot canvas (log-frequency vs arrival time) ----------
+  const plot=document.getElementById('plot'), px=plot.getContext('2d');
+  const PW=plot.width, PH=plot.height, pad=40;
+  function drawPlot(){
+    px.clearRect(0,0,PW,PH); px.fillStyle='#fffdf8'; px.fillRect(0,0,PW,PH);
+    // axes
+    px.strokeStyle='#e6ddcc'; px.lineWidth=1;
+    for(let k=0;k>=-4;k--){ const y=pad+(PH-2*pad)*(-k)/4;
+      px.beginPath(); px.moveTo(pad,y); px.lineTo(PW-12,y); px.stroke();
+      px.fillStyle='#6f675c'; px.font='11px ui-monospace,monospace';
+      px.fillText('10^'+k, 6, y+3);
+    }
+    px.fillStyle='#6f675c'; px.font='12px -apple-system,sans-serif';
+    px.fillText('← received frequency (log) ', 8, 14);
+    px.fillText('Bob’s arrival time →', PW-150, PH-10);
+    const arr=S.arr; if(arr.length<2) return;
+    const tmax=Math.max(arr[arr.length-1].t, 6);
+    const Xp=t=>pad+(PW-pad-14)*(t/tmax);
+    const Yp=fac=>{ const L=Math.log10(Math.max(fac,1e-4)); return pad+(PH-2*pad)*(-L)/4; };
+    px.strokeStyle='#8a3a18'; px.lineWidth=2; px.beginPath();
+    arr.forEach((a,i)=>{ const X=Xp(a.t),Y=Yp(a.fac); i?px.lineTo(X,Y):px.moveTo(X,Y); });
+    px.stroke();
+    for(const a of arr){ px.fillStyle=colorFor(a.fac); px.beginPath(); px.arc(Xp(a.t),Yp(a.fac),2.6,0,7); px.fill(); }
+  }
+
+  // ---------- wave widget (blueshift) ----------
+  const wave=document.getElementById('wave'), wx=wave.getContext('2d');
+  const WW=wave.width, WH=wave.height;
+  const rEmit=document.getElementById('rEmit'), roR=document.getElementById('roR'), roB=document.getElementById('roB');
+  function drawWave(){
+    const r=parseFloat(rEmit.value);
+    const V=Math.sqrt(f(r)); const B=V>1e-4?1/V:9999;
+    wx.clearRect(0,0,WW,WH); wx.fillStyle='#fffdf8'; wx.fillRect(0,0,WW,WH);
+    const baseLambda=120; const lambda=Math.max(4, baseLambda/B);
+    const cyw=WH*0.5, amp=WH*0.30;
+    const hue=Math.max(0,235-235*Math.min(1,(B-1)/8)); // bluer as B grows
+    wx.strokeStyle=`hsl(${hue},85%,45%)`; wx.lineWidth=2.5; wx.beginPath();
+    for(let x=10;x<=WW-10;x++){ const y=cyw - amp*Math.sin((x-10)/lambda*2*Math.PI);
+      x===10?wx.moveTo(x,y):wx.lineTo(x,y); }
+    wx.stroke();
+    wx.fillStyle='#6f675c'; wx.font='12px -apple-system,sans-serif';
+    wx.fillText('local wave: crests bunch up (frequency rises) as you approach the horizon', 12, 16);
+    roR.innerHTML=r.toFixed(3)+' <small>(2M = 1)</small>';
+    roB.textContent=(B>=9999?'∞':B.toFixed(2)+'×');
+  }
+  rEmit.addEventListener('input',drawWave);
+
+  // ---------- loop ----------
+  let last=performance.now();
+  function frame(now){
+    const real=Math.min(0.05,(now-last)/1000); last=now;
+    if(playing){ const dt=real*speed*2.2;
+      // substep for stability
+      const n=4; for(let i=0;i<n;i++) step(dt/n);
+    }
+    drawScene(); drawPlot(); updateReadouts();
+    requestAnimationFrame(frame);
+  }
+  // controls
+  const playBtn=document.getElementById('play');
+  playBtn.addEventListener('click',()=>{ playing=!playing; playBtn.textContent=playing?'⏸ Pause':'▶ Play'; });
+  document.getElementById('reset').addEventListener('click',()=>{ reset(); });
+  document.getElementById('speed').addEventListener('input',e=>{ speed=parseFloat(e.target.value); });
+  drawWave();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

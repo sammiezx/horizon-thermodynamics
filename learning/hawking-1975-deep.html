@@ -557,51 +557,74 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     <p>For any fixed $u$ large enough, $\omega_{\rm local}$ exceeds the spacetime curvature scale $\sim 1/M$. The mode is locally very high frequency compared to the geometry — exactly the regime where geometric optics is exact. This justifies the WKB approximation.</p>
 
     <details class="more">
-      <summary>The blueshift $\omega_{\rm local}\sim\omega\,e^{\kappa u}$ — what we are doing, and why</summary>
+      <summary>The blueshift $\omega_{\rm local}\sim\omega\,e^{\kappa u}$ — discovered, via the frozen star</summary>
       <div class="inner">
 
-        <p style="margin-top:8px"><strong>What are we actually trying to do?</strong> Hawking&rsquo;s whole calculation rides on one move: treat the field as light <em>rays</em> — wavefronts sliding along null geodesics, picking up gravitational red/blue-shift, never spreading or diffracting. That is geometric optics, and it is only an approximation. Module&nbsp;11 asks whether it is allowed here, and there is a clean test: ray-optics is exact whenever the wave&rsquo;s local wavelength is tiny next to the scale on which spacetime bends ($\sim M$). So the whole job collapses to <em>one number</em> — <strong>how high is the local frequency of our outgoing wave as we trace it back toward the horizon?</strong> If it runs to infinity the wavelength runs to zero, and ray-optics is not merely allowed but exact. The answer is $\omega_{\rm local}\sim\omega\,e^{\kappa u}$; let us build just enough language to see why.</p>
+        <p style="margin-top:8px"><strong>What are we actually trying to do?</strong> Hawking treats the field as light <em>rays</em> — wavefronts sliding along null geodesics, red/blue-shifting, never diffracting. That is geometric optics, an approximation. Module&nbsp;11 asks: is it allowed here? There is a clean test — ray-optics is exact when the wave&rsquo;s local wavelength is tiny next to the scale spacetime bends on ($\sim M$). So the whole job is <em>one number</em>: <strong>how high does the outgoing wave&rsquo;s local frequency get as we trace it back to the horizon?</strong> If it runs to infinity, ray-optics is not just allowed but exact. We will <em>discover</em> the answer, $\omega_{\rm local}\sim\omega\,e^{\kappa u}$, from a single physical fact — no machinery up front.</p>
 
-        <h4 style="margin:18px 0 6px">Step 1 — a wave is a marching phase</h4>
-        <p>Write the field as $\phi=(\text{slowly-varying amplitude})\times e^{iS}$. When the wavelength is small the amplitude barely drifts and all the life of the wave is in the <em>phase</em> $S$ — essentially $2\pi\times(\text{crests gone by})$, which races. (The phase $S$ is called the <em>eikonal</em>; this small-wavelength limit, the eikonal approximation, is just &ldquo;locally a plane wave&rdquo; — geometric optics.)</p>
-        <p>The one object that matters is the <strong>gradient of the phase</strong>, $k_\mu=\pa_\mu S$. The index is not the point — this is the most physical thing in the room. Its time-part $\pa_t S$ is how fast the phase ticks in time $=$ (minus) the <em>frequency</em>; its space-part is how tightly it wiggles in space $=$ the <em>wavenumber</em>. So $k_\mu$ bundles frequency and wavenumber into one 4-vector: it <em>is</em> the wave&rsquo;s energy–momentum, de&nbsp;Broglie&rsquo;s $E=\hbar\omega,\ \vec p=\hbar\vec k$. For light this 4-vector is <em>null</em>, $k_\mu k^\mu=0$ — nothing but &ldquo;massless, crests move at $c$&rdquo; — and the tracks it defines are exactly the null geodesics light follows. So &ldquo;$k_\mu=\pa_\mu S$, null&rdquo; means, in plain words: <em>the local frequency-and-momentum of a light wave.</em></p>
+        <div class="flow"><span class="label">▶ Play with it first</span>
+          <p style="margin-bottom:0">This whole story is animated in <a href="frozen-star.html"><strong>the Frozen-Star visualization</strong></a> — watch light crawl near the horizon, Alice freeze and redden, and the blueshift run backwards. Then come back here for the why.</p>
+        </div>
 
-        <h4 style="margin:18px 0 6px">Step 2 — how any observer reads off a frequency</h4>
-        <p>Frequency is personal — a moving radio shifts the station&rsquo;s pitch. The covariant version: your measured frequency is how fast the phase ticks <em>on your own clock</em>. March along your worldline at proper time $\tau$ with 4-velocity $u^\mu$; the phase you accumulate changes at $\dd S/\dd\tau=u^\mu\pa_\mu S=u^\mu k_\mu$. So</p>
-        $$\omega_{\rm you}=-\,k_\mu\,u^\mu\qquad(\text{the minus is just the time-sign convention}).$$
-        <p>This one formula is <em>all</em> of Doppler and gravitational shift at once: hold the wave $k_\mu$ fixed, swap the observer $u^\mu$, get a different frequency. Everything below is choosing observers.</p>
+        <h4 style="margin:18px 0 6px">The scene: the frozen star</h4>
+        <p>Alice falls toward the hole holding a <em>blue flashlight</em>, flashing it once per second by her own watch; Bob watches from far away. The result — worked out by <strong>Oppenheimer &amp; Snyder in 1939</strong>, before the term &ldquo;black hole&rdquo; even existed — is iconic: Bob sees the flashes arrive slower and slower, the blue sliding to red, Alice <em>freezing</em> just above the horizon, dimming to black, never quite crossing. (That picture is why the early Soviet school literally called them &ldquo;frozen stars.&rdquo;) Our question is the one nobody hands you a reason for: <strong>how fast does she freeze?</strong></p>
 
-        <h4 style="margin:18px 0 6px">Observer 1 — far away: this <em>defines</em> $\omega$</h4>
-        <p>Our outgoing mode has $S=-\omega u$, with $u=t-r^*$ the retarded time, so $k_\mu=-\omega\,\pa_\mu u$. A distant observer is essentially at rest ($u^\mu\to\pa_t$) and reads $\omega_{\rm you}=-k_t=\omega$ — so $\omega$ is, by construction, the frequency the far telescope sees. And because $\pa_t$ is a <em>symmetry</em> of the geometry (a Killing vector), the quantity $\omega=-k_\mu(\pa_t)^\mu$ is <em>conserved</em> along the ray: the same label $\omega$ near the horizon as at infinity. That conservation is the thread that carries one $\omega$ all the way in.</p>
+        <h4 style="margin:18px 0 6px">The one fact: near the horizon, escaping light crawls</h4>
+        <p>Set $\dd s^2=0$ for a radial outgoing ray in Schwarzschild and you get a single clean line:</p>
+        $$\frac{\dd r}{\dd t}=1-\frac{2M}{r}.$$
+        <p>Far away ($r$ large) this is $\approx1$ — light at full speed, good. But as $r\to2M$ it goes to <strong>zero</strong>: in Bob&rsquo;s time, an outgoing photon launched just above the horizon barely creeps upward. That is the whole engine; everything else <em>follows</em>.</p>
 
-        <h4 style="margin:18px 0 6px">Observer 2 — hovering near the horizon: the gravitational blueshift</h4>
-        <p>A static observer at radius $r$ hovers along $\xi=\pa_t$, but their clock runs slow by the redshift factor $V$. Unit-normalising their 4-velocity and using the conserved $\omega=-k_\mu\xi^\mu$ from Observer&nbsp;1:</p>
-        $$u^\mu_{\rm stat}=\frac{\xi^\mu}{V},\qquad V\equiv\sqrt{-\,\xi\!\cdot\!\xi}=\sqrt{1-\tfrac{2M}{r}}\;,\qquad\Longrightarrow\qquad \omega_{\rm stat}=\frac{-k_\mu\xi^\mu}{V}=\frac{\omega}{\sqrt{1-2M/r}}.$$
-        <p>Exact, and already divergent as $r\to2M$. But it is tied to <em>position</em>, and static observers cannot reach the horizon — their proper acceleration $a=M/\!\big(r^2\sqrt{1-2M/r}\big)\to\infty$. To extract the clean rate in $u$ we need a frame that is <em>regular</em> at the horizon.</p>
+        <figure class="diagram">
+          <svg viewBox="0 0 560 196" role="img" aria-label="Light crests bunched near the horizon, spreading as they climb out">
+            <rect x="0" y="0" width="70" height="196" fill="#1c1c1a"/>
+            <line x1="70" y1="24" x2="70" y2="172" stroke="#c97a4f" stroke-width="2.5"/>
+            <text x="76" y="18" font-size="11" fill="#8a3a18" font-family="sans-serif">horizon r = 2M</text>
+            <line x1="70" y1="100" x2="540" y2="100" stroke="#d8d3c4" stroke-width="1.5"/>
+            <polygon points="540,100 530,95 530,105" fill="#d8d3c4"/>
+            <g stroke-width="3">
+              <line x1="78" y1="84" x2="78" y2="116" stroke="hsl(230,80%,52%)"/>
+              <line x1="88" y1="84" x2="88" y2="116" stroke="hsl(205,80%,48%)"/>
+              <line x1="102" y1="84" x2="102" y2="116" stroke="hsl(170,72%,40%)"/>
+              <line x1="122" y1="84" x2="122" y2="116" stroke="hsl(120,55%,40%)"/>
+              <line x1="152" y1="84" x2="152" y2="116" stroke="hsl(70,68%,42%)"/>
+              <line x1="196" y1="84" x2="196" y2="116" stroke="hsl(40,80%,48%)"/>
+              <line x1="258" y1="84" x2="258" y2="116" stroke="hsl(22,82%,50%)"/>
+              <line x1="342" y1="84" x2="342" y2="116" stroke="hsl(10,82%,50%)"/>
+              <line x1="448" y1="84" x2="448" y2="116" stroke="hsl(2,82%,50%)"/>
+            </g>
+            <text x="80" y="142" font-size="11" fill="#6a6660" font-family="sans-serif">crawl: crests jammed → high freq (blue)</text>
+            <text x="352" y="142" font-size="11" fill="#6a6660" font-family="sans-serif">spread → low freq (red)</text>
+          </svg>
+          <figcaption>The same crests, drawn where they sit in space: jammed together where light crawls (just outside the horizon) and stretched where it moves freely. Bunched crests = high local frequency — that is the blueshift, growing without bound toward the horizon.</figcaption>
+        </figure>
 
-        <h4 style="margin:18px 0 6px">Observer 3 — falling in: the exponential, and why</h4>
-        <p>Someone freely <em>falling</em> across the horizon has a finite, smooth experience — but to describe them we need a coordinate that stays good where the hovering picture broke. Use the Kruskal coordinate $U$, regular across the future horizon $U=0$ ($\kappa$ the surface gravity, $\xi^\nu\nabla_\nu\xi^\mu=\kappa\,\xi^\mu$ on $\mathscr H^+$), with the affine relation from Module&nbsp;3A,</p>
-        $$U=-\tfrac1\kappa e^{-\kappa u}\quad\Longleftrightarrow\quad u=-\tfrac1\kappa\ln(-\kappa U)\qquad(U<0\ \text{on the exterior}).$$
-        <p>The structural fact: the phase is <strong>linear in $u$ but logarithmic in $U$</strong>, so its $U$-gradient blows up at the horizon:</p>
-        $$S=-\omega u=\frac{\omega}{\kappa}\,\ln(-\kappa U)\qquad\Longrightarrow\qquad k_U=\frac{\pa S}{\pa U}=\frac{\omega}{\kappa}\,\frac{d}{dU}\ln(-\kappa U)=\frac{\omega}{\kappa U}.$$
-        <p>A freely-falling observer crosses $U=0$ <em>transversally</em>, so in the regular Kruskal chart $\beta\equiv u^{U}_{\rm obs}=\dd U/\dd\tau$ is just a component of a finite 4-velocity there — nonzero (indeed $\beta>0$ for future-directed infall, since the worldline pierces the horizon rather than running along it). Fix one such geodesic and set $\beta_0\equiv\dd U/\dd\tau\big|_{U=0}$. Then, since $-1/U=\kappa\,e^{\kappa u}>0$ (both minus signs cancel because $U<0$),</p>
+        <h4 style="margin:18px 0 6px">Build the math — watch the logarithm appear</h4>
+        <p>How long, in Bob&rsquo;s time, does a photon take to climb from radius $r$ out to far away? Add up $\dd t=\dd r/(1-2M/r)$. Only the near-horizon stretch matters; put $r=2M+\varepsilon$ (height $\varepsilon$ above the horizon), so $1-2M/r\approx\varepsilon/2M$ and the integrand becomes $2M\,\dd\varepsilon/\varepsilon$:</p>
+        $$t_{\rm climb}\approx\int\frac{2M\,\dd\varepsilon}{\varepsilon}=2M\ln\varepsilon\ \ (+\,\text{finite}).$$
+        <p>There it is — a <strong>logarithm</strong>, and we did not pull it from anywhere; it fell out of summing the crawl. The closer to the horizon you start (smaller $\varepsilon$), the longer the climb — diverging, but only logarithmically.</p>
+
+        <h4 style="margin:18px 0 6px">Invert it — and there is the exponential</h4>
+        <p>A flash that reaches Bob at time $t$ left from height $\varepsilon\approx(\text{const})\,e^{-t/2M}$. Read it aloud: <strong>Alice&rsquo;s height above the horizon halves every fixed tick of Bob&rsquo;s clock.</strong> She approaches the horizon <em>exponentially</em> and never arrives — the freezing, quantified. And it is exponential for one reason: the climb-out time was a logarithm, and an exponential is a logarithm read backwards.</p>
+
+        <h4 style="margin:18px 0 6px">From freezing to colour — and the blueshift</h4>
+        <p>The flashes are wave crests. Each later crest leaves from a lower $\varepsilon$, and $\varepsilon$ shrinks by a fixed factor per tick of Bob&rsquo;s time, so each crest takes a fixed <em>extra</em> chunk to climb out: consecutive crests arrive spaced wider and wider, by the same factor each time. Frequency $=1/$spacing, so Bob&rsquo;s light <strong>reddens exponentially</strong>, $\omega_{\rm Bob}\sim\omega\,e^{-\kappa t}$. The rate is set by the scale in the log (the horizon scale $\sim1/M$); pinned exactly it is the surface gravity $\kappa=1/4M$ — that precise factor is Module&nbsp;3&rsquo;s job; the <em>exponential</em> is what we just discovered.</p>
+        <p>Now flip the movie. Hawking does not watch Alice&rsquo;s light go out; he takes a wave Bob receives at late retarded time $u$ and traces it <em>back</em> toward the horizon. Same exponential, reversed:</p>
         <div class="keyresult">
-          $$\omega_{\rm local}=-k_\mu u^\mu_{\rm obs}=-\,k_U\,\frac{\dd U}{\dd\tau}=-\frac{\omega\,\beta_0}{\kappa U}=\boxed{\ \omega\,\beta_0\,e^{\kappa u}\ }\ >0\qquad(u\to\infty).$$
+          $$\text{out (Alice}\to\text{Bob):}\ \ \omega\sim\omega\,e^{-\kappa t}\qquad\Longleftrightarrow\qquad \text{in (traced back):}\ \ \boxed{\ \omega_{\rm local}\sim\omega\,e^{+\kappa u}\ }$$
         </div>
-        <p>As a corollary (with $\beta$ slowly varying near the crossing) $\dd\omega_{\rm local}/\dd u=\kappa\,\omega_{\rm local}$: the growth rate is proportional to the value itself, which is what makes it compound (exponential) rather than accumulate (linear), and $\omega_{\rm local}\to\infty$ as $u\to\infty$.</p>
+        <p>Same $e$, same $\kappa$, same single fact. <strong>The blueshift you have been fighting is just the frozen-star redshift, watched backwards.</strong></p>
 
-        <h4 style="margin:16px 0 6px">Why it is exponential — the structural reason</h4>
-        <p>Not a coincidence, not an analogy. The measured frequency is the gradient of the phase contracted with a <em>regular</em> velocity; the phase is linear in the Killing time $u$ but logarithmic in the affine parameter $U$, because $u$ and $U$ are related <em>exponentially</em>, $U\propto e^{-\kappa u}$. The gradient of a logarithm is $1/U$, and $1/U\propto e^{\kappa u}$. The rate constant of that map is exactly the surface gravity, $\xi^\nu\nabla_\nu\xi^\mu=\kappa\,\xi^\mu$ (Module&nbsp;3A) — so &ldquo;why $\kappa$?&rdquo; and &ldquo;why exponential?&rdquo; are <em>one</em> question, answered by the non-affinity of the Killing flow on the horizon.</p>
+        <h4 style="margin:18px 0 6px">Why it matters</h4>
+        <p>$\omega_{\rm local}\to\infty$ means the local wavelength $\to0\ll M$, so ray-optics is exact — all Module&nbsp;11 needed. The deeper payoff: Hawking&rsquo;s leap was to ask what a <em>quantum</em> field does when its modes are stretched by this exponential. The answer is a thermal glow at $T=\kappa/2\pi$ — Hawking radiation. The blueshift here and the temperature later are the one relation $\varepsilon\sim e^{-\kappa t}$ (equivalently $U\propto e^{-\kappa u}$, Module&nbsp;3A). (Strictly, trusting ray-optics into the ever-more-blueshifted regime is Hawking&rsquo;s unproven assumption — the trans-Planckian caveat below.)</p>
 
-        <div class="warn"><span class="label">Two different divergences — do not conflate them</span>
-          <p style="margin-bottom:0">$\omega_{\rm stat}=\omega/V$ diverges in <em>position</em> ($r\to2M$), measured in a frame that itself <em>degenerates</em> at the horizon ($a\to\infty$) — the ordinary gravitational blueshift of a fixed mode for an observer who can never actually get there. $\omega_{\rm local}=\omega\beta_0 e^{\kappa u}$ diverges in <em>retarded time</em> ($u\to\infty$), measured in a frame that stays <em>regular</em> — a genuine measurement, of the late-time pile-up of rays on $\mathscr H^+$. They share a root (the lapse $V\to0$) but are distinct effects, and it is the second — the affine-vs-Killing exponential, <em>not</em> the static shift — that becomes thermal.</p>
-        </div>
-
-        <div class="flow"><span class="label">The same phase that makes it thermal</span>
-          <p style="margin-bottom:0">In the regular coordinate the outgoing mode is $e^{-i\omega u}=(-\kappa U)^{\,i\omega/\kappa}$ — a branch-cut power law, defined on $U<0$ and analytic in the <em>lower</em>-half $U$-plane (= positive frequency with respect to affine $U$). Continuing across $U=0$ through that half-plane costs $e^{-\pi\omega/\kappa}$, so $|\beta_{\omega\omega'}/\alpha_{\omega\omega'}|=e^{-\pi\omega/\kappa}$ — the <em>Boltzmann ratio</em> $|\beta/\alpha|^2=e^{-2\pi\omega/\kappa}$ (Modules&nbsp;16–18). The full <em>Planck</em> spectrum $\langle N_\omega\rangle=(e^{2\pi\omega/\kappa}-1)^{-1}$ then needs the bosonic normalisation $|\alpha|^2-|\beta|^2=1$ (Modules&nbsp;19–20). The blueshift here and the temperature there are the one relation $U\propto e^{-\kappa u}$.</p>
-        </div>
-
-        <p style="margin-bottom:0"><strong>Consistency (why Module&nbsp;11 cares):</strong> $\omega_{\rm local}\to\infty$ forces $\lambda_{\rm local}\sim\omega_{\rm local}^{-1}\to0\ll M$, so the eikonal/WKB approximation the ray-tracing rests on is internally self-consistent in the curvature regime. Strictly this is a <em>heuristic</em>: WKB is assumed to persist into the arbitrarily-blueshifted regime where it is least controlled — Hawking&rsquo;s unproven assumption, whose robustness is the trans-Planckian question (caveat below).</p>
+        <details class="more">
+          <summary>The rigorous packaging — invariant frequency, Kruskal, the thermal link</summary>
+          <div class="inner">
+            <p style="margin-top:8px">Everything above is exact in spirit; here is the careful version, which only makes two phrases precise: &ldquo;the frequency a given observer measures&rdquo; and &ldquo;the rate is exactly $\kappa$.&rdquo; A wave $\phi=a\,e^{iS}$ has wave-covector $k_\mu=\pa_\mu S$ (null); an observer of 4-velocity $u^\mu$ measures $\omega_{\rm obs}=-k_\mu u^\mu$ — covariant Doppler. For our mode $S=-\omega u$ a distant observer reads $\omega$, and since $\pa_t$ is Killing, $\omega=-k_\mu\xi^\mu$ is <em>conserved</em> along the ray.</p>
+            <p><strong>Hovering observer:</strong> $u^\mu=\xi^\mu/V$, $V=\sqrt{1-2M/r}$, gives the static gravitational blueshift $\omega_{\rm stat}=\omega/V\to\infty$ — but that frame degenerates at the horizon ($a\to\infty$), so it is not the measurement <em>at</em> the horizon. <strong>Infalling observer:</strong> in the regular Kruskal coordinate $U=-\tfrac1\kappa e^{-\kappa u}$ the phase is logarithmic, $S=\tfrac{\omega}{\kappa}\ln(-\kappa U)$, so $k_U=\omega/(\kappa U)$ blows up; a smooth crosser has finite $\beta_0=\dd U/\dd\tau|_{U=0}$, giving $\omega_{\rm local}=-k_U\,\dd U/\dd\tau=\omega\beta_0\,e^{\kappa u}$. These two divergences are <em>different</em> — $\omega/V$ in position (degenerate frame), $\omega\beta_0 e^{\kappa u}$ in retarded time (regular frame) — and only the second becomes thermal.</p>
+            <p style="margin-bottom:0"><strong>Thermal link:</strong> the mode is $e^{-i\omega u}=(-\kappa U)^{\,i\omega/\kappa}$, a branch-cut power law analytic in the lower-half $U$-plane (positive frequency w.r.t. affine $U$). Continuing across $U=0$ costs $e^{-\pi\omega/\kappa}$, giving the Boltzmann ratio $|\beta/\alpha|^2=e^{-2\pi\omega/\kappa}$ (Modules&nbsp;16–18); with $|\alpha|^2-|\beta|^2=1$ this becomes the Planck spectrum $\langle N_\omega\rangle=(e^{2\pi\omega/\kappa}-1)^{-1}$ (Modules&nbsp;19–20). The blueshift here and the temperature there are the one relation $U\propto e^{-\kappa u}$.</p>
+          </div>
+        </details>
       </div>
     </details>
 
