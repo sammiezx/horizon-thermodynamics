@@ -599,9 +599,9 @@ Overall          ~95/100  outstanding masterpiece; founding document.
         </figure>
 
         <h4 style="margin:18px 0 6px">Build the math — watch the logarithm appear</h4>
-        <p>How long, in Bob&rsquo;s time, does a photon take to climb from radius $r$ out to far away? Add up $\dd t=\dd r/(1-2M/r)$. Only the near-horizon stretch matters; put $r=2M+\varepsilon$ (height $\varepsilon$ above the horizon), so $1-2M/r\approx\varepsilon/2M$ and the integrand becomes $2M\,\dd\varepsilon/\varepsilon$:</p>
-        $$t_{\rm climb}\approx\int\frac{2M\,\dd\varepsilon}{\varepsilon}=2M\ln\varepsilon\ \ (+\,\text{finite}).$$
-        <p>There it is — a <strong>logarithm</strong>, and we did not pull it from anywhere; it fell out of summing the crawl. The closer to the horizon you start (smaller $\varepsilon$), the longer the climb — diverging, but only logarithmically.</p>
+        <p>How long, in Bob&rsquo;s time, does a photon take to climb from emission radius $r$ out to Bob at $R$? Add up $\dd t=\dd r'/(1-2M/r')$ — the antiderivative is the tortoise coordinate $r^*=r'+2M\ln(r'-2M)$, so with $\varepsilon=r-2M$ (height above the horizon):</p>
+        $$t_{\rm climb}=(R-r)+2M\ln\!\frac{R-2M}{\varepsilon}=\underbrace{(R-r)+2M\ln(R-2M)}_{\text{finite, fixed by Bob}}\ +\ 2M\ln\frac1\varepsilon.$$
+        <p>There it is — a <strong>logarithm</strong>, and we did not pull it from anywhere; it fell out of summing the crawl. The climb time is <em>positive</em> and the only piece that runs away is $2M\ln(1/\varepsilon)$: as $\varepsilon\to0$ (start nearer the horizon) it diverges to $+\infty$, but only logarithmically. (The $R$-terms blow up too if you send Bob to infinity, but that is the trivial &ldquo;light takes longer to reach a farther observer&rdquo; — a constant added to <em>every</em> pulse, which cancels from the crest spacing. Only the $\varepsilon$ term is the physics.)</p>
 
         <h4 style="margin:18px 0 6px">Invert it — and there is the exponential</h4>
         <p>A flash that reaches Bob at time $t$ left from height $\varepsilon\approx(\text{const})\,e^{-t/2M}$. Read it aloud: <strong>Alice&rsquo;s height above the horizon halves every fixed tick of Bob&rsquo;s clock.</strong> She approaches the horizon <em>exponentially</em> and never arrives — the freezing, quantified. And it is exponential for one reason: the climb-out time was a logarithm, and an exponential is a logarithm read backwards.</p>
