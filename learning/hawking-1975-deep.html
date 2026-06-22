@@ -561,6 +561,22 @@ Overall          ~95/100  outstanding masterpiece; founding document.
       <li><strong>Curvature is mild.</strong> Schwarzschild&rsquo;s curvature scale is $O(M)$ everywhere outside the hole; within even a Planck length of the horizon spacetime is nearly flat, so short-wavelength modes travel cleanly as rays. WKB fails only that close in.</li>
     </ul>
 
+    <h4 style="margin:22px 0 6px">The derivation, complete</h4>
+    <div class="worked"><span class="label">From the metric to $\omega_{\rm local}\sim\omega\,e^{\kappa u}$</span>
+      <p style="margin-top:6px"><strong>1 — Tortoise coordinate.</strong> A radial null ray has $\dd s^2=-f\,\dd t^2+f^{-1}\dd r^2=0$ with $f=1-2M/r$, so $\dd t=\pm\,\dd r/f$. Define $r^*$ by $\dd r^*=\dd r/f$; outgoing rays are $u\equiv t-r^*=\text{const}$:</p>
+      $$r^*=r+2M\ln\!\Big(\tfrac{r}{2M}-1\Big).$$
+      <p><strong>2 — Near the horizon it is logarithmic.</strong> As $r\to2M$, $f\approx(r-2M)/2M$, so $\dd r^*\approx 2M\,\dd r/(r-2M)$ and $r^*\approx2M\ln(r-2M)\to-\infty$ — that is, $r-2M\propto e^{\,r^*/2M}=e^{2\kappa r^*}$, where the surface gravity is</p>
+      $$\kappa=\tfrac12 f'(2M)=\tfrac12\cdot\frac{2M}{(2M)^2}=\frac{1}{4M}\qquad(\text{so }1/2M=2\kappa).$$
+      <p><strong>3 — The regular coordinate.</strong> The coordinate that absorbs that exponential and stays smooth across the horizon (Module&nbsp;3A) is</p>
+      $$U=-\tfrac1\kappa\,e^{-\kappa u}\quad\Longleftrightarrow\quad u=-\tfrac1\kappa\ln(-\kappa U),\qquad U\to0^-\ \text{as}\ u\to\infty.$$
+      <p><strong>4 — Phase and measured frequency.</strong> Geometric optics: $\phi\propto e^{iS}$ with $S=-\omega u$, wave-covector $k_\mu=\pa_\mu S$; a distant observer ($u^\mu\!\to\pa_t$) reads $-k_t=\omega$ — the frequency at infinity. Rewrite the phase in the regular coordinate (it becomes logarithmic, so its gradient blows up):</p>
+      $$S=\frac{\omega}{\kappa}\ln(-\kappa U)\qquad\Longrightarrow\qquad k_U=\frac{\pa S}{\pa U}=\frac{\omega}{\kappa U}.$$
+      <p>A freely-falling observer crosses $U=0$ smoothly, so $\beta_0\equiv\dd U/\dd\tau$ is finite and nonzero there. Its measured frequency, using $-1/U=\kappa\,e^{\kappa u}$:</p>
+      <div class="keyresult" style="margin:10px 0 0">
+        $$\omega_{\rm local}=-k_\mu u^\mu_{\rm obs}=-k_U\,\frac{\dd U}{\dd\tau}=-\frac{\omega\,\beta_0}{\kappa U}=\boxed{\ \omega\,\beta_0\,e^{\kappa u}\ },\qquad \kappa=\frac{1}{4M}.\qquad\blacksquare$$
+      </div>
+    </div>
+
     <div class="warn"><span class="label">The one catch — the trans-Planckian problem (Module 28)</span>
       <p style="margin-bottom:0">The blueshift is unbounded: trace far enough and $\omega_{\rm local}$ crosses the Planck scale, where ordinary QFT and ray-optics are no longer trusted. So geometric optics here is ultimately an <em>assumption</em> — Hawking&rsquo;s result quietly needs the field theory to survive trans-Planckian energies. It is now read as a benign artifact: the flux persists under a high-frequency cutoff or modified dispersion, and analog-gravity systems reproduce it (Unruh 1981; Jacobson) — strong evidence the answer is robust.</p>
     </div>
