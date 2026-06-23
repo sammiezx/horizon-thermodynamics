@@ -696,7 +696,18 @@ Overall          ~95/100  outstanding masterpiece; founding document.
 
     <h2 class="module" id="M17"><span class="mnum">Module 17</span>The integrals — analytic continuation</h2>
 
-    <p>Both integrals are of the form $\int_0^\infty x^s\,e^{\pm i\omega' x}\,\dd x$ with $s = i\omega/\kappa$. They are not absolutely convergent at $x \to \infty$ but are conditionally convergent. The standard trick is to regularize with a small damping $e^{-\epsilon x}$ and take $\epsilon \to 0^+$ at the end.</p>
+    <p>From Module&nbsp;16 we have two integrals that differ <em>only</em> by the sign of the in-frequency $\omega'$:</p>
+    $$ \alpha\ \propto\ \int_0^\infty\! x^{\,i\omega/\kappa}\,e^{-i\omega' x}\,\dd x,\qquad \beta\ \propto\ \int_0^\infty\! x^{\,i\omega/\kappa}\,e^{+i\omega' x}\,\dd x,\qquad (x=v_0-v). $$
+    <p>Each is the Fourier transform of the power law $x^{\,i\omega/\kappa}=e^{\,i(\omega/\kappa)\ln x}$. That power law has a <strong>branch point at $x=0$</strong> — and $x=0$ is $v=v_0$, the <em>last escaping ray</em>, i.e. the horizon. The whole thermal factor is about to fall out of the analytic structure at that one point. The intuition first, the bookkeeping after.</p>
+
+    <div class="flow"><span class="label">The idea — rotate the contour, pay a phase at the branch point</span>
+      <p>As written, neither integral converges at $x\to\infty$: the integrand just oscillates. The cure is to <strong>rotate the $x$-contour a quarter turn</strong> into the complex plane until the oscillation $e^{\pm i\omega'x}$ becomes a decay $e^{-\omega'|x|}$ — a Wick rotation. The catch: $\alpha$ (with $e^{-i\omega'x}$) and $\beta$ (with $e^{+i\omega'x}$) must rotate in <em>opposite</em> directions, $x\to e^{\mp i\pi/2}x$.</p>
+      <p>Dragging the branch-point power through that quarter turn multiplies it by a real factor: $\bigl(e^{\mp i\pi/2}\bigr)^{i\omega/\kappa}=e^{\pm\pi\omega/2\kappa}$. Everything <em>else</em> about the two integrals — the $\Gamma$-function, the power of $\omega'$ — is identical and will cancel. So the entire difference between $\alpha$ and $\beta$ is this exponential, pointing opposite ways:</p>
+      <div class="keyresult" style="margin:10px 0 0">
+        $$ |\alpha|\ \propto\ e^{+\pi\omega/2\kappa},\qquad |\beta|\ \propto\ e^{-\pi\omega/2\kappa}\qquad\Longrightarrow\qquad \frac{|\beta|}{|\alpha|}=e^{-\pi\omega/\kappa}. $$
+      </div>
+    </div>
+    <p>That is the physics in one line: a power law $x^{\,i\omega/\kappa}$ sitting on a branch point responds to a $\pm 90^\circ$ rotation by $e^{\pm\pi\omega/2\kappa}$, and $\alpha,\beta$ live on opposite sides of it. (Rotate a <em>full</em> $2\pi$ around that branch point and you pick up $e^{2\pi i\cdot i\omega/\kappa}=e^{-2\pi\omega/\kappa}$ — the Boltzmann factor itself; see Module&nbsp;18.) The careful version below is just this contour rotation made rigorous: the $\epsilon\to0^+$ damping <em>is</em> the rotation.</p>
 
     <h4>Step 17.1 — the regularized integral</h4>
     <p>For $\epsilon > 0$ and $\omega' > 0$:</p>
