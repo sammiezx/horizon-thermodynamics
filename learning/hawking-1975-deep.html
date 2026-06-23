@@ -667,6 +667,22 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     <p>Here is the one trick that makes it doable: that inner product is <strong>conserved</strong> (Module&nbsp;5), so we can evaluate it on whatever surface we like — and we choose $\Jm$, the one place we know <em>both</em> functions. There the in-modes are plain waves $e^{-i\omega'v}$, and the out-mode is the back-propagated $(v_0-v)^{i\omega/\kappa}$ from Module&nbsp;15. (That power law is nothing exotic — it is $e^{\,i(\omega/\kappa)\ln(v_0-v)}$, the Module&nbsp;13 logarithm simply exponentiated. The whole near-horizon story is hiding inside that exponent.)</p>
 
     <h4 style="margin:16px 0 6px">Plug in, and one clean substitution</h4>
+
+    <div class="worked"><span class="label">Why the product becomes $-i\!\int\!\dd v\,(f\,\pa_v g^{*}-g^{*}\pa_v f)$ on $\Jm$</span>
+      <p style="margin-top:6px">The full product (Module&nbsp;5) is $(f,g)=-i\!\int_\Sigma \dd\Sigma^\mu\,(f\,\pa_\mu g^{*}-g^{*}\pa_\mu f)$ over any Cauchy surface $\Sigma$. Put $\Sigma=\Jm$, labelled by advanced time $v$ and angles $\Omega$. Three things collapse it:</p>
+      <ul>
+        <li>$\Jm$ is <em>null</em>, with $v$ running along its generators, so the directed element picks out one derivative: $\dd\Sigma^\mu\pa_\mu \to \dd v\,\pa_v$.</li>
+        <li>The area element carries $r^2\,\dd^2\Omega$, while the modes fall off as $\phi\sim Y_{\ell m}(\Omega)/r$ — the two $1/r$&rsquo;s cancel the $r^2$, so the radius drops out entirely.</li>
+        <li>The angular integral $\int Y_{\ell m}Y_{\ell'm'}^{*}\,\dd^2\Omega=\delta_{\ell\ell'}\delta_{mm'}$ leaves a single term.</li>
+      </ul>
+      <p>What survives is the clean 1-D form $(f,g)=-i\!\int\dd v\,(f\,\pa_v g^{*}-g^{*}\pa_v f)$.</p>
+
+      <p style="margin-bottom:4px"><strong>Sanity check — it makes the in-modes orthonormal.</strong> Take $f^{\rm in}_\omega=e^{-i\omega v}/\sqrt{4\pi\omega}$ and let $\pa_v$ act (it just pulls down the frequency):</p>
+      $$ (f^{\rm in}_\omega,f^{\rm in}_{\omega'})=-i\!\int\!\dd v\Big[\underbrace{f^{\rm in}_\omega\,\pa_v f^{\rm in*}_{\omega'}}_{\to\,+i\omega'}-\underbrace{f^{\rm in*}_{\omega'}\,\pa_v f^{\rm in}_\omega}_{\to\,-i\omega}\Big]=\frac{\omega+\omega'}{4\pi\sqrt{\omega\omega'}}\int_{-\infty}^{\infty}\!\dd v\,e^{i(\omega'-\omega)v} $$
+      $$ =\frac{\omega+\omega'}{4\pi\sqrt{\omega\omega'}}\cdot 2\pi\,\delta(\omega-\omega')=\delta(\omega-\omega'). $$
+      <p style="margin-bottom:0">The $-i$ times the two-term current gives $(\omega+\omega')$; the $v$-integral gives $2\pi\,\delta(\omega-\omega')$; on its support $\omega=\omega'$ the prefactor is exactly $1$. So the $1/\sqrt{4\pi\omega}$ normalisation is precisely what makes $(f^{\rm in}_\omega,f^{\rm in}_{\omega'})=\delta(\omega-\omega')$ — confirming this is the right inner product to use.</p>
+    </div>
+
     <p>On $\Jm$ the inner product is just $-i\!\int\!\dd v$ of the $\pa_v$ current (Module&nbsp;5). Acting with $\pa_v$ on a plane wave $e^{\pm i\omega'v}$ only pulls down its frequency $\pm i\omega'$ — no real work — so each coefficient collapses to a single integral over the rays that escape, $v<v_0$:</p>
     $$ \alpha_{\omega\omega'}\ \propto\ \sqrt{\tfrac{\omega'}{\omega}}\!\int_{-\infty}^{v_0}\!\!\dd v\,(v_0-v)^{i\omega/\kappa}\,e^{+i\omega'v},\qquad \beta_{\omega\omega'}\ \propto\ \sqrt{\tfrac{\omega'}{\omega}}\!\int_{-\infty}^{v_0}\!\!\dd v\,(v_0-v)^{i\omega/\kappa}\,e^{-i\omega'v}. $$
     <p>Now substitute $x=v_0-v$ — read it as &ldquo;<em>how far below the last escaping ray</em> $v_0$.&rdquo; Then $(v_0-v)^{i\omega/\kappa}=x^{i\omega/\kappa}$, the limits $v\!:\!-\infty\!\to\!v_0$ become $x\!:\!\infty\!\to\!0$, and the plane waves contribute only a pure phase $e^{\mp i\omega'v_0}$ (which cancels in $|\beta/\alpha|$):</p>
