@@ -659,6 +659,23 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     <div class="keyresult" style="margin:10px 0">
       $$ \langle N_\omega\rangle \;=\; \int_0^\infty\!\dd\omega'\,|\beta_{\omega\omega'}|^2. $$
     </div>
+    <details class="more">
+      <summary>Why $\langle N_\omega\rangle=\int\dd\omega'\,|\beta_{\omega\omega'}|^2$ — the operator derivation</summary>
+      <div class="inner">
+        <p style="margin-top:8px">It is the norm of a single state. Four lines.</p>
+        <p><strong>1. The same transform, for operators.</strong> The mode relation above is equivalent to a relation between ladder operators — the out-annihilator is a blend of in-operators:
+          $$ a^{\rm out}_\omega \;=\; \int_0^\infty\!\dd\omega'\,\bigl(\alpha^{*}_{\omega\omega'}\,a^{\rm in}_{\omega'} \;-\; \beta^{*}_{\omega\omega'}\,a^{\rm in\dagger}_{\omega'}\bigr). $$
+          The decisive feature: it mixes an <em>annihilation</em> operator with a <em>creation</em> operator $a^{\rm in\dagger}$. That mixing is the $\beta$ term.</p>
+        <p><strong>2. Act on the in-vacuum.</strong> Since $a^{\rm in}_{\omega'}\lvert 0_{\rm in}\rangle=0$, only the creation piece survives:
+          $$ a^{\rm out}_\omega\,\lvert 0_{\rm in}\rangle \;=\; -\int_0^\infty\!\dd\omega'\,\beta^{*}_{\omega\omega'}\,a^{\rm in\dagger}_{\omega'}\lvert 0_{\rm in}\rangle \;=\; -\int_0^\infty\!\dd\omega'\,\beta^{*}_{\omega\omega'}\,\lvert 1_{\omega'}\rangle \;\neq\;0. $$
+          Applying the out-<em>annihilator</em> to the in-vacuum gives something nonzero — the in-vacuum is <em>not</em> empty of out-particles. That single fact is the whole effect.</p>
+        <p><strong>3. The number is that state&rsquo;s norm.</strong> With $\hat N^{\rm out}_\omega=a^{\rm out\dagger}_\omega a^{\rm out}_\omega$,
+          $$ \langle N_\omega\rangle=\langle 0_{\rm in}\rvert a^{\rm out\dagger}_\omega a^{\rm out}_\omega\lvert 0_{\rm in}\rangle=\bigl\lVert\,a^{\rm out}_\omega\lvert 0_{\rm in}\rangle\,\bigr\rVert^{2}. $$</p>
+        <p><strong>4. Take the norm</strong>, using $\langle 1_{\omega'}\lvert 1_{\omega''}\rangle=\delta(\omega'-\omega'')$:
+          $$ \langle N_\omega\rangle=\int\!\dd\omega'\!\int\!\dd\omega''\,\beta_{\omega\omega'}\beta^{*}_{\omega\omega''}\,\delta(\omega'-\omega'')=\int_0^\infty\!\dd\omega'\,|\beta_{\omega\omega'}|^2. \qquad\blacksquare $$</p>
+        <p style="margin-bottom:0"><strong>Reading it:</strong> $|\beta_{\omega\omega'}|^2$ is the particle content fed into out-mode $\omega$ by in-channel $\omega'$ — the $\alpha$ part is a mere rotation among annihilators and never creates a quantum, so only $|\beta|^2$ counts. The $\int\dd\omega'$ is there because one sharp out-mode is assembled from a <em>continuum</em> of in-modes, and distinct in-modes are orthogonal (the $\delta$), so they add <em>incoherently</em> — sums of numbers, not amplitudes.</p>
+      </div>
+    </details>
     <p>So <strong>$\beta$ <em>is</em> the particle-creation amplitude</strong>: if $\beta=0$ the two vacua agree and the hole is dark; $\beta\neq0$ is Hawking radiation. Everything below is just getting $\beta$ (and $\alpha$, which we need for normalisation).</p>
 
     <h4 style="margin:16px 0 6px">How you pull them out — overlaps, evaluated on $\Jm$</h4>
