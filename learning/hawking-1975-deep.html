@@ -727,6 +727,11 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     <p>For $\epsilon > 0$ and $\omega' > 0$:</p>
     $$ \int_0^\infty x^s\,e^{-\epsilon x + i\omega' x}\,\dd x \;=\; \frac{\Gamma(s+1)}{(\epsilon - i\omega')^{s+1}}. $$
     <p>This is the standard Laplace-transform identity, valid for $\mathrm{Re}(s) > -1$.</p>
+    <div class="def"><span class="label">Where this comes from — one substitution, not magic</span>
+      <p style="margin-top:6px">It is just the <em>definition</em> of the Gamma function, $\Gamma(z)=\int_0^\infty u^{z-1}e^{-u}\,\dd u$, rescaled. Write $p=\epsilon-i\omega'$ (so $e^{-\epsilon x+i\omega' x}=e^{-px}$) and substitute $u=px$, $\dd x=\dd u/p$:</p>
+      $$ \int_0^\infty x^s e^{-px}\,\dd x \;=\; \int_0^\infty \Bigl(\tfrac{u}{p}\Bigr)^{s} e^{-u}\,\frac{\dd u}{p} \;=\; p^{-(s+1)}\int_0^\infty u^{s} e^{-u}\,\dd u \;=\; \frac{\Gamma(s+1)}{p^{\,s+1}}. $$
+      <p style="margin-bottom:0">One change of variable, nothing more. The condition $\mathrm{Re}(s)>-1$ is exactly what makes $\int_0^\infty u^{s}e^{-u}\dd u$ converge at $u=0$; the $\epsilon>0$ (i.e. $\mathrm{Re}\,p>0$) is what makes it converge at $u=\infty$ — and it pins down <em>which way</em> we rotate: $p=\epsilon-i\omega'$ reaches $-i\omega'$ from the right half-plane, so $\arg p\to-\tfrac{\pi}{2}$ (a $-90^\circ$ tilt), not $+\tfrac{3\pi}{2}$. <strong>This formula and the contour rotation are the same statement</strong> — the $\epsilon\to0^+$ is the rotation, done honestly.</p>
+    </div>
 
     <h4>Step 17.2 — taking $\epsilon \to 0^+$</h4>
     <p>The denominator $(\epsilon - i\omega')$ has positive real part for $\epsilon > 0$ and tends to $-i\omega'$ from the right half-plane. Its phase tends to $-\pi/2$ from above. So</p>
