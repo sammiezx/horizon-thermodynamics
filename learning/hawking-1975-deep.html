@@ -666,6 +666,19 @@ Overall          ~95/100  outstanding masterpiece; founding document.
         <p><strong>1. The same transform, for operators.</strong> The mode relation above is equivalent to a relation between ladder operators — the out-annihilator is a blend of in-operators:
           $$ a^{\rm out}_\omega \;=\; \int_0^\infty\!\dd\omega'\,\bigl(\alpha^{*}_{\omega\omega'}\,a^{\rm in}_{\omega'} \;-\; \beta^{*}_{\omega\omega'}\,a^{\rm in\dagger}_{\omega'}\bigr). $$
           The decisive feature: it mixes an <em>annihilation</em> operator with a <em>creation</em> operator $a^{\rm in\dagger}$. That mixing is the $\beta$ term.</p>
+        <div class="def"><span class="label">Where that operator relation comes from</span>
+          <p style="margin-top:6px">It is the operator shadow of the mode relation $f^{\rm out}_\omega=\int\dd\omega'(\alpha\,f^{\rm in}_{\omega'}+\beta\,f^{\rm in*}_{\omega'})$ — three facts and one line.</p>
+          <p style="margin:6px 0"><strong>(i) One field, two expansions.</strong> $\hat\varphi$ doesn&rsquo;t care which basis you use:
+            $$ \hat\varphi=\int\!\dd\omega\,\bigl(a^{\rm out}_\omega f^{\rm out}_\omega+a^{\rm out\dagger}_\omega f^{\rm out*}_\omega\bigr)=\int\!\dd\omega'\,\bigl(a^{\rm in}_{\omega'} f^{\rm in}_{\omega'}+a^{\rm in\dagger}_{\omega'} f^{\rm in*}_{\omega'}\bigr). $$</p>
+          <p style="margin:6px 0"><strong>(ii) An annihilation operator <em>is</em> a KG overlap.</strong> Because the modes are Klein&ndash;Gordon orthonormal, $(f_i,f_j)=\delta_{ij}$, $(f_i,f_j^{*})=0$, $(f_i^{*},f_j^{*})=-\delta_{ij}$, projecting the field onto a mode plucks out its operator: $a_i=(f_i,\hat\varphi)$. <span style="color:var(--muted)">[Check: $(f_i,\hat\varphi)=\sum_j a_j(f_i,f_j)+a_j^{\dagger}(f_i,f_j^{*})=a_i$.]</span> This is the same product that defines $\alpha,\beta$ above.</p>
+          <p style="margin:6px 0"><strong>(iii) The product is Hermitian:</strong> $(f,g)^{*}=(g,f)$.</p>
+          <p style="margin:6px 0">Now project the out-mode onto the field, written in the <em>in</em>-basis:
+            $$ a^{\rm out}_\omega=(f^{\rm out}_\omega,\hat\varphi)=\int\!\dd\omega'\,\bigl[(f^{\rm out}_\omega,f^{\rm in}_{\omega'})\,a^{\rm in}_{\omega'}+(f^{\rm out}_\omega,f^{\rm in*}_{\omega'})\,a^{\rm in\dagger}_{\omega'}\bigr]. $$
+            The two overlaps are just $\alpha,\beta$ flipped by (iii): with $\alpha_{\omega\omega'}=(f^{\rm in}_{\omega'},f^{\rm out}_\omega)$ and $\beta_{\omega\omega'}=-(f^{\rm in*}_{\omega'},f^{\rm out}_\omega)$,
+            $$ (f^{\rm out}_\omega,f^{\rm in}_{\omega'})=\alpha^{*}_{\omega\omega'},\qquad (f^{\rm out}_\omega,f^{\rm in*}_{\omega'})=-\beta^{*}_{\omega\omega'}, $$
+            so $a^{\rm out}_\omega=\int\dd\omega'\,(\alpha^{*}_{\omega\omega'}a^{\rm in}_{\omega'}-\beta^{*}_{\omega\omega'}a^{\rm in\dagger}_{\omega'})$.</p>
+          <p style="margin-bottom:0">Every feature has a reason: the <strong>$a^{\rm in\dagger}$</strong> appears because $\hat\varphi$ carries the piece $a^{\rm in\dagger}f^{\rm in*}$ and the out-mode overlaps $f^{\rm in*}$ through $\beta$; the <strong>conjugates</strong> are the $(f,g)^{*}=(g,f)$ flip; the <strong>minus sign</strong> is the conventional $\beta\equiv-(f^{\rm out},f^{\rm in*})$, chosen so $\beta$ enters the mode relation with a plus.</p>
+        </div>
         <p><strong>2. Act on the in-vacuum.</strong> Since $a^{\rm in}_{\omega'}\lvert 0_{\rm in}\rangle=0$, only the creation piece survives:
           $$ a^{\rm out}_\omega\,\lvert 0_{\rm in}\rangle \;=\; -\int_0^\infty\!\dd\omega'\,\beta^{*}_{\omega\omega'}\,a^{\rm in\dagger}_{\omega'}\lvert 0_{\rm in}\rangle \;=\; -\int_0^\infty\!\dd\omega'\,\beta^{*}_{\omega\omega'}\,\lvert 1_{\omega'}\rangle \;\neq\;0. $$
           Applying the out-<em>annihilator</em> to the in-vacuum gives something nonzero — the in-vacuum is <em>not</em> empty of out-particles. That single fact is the whole effect.</p>
