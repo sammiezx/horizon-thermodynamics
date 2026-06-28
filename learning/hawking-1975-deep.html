@@ -344,7 +344,11 @@ Overall          ~95/100  outstanding masterpiece; founding document.
     <div class="worked"><span class="label">Worked — compute $\kappa$ directly</span>
       <p>With $\xi = \partial_t$, $\xi_\mu = (-f, 0, 0, 0)$. The Christoffel $\Gamma^r_{tt} = \half f\, f'$. So</p>
       $$ \xi^\nu \nabla_\nu \xi^r = \Gamma^r_{tt}\,\xi^t \xi^t = \half f f'(r). $$
-      <p>On the horizon $f = 0$ and the formula <em>looks</em> degenerate, but the correct identification is via the limit. Use instead the equivalent definition $\kappa^2 = -\half(\nabla_\mu \xi_\nu)(\nabla^\mu \xi^\nu)\big|_{\rm hor}$ which gives $\kappa = \half f'(2M) = \half \cdot 1/(2M) = 1/(4M)$.</p>
+      <p>On the horizon $f=0$, so this $r$-component reads $0=0$: with the static field $\xi^r=0$ identically, the relation $\xi^\nu\nabla_\nu\xi^\mu=\kappa\,\xi^\mu$ is uninformative here. That degeneracy is <em>not</em> a licence to &ldquo;switch formulas&rdquo; — it tells us to read $\kappa$ off a quantity that stays finite at $f=0$. Two honest routes, same number:</p>
+      <p><strong>(1) Redshifted acceleration — do the limit explicitly.</strong> A static observer has proper acceleration of magnitude $a=\dfrac{f'(r)}{2\sqrt{f}}$, which <em>diverges</em> as $r\to2M$ (infinite local force to hover at the horizon). But the force as measured from infinity is redshifted by $\sqrt{f}$, and that product is finite — the $\sqrt{f}$ cancels <em>before</em> any limit, so there is no $0/0$:
+        $$ \kappa=\lim_{r\to2M}\sqrt{f}\,a=\lim_{r\to2M}\sqrt{f}\,\frac{f'(r)}{2\sqrt{f}}=\frac{f'(2M)}{2}. $$
+        With $f=1-2M/r$, $f'(r)=2M/r^2$, so $f'(2M)=1/(2M)$ and $\boxed{\kappa=1/(4M)}$.</p>
+      <p><strong>(2) Covariant scalar — manifestly finite.</strong> Equivalently $\kappa^2=-\half(\nabla_\mu\xi_\nu)(\nabla^\mu\xi^\nu)\big|_{\rm hor}$. The gradient $\nabla_\mu\xi_\nu$ is regular on the horizon (finite even as $\xi$ goes null), so this scalar has no $0/0$; the Killing-horizon identity $\xi_{[\mu}\nabla_\nu\xi_{\rho]}\!=\!0$ guarantees it returns the same $\kappa$ as $\xi^\nu\nabla_\nu\xi^\mu=\kappa\xi^\mu$. It evaluates to $\half f'(2M)=1/(4M)$ — the same answer with no limit taken.</p>
     </div>
 
     <h2 class="module" id="M3a"><span class="mnum">Module 3A</span>Why the horizon forces an affine parameter</h2>
@@ -799,7 +803,13 @@ Overall          ~95/100  outstanding masterpiece; founding document.
 
     <p>The Bogoliubov coefficients also satisfy</p>
     $$ \sum_{\omega'} \bigl(|\alpha_{\omega\omega'}|^2 - |\beta_{\omega\omega'}|^2\bigr) = 1, $$
-    <p>which follows from the canonical commutation relations for $\hat a^{\rm out}_\omega$ being equivalent to those for $\hat a^{\rm in}_{\omega'}$. Combined with $|\beta|^2 = e^{-2\pi\omega/\kappa}|\alpha|^2$:</p>
+    <p>This is not an extra postulate — it is the statement that the Bogoliubov transformation <strong>preserves the Klein&ndash;Gordon inner product</strong> (the out-modes are KG-orthonormal exactly as the in-modes are), equivalently that $[\hat a^{\rm out}_\omega,\hat a^{\rm out\dagger}_{\omega'}]=\delta(\omega-\omega')$. One line proves it rather than asserting it &ldquo;from the commutators&rdquo;:</p>
+    <div class="worked"><span class="label">Why $\int\dd\omega''\,(|\alpha|^2-|\beta|^2)=1$ — KG-norm preservation</span>
+      <p style="margin-top:6px">Demand the out-modes be orthonormal, $(f^{\rm out}_\omega,f^{\rm out}_{\omega'})=\delta(\omega-\omega')$, and expand with $f^{\rm out}_\omega=\int\dd\omega''\,(\alpha_{\omega\omega''}f^{\rm in}_{\omega''}+\beta_{\omega\omega''}f^{\rm in*}_{\omega''})$. Using the in-mode norms $(f^{\rm in},f^{\rm in})=\delta$, $(f^{\rm in*},f^{\rm in*})=-\delta$, $(f^{\rm in},f^{\rm in*})=0$:</p>
+      $$ (f^{\rm out}_\omega,f^{\rm out}_{\omega'})=\int\dd\omega''\bigl(\alpha_{\omega\omega''}\alpha^{*}_{\omega'\omega''}-\beta_{\omega\omega''}\beta^{*}_{\omega'\omega''}\bigr)=\delta(\omega-\omega'). $$
+      <p style="margin-bottom:0">Setting $\omega'=\omega$ gives $\int\dd\omega''(|\alpha_{\omega\omega''}|^2-|\beta_{\omega\omega''}|^2)=1$. The decisive minus sign is the $-\delta$ norm of the conjugate (negative-frequency) modes — the very sign that makes $\beta$ a particle-creation amplitude. The commutator statement $[\hat a^{\rm out},\hat a^{\rm out\dagger}]=\delta$ and this KG-norm preservation are literally the same equation.</p>
+    </div>
+    <p>Combined with $|\beta|^2 = e^{-2\pi\omega/\kappa}|\alpha|^2$:</p>
     $$ |\alpha|^2(1 - e^{-2\pi\omega/\kappa}) = 1\;\Rightarrow\;|\alpha|^2 = \frac{1}{1 - e^{-2\pi\omega/\kappa}},\quad |\beta|^2 = \frac{e^{-2\pi\omega/\kappa}}{1 - e^{-2\pi\omega/\kappa}}. $$
     <p>The last fraction simplifies:</p>
     $$ |\beta|^2 \;=\; \frac{1}{e^{2\pi\omega/\kappa} - 1}. $$
@@ -813,7 +823,20 @@ Overall          ~95/100  outstanding masterpiece; founding document.
 
     <p>The expected number of "out" particles of frequency $\omega$ in the "in" vacuum is</p>
     $$ \langle N_\omega^{\rm out}\rangle \;=\; \sum_{\omega'} |\beta_{\omega\omega'}|^2 \;=\; \frac{1}{e^{2\pi\omega/\kappa} - 1}. $$
-    <p>(The frequency-by-frequency sum, with mode normalization absorbed, gives the per-mode result.)</p>
+    <p>That $1/(e^{2\pi\omega/\kappa}-1)$ is an occupation number <em>per mode</em>. Reaching it honestly means confronting a divergence the continuum normalization hides — and the cure is Hawking&rsquo;s wave-packet construction, not &ldquo;normalization absorbed.&rdquo;</p>
+    <details class="more"><summary>The $\delta(0)$ and Hawking&rsquo;s wave-packet regularization — why $\langle N\rangle$ is finite per mode</summary>
+      <div class="inner">
+        <p style="margin-top:8px"><strong>The divergence.</strong> The in-modes are continuum-normalized plane waves, $(f^{\rm in}_{\omega'},f^{\rm in}_{\omega''})=\delta(\omega'-\omega'')$. Carry that through and the per-mode number is
+          $$ \langle N_\omega\rangle=\int_0^\infty\!\dd\omega'\,|\beta_{\omega\omega'}|^2\;\propto\;\delta(0), $$
+          formally infinite. This is not an error — it is physics: $\delta(0)=\frac{1}{2\pi}\!\int\dd t=T/2\pi$ is the <em>total observation time</em>. A black hole radiates steadily forever, so the total count in a perfectly sharp frequency is infinite; only the <em>rate</em> is finite.</p>
+        <p><strong>The fix — discrete wave packets.</strong> Following Hawking, trade the sharp modes for a complete orthonormal set of packets
+          $$ p_{jn}=\frac{1}{\sqrt{\varepsilon}}\int_{j\varepsilon}^{(j+1)\varepsilon}\!\dd\omega\;e^{\,2\pi i n\omega/\varepsilon}\,f^{\rm out}_\omega, $$
+          labelled by a frequency bin $j$ (width $\varepsilon$, centre $\omega_j\approx j\varepsilon$) and a retarded-time slot $n$ (centre $u_n\approx 2\pi n/\varepsilon$). They are localized — about $\varepsilon$ wide in frequency, about $2\pi/\varepsilon$ long in time — and <strong>Kronecker</strong>-orthonormal, $(p_{jn},p_{j'n'})=\delta_{jj'}\delta_{nn'}$: no more $\delta(0)$.</p>
+        <p style="margin-bottom:0"><strong>The result.</strong> One packet&rsquo;s occupation is finite and independent of the time slot $n$ (steady emission),
+          $$ \langle N_{jn}\rangle=\int\!\dd\omega'\,|\beta_{jn,\omega'}|^2=\frac{\Gamma_{\omega_j}}{e^{2\pi\omega_j/\kappa}-1}. $$
+          Dividing by the packet duration $2\pi/\varepsilon$ turns &ldquo;number per packet&rdquo; into a <em>flux</em>; letting $\varepsilon\to0$ (then $T\to\infty$) recovers a sharp frequency with a finite emission <em>rate</em>. So $1/(e^{2\pi\omega/\kappa}-1)$ is the mean occupation per mode, and the earlier $\delta(0)$ is exactly the infinite total time that has been factored out into the rate. The greybody factor $\Gamma_{\omega_j}$ enters right here — the fraction of each packet that tunnels out through the potential barrier (Module&nbsp;22).</p>
+      </div>
+    </details>
 
     <h2 class="module" id="M21"><span class="mnum">Module 21</span>This is the Bose–Einstein distribution</h2>
 
